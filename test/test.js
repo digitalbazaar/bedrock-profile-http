@@ -2,13 +2,19 @@
  * Copyright (c) 2020 Digital Bazaar, Inc. All rights reserved.
  */
 const bedrock = require('bedrock');
+require('bedrock-account');
+require('bedrock-express');
+require('bedrock-edv-storage');
 require('bedrock-https-agent');
+require('bedrock-jsonld-document-loader');
+require('bedrock-kms');
 require('bedrock-kms-http');
-require('bedrock-security-context');
+require('bedrock-passport');
+require('bedrock-permission');
+require('bedrock-profile');
 require('bedrock-profile-http');
-
-// this is responsible for providing the `ssm-v1` key store
+require('bedrock-server');
 require('bedrock-ssm-mongodb');
-
+require('bedrock-test');
 require('bedrock-test');
 bedrock.start();
