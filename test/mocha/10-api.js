@@ -35,7 +35,11 @@ describe('bedrock-profile-http', () => {
       await helpers.removeCollections();
     });
     it('successfully create a new profile', async () => {
-      const settings = {name: 'Example Profile', color: '#ff0000'};
+      const settings = {
+        name: 'Example Profile',
+        color: '#ff0000',
+        type: 'Profile'
+      };
       let result;
       let error;
       try {
@@ -58,7 +62,11 @@ describe('bedrock-profile-http', () => {
       await helpers.removeCollections();
     });
     it('successfully get all profiles', async () => {
-      const settings = {name: 'Example Profile', color: '#ff0000'};
+      const settings = {
+        name: 'Example Profile',
+        color: '#ff0000',
+        type: 'Profile'
+      };
       let error;
       let result0;
       let result1;
@@ -113,7 +121,11 @@ describe('bedrock-profile-http', () => {
       await helpers.removeCollections();
     });
     it('successfully get a profile', async () => {
-      const settings = {name: 'Example Profile', color: '#ff0000'};
+      const settings = {
+        name: 'Example Profile',
+        color: '#ff0000',
+        type: 'Profile'
+      };
       let result;
       let error;
       try {
@@ -139,7 +151,11 @@ describe('bedrock-profile-http', () => {
       await helpers.removeCollections();
     });
     it('successfully get zcaps associated with one profile', async () => {
-      const settings = {name: 'Example Profile', color: '#ff0000'};
+      const settings = {
+        name: 'Example Profile',
+        color: '#ff0000',
+        type: 'Profile'
+      };
       const did = 'did:example:123456789';
       let profile;
       let result;
@@ -161,7 +177,11 @@ describe('bedrock-profile-http', () => {
       });
     });
     it('successfully get zcaps associated with 3 profiles', async () => {
-      const settings = {name: 'Example Profile', color: '#ff0000'};
+      const settings = {
+        name: 'Example Profile',
+        color: '#ff0000',
+        type: 'Profile'
+      };
       const did = 'did:example:123456789';
       let profile0;
       let profile1;
