@@ -55,6 +55,30 @@ describe('bedrock-profile-http', () => {
       result.data.id.should.be.a('string');
     });
   }); // end create a new profile
+  describe('POST /profile-agents (create a new profile agent)', () => {
+    afterEach(async () => {
+      await helpers.removeCollections();
+    });
+    it('successfully create a new profile', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      const profile = 'did:example:1234';
+      let result;
+      let error;
+      try {
+        result = await api.post('/profile-agents', {account, profile});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(200);
+      result.ok.should.equal(true);
+      result.data.id.should.be.a('string');
+      result.data.sequence.should.equal(0);
+      result.data.profile.should.equal(profile);
+      result.data.account.should.equal(account);
+    });
+  }); // end create a new profile agent
   describe('GET /profile-agents (gets all profile agents associated with' +
   ' an account)', () => {
     afterEach(async () => {
