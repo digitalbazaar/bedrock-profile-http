@@ -299,6 +299,121 @@ describe('bedrock-profile-http', () => {
       result0.status.should.equal(404);
     });
   }); // end update profile agent's zcaps (updates their capability set
+
+  describe('account claims a profile agent', () => {
+    beforeEach(async () => {
+      await helpers.removeCollections();
+    });
+    it('should succeed', async () => {
+      const {account: {id: alphaAccountId}} = accounts['alpha@example.com'];
+      const profile = 'did:example:2f09296d-611e-4a37-924b-656c41d6ef83';
+      let result;
+      let error;
+      try {
+        result = await api.post('/profile-agents', {profile});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      // result.data.id.should.equal(profile);
+      const {profileAgent: {id: profileAgentId}} = result.data;
+      should.exist(profileAgentId);
+      profileAgentId.startsWith('did:key:').should.be.true;
+      result = null;
+      error = null;
+      try {
+        result = await api.post(
+          `/profile-agents/${profileAgentId}/claim`, {account: alphaAccountId});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      result.status.should.equal(204);
+
+      error = null;
+      result = null;
+      try {
+        result = await api.get(`/profile-agents/${profileAgentId}`, {
+          account: alphaAccountId,
+        });
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result.data);
+      should.exist(result.data.profileAgent);
+      result.data.profileAgent.account.should.equal(alphaAccountId);
+    });
+    it('claiming a profileAgent twice does not produce an error', async () => {
+      const {account: {id: alphaAccountId}} = accounts['alpha@example.com'];
+      const profile = 'did:example:2f09296d-611e-4a37-924b-656c41d6ef83';
+      let result;
+      let error;
+      try {
+        result = await api.post('/profile-agents', {profile});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      // result.data.id.should.equal(profile);
+      const {profileAgent: {id: profileAgentId}} = result.data;
+      should.exist(profileAgentId);
+      profileAgentId.startsWith('did:key:').should.be.true;
+      result = null;
+      error = null;
+      try {
+        result = await api.post(
+          `/profile-agents/${profileAgentId}/claim`, {account: alphaAccountId});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      result.status.should.equal(204);
+
+      result = null;
+      error = null;
+      try {
+        result = await api.post(
+          `/profile-agents/${profileAgentId}/claim`, {account: alphaAccountId});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      result.status.should.equal(204);
+    });
+    it('NotAllowedError on account and session mismatch', async () => {
+      const profile = 'did:example:939f6e82-9db8-4cbc-8b8c-a0b1673c2e32';
+      let result;
+      let error;
+      try {
+        result = await api.post('/profile-agents', {profile});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      const {profileAgent: {id: profileAgentId}} = result.data;
+      should.exist(profileAgentId);
+      profileAgentId.startsWith('did:key:').should.be.true;
+      result = null;
+      error = null;
+      try {
+        result = await api.post(
+          `/profile-agents/${profileAgentId}/claim`,
+          // does not match the authenticated alpha account
+          {account: 'urn:uuid:3f5a526c-aa48-4a7e-9075-b3507456f324'});
+      } catch(e) {
+        error = e;
+      }
+      should.not.exist(error);
+      should.exist(result.problem);
+      result.problem.should.equal('CLIENT_ERROR');
+      should.exist(result.data);
+      result.data.type.should.equal('NotAllowedError');
+    });
+  });
 }); // end bedrock-profile-http
 
 async function _createNProfiles({n, api, account}) {
