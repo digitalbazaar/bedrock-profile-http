@@ -59,7 +59,7 @@ describe('bedrock-profile-http', () => {
     afterEach(async () => {
       await helpers.removeCollections();
     });
-    it('successfully create a new profile', async () => {
+    it('successfully create a new profile agent', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const profile = 'did:example:1234';
       let result;
@@ -73,10 +73,10 @@ describe('bedrock-profile-http', () => {
       should.exist(result);
       result.status.should.equal(200);
       result.ok.should.equal(true);
-      result.data.id.should.be.a('string');
-      result.data.sequence.should.equal(0);
-      result.data.profile.should.equal(profile);
-      result.data.account.should.equal(account);
+      result.data.profileAgent.id.should.be.a('string');
+      result.data.profileAgent.sequence.should.equal(0);
+      result.data.profileAgent.profile.should.equal(profile);
+      result.data.profileAgent.account.should.equal(account);
     });
   }); // end create a new profile agent
   describe('GET /profile-agents (gets all profile agents associated with' +
