@@ -181,6 +181,42 @@ describe('bedrock-profile-http', () => {
       result.data.profileAgent.account.should.equal(account);
     });
   }); // end gets a profile agent associated with an account
+  describe('DELETE /profile-agents/:profileAgentId (gets a profile agent' +
+    ' associated with an account)', () => {
+    afterEach(async () => {
+      await helpers.removeCollections();
+    });
+    it('successfully deletes a profile agent by its id', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      let result;
+      let result0;
+      let profileAgentId;
+      let error;
+      try {
+        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const {data} = await api.get(`/profile-agents/?account=${account}` +
+          `&profile=${profile}`);
+        ({id: profileAgentId} = data[0].profileAgent);
+        result = await api.delete(`/profile-agents/${profileAgentId}` +
+          `?account=${account}`);
+      } catch(e) {
+        error = e;
+      }
+      try {
+        result0 = await api.get(`/profile-agents/${profileAgentId}` +
+        `?account=${account}`);
+      } catch(e) {
+        should.exist(e);
+      }
+      assertNoError(error);
+      should.exist(result);
+      should.exist(result0);
+      result.status.should.equal(204);
+      result.ok.should.equal(true);
+      result0.status.should.equal(404);
+      result0.ok.should.equal(false);
+    });
+  }); // end gets a profile agent associated with an account
   describe('GET /profile-agents/:profileAgentId/capabilities/delegate ' +
     '(delegates profile agent\'s zCaps to a specified "id")', () => {
     afterEach(async () => {
