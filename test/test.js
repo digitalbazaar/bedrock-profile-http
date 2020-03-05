@@ -16,5 +16,4 @@ require('bedrock-profile-http');
 require('bedrock-server');
 require('bedrock-ssm-mongodb');
 require('bedrock-test');
-require('bedrock-test');
 bedrock.start();
