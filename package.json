@@ -27,7 +27,7 @@
   "peerDependencies": {
     "bedrock": "^3.0.1",
     "bedrock-account": "^2.1.0",
-    "bedrock-profile": "^1.0.0",
+    "bedrock-profile": "^2.0.0",
     "bedrock-express": "^3.0.0",
     "bedrock-passport": "^5.0.2",
     "bedrock-validation": "^4.1.0"
