@@ -15,8 +15,7 @@ let accounts;
 let zcaps;
 let api;
 
-const baseURL =
- `https://${config.server.host}`;
+const baseURL = `https://${config.server.host}`;
 
 describe('bedrock-profile-http', () => {
   // mock session authentication for delegations endpoint
@@ -35,6 +34,7 @@ describe('bedrock-profile-http', () => {
   after(async () => {
     passportStub.restore();
   });
+
   describe('POST /profiles (create a new profile)', () => {
     afterEach(async () => {
       await helpers.removeCollections();
@@ -55,6 +55,7 @@ describe('bedrock-profile-http', () => {
       result.data.id.should.be.a('string');
     });
   }); // end create a new profile
+
   describe('POST /profile-agents (create a new profile agent)', () => {
     afterEach(async () => {
       await helpers.removeCollections();
@@ -79,6 +80,7 @@ describe('bedrock-profile-http', () => {
       result.data.profileAgent.account.should.equal(account);
     });
   }); // end create a new profile agent
+
   describe('GET /profile-agents (gets all profile agents associated with' +
   ' an account)', () => {
     afterEach(async () => {
@@ -154,6 +156,7 @@ describe('bedrock-profile-http', () => {
       profiles.should.include(result2.data.id);
     });
   }); // end gets all profile agents associated with an account
+
   describe('GET /profile-agents/:profileAgentId (gets a profile agent' +
     ' associated with an account)', () => {
     afterEach(async () => {
@@ -181,6 +184,7 @@ describe('bedrock-profile-http', () => {
       result.data.profileAgent.account.should.equal(account);
     });
   }); // end gets a profile agent associated with an account
+
   describe('DELETE /profile-agents/:profileAgentId (gets a profile agent' +
     ' associated with an account)', () => {
     afterEach(async () => {
@@ -217,8 +221,9 @@ describe('bedrock-profile-http', () => {
       result0.ok.should.equal(false);
     });
   }); // end gets a profile agent associated with an account
-  describe('GET /profile-agents/:profileAgentId/capabilities/delegate ' +
-    '(delegates profile agent\'s zCaps to a specified "id")', () => {
+
+  describe('POST /profile-agents/:profileAgentId/capabilities/delegate ' +
+    '(delegates profile agent\'s zCaps to a specified "invoker")', () => {
     afterEach(async () => {
       await helpers.removeCollections();
     });
@@ -232,8 +237,8 @@ describe('bedrock-profile-http', () => {
         const {data} = await api.get(`/profile-agents/?account=${account}` +
           `&profile=${profile}`);
         const {id: profileAgentId} = data[0].profileAgent;
-        result = await api.get(`/profile-agents/${profileAgentId}` +
-          `/capabilities/delegate?id=${did}&account=${account}`);
+        result = await api.post(`/profile-agents/${profileAgentId}` +
+          '/capabilities/delegate', {invoker: did, account});
       } catch(e) {
         error = e;
       }
@@ -241,41 +246,13 @@ describe('bedrock-profile-http', () => {
       should.exist(result);
       result.status.should.equal(200);
       result.ok.should.equal(true);
-      should.exist(result.data.zcaps);
-      result.data.zcaps.should.be.an('array');
+      should.exist(result.data.zcap);
+      result.data.zcap.should.be.an('object');
       result.data.id.should.be.a('string');
-      result.data.zcaps.forEach(zcap => {
-        zcap.controller.should.equal(did);
-      });
+      result.data.zcap.invoker.should.equal(did);
     });
   }); // end delegates profile agent\'s zCaps to a specified "id"
-  describe('GET /profile-agents/:profileAgentId/capability-set ' +
-    '(update profile agent\'s zcaps (get their capability set)', () => {
-    afterEach(async () => {
-      await helpers.removeCollections();
-    });
-    it('successfully get zcaps for a profile agent', async () => {
-      const {account: {id: account}} = accounts['alpha@example.com'];
-      let result;
-      let error;
-      try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
-        result = await api.get(`/profile-agents/${profileAgentId}` +
-          `/capability-set?account=${account}`);
-      } catch(e) {
-        error = e;
-      }
-      assertNoError(error);
-      should.exist(result);
-      result.status.should.equal(200);
-      result.data.zcaps.should.be.an('array');
-      result.data.zcaps.length.should.equal(1);
-      result.ok.should.equal(true);
-    });
-  }); // end get profile agent's zcaps (gets their capability set)
+
   describe('POST /profile-agents/:profileAgentId/capability-set ' +
     '(update profile agent\'s zcaps (updates their capability set)', () => {
     afterEach(async () => {
@@ -294,7 +271,7 @@ describe('bedrock-profile-http', () => {
         result = await api.post(`/profile-agents/${profileAgentId}` +
           `/capability-set?account=${account}`, {zcaps});
         result0 = await api.get(`/profile-agents/${profileAgentId}` +
-          `/capability-set?account=${account}`);
+          `?account=${account}`);
       } catch(e) {
         error = e;
       }
@@ -302,37 +279,7 @@ describe('bedrock-profile-http', () => {
       should.exist(result);
       result.status.should.equal(204);
       result.ok.should.equal(true);
-      result0.data.zcaps.should.be.an('array');
-      result0.data.zcaps.length.should.equal(zcaps.length);
-    });
-  }); // end update profile agent's zcaps (updates their capability set
-  describe('DELETE /profile-agents/:profileAgentId/capability-set ' +
-    '(delete profile agent\'s zcaps (deletes their capability set)', () => {
-    afterEach(async () => {
-      await helpers.removeCollections();
-    });
-    it('successfully delete zcaps for a profile agent', async () => {
-      const {account: {id: account}} = accounts['alpha@example.com'];
-      let result;
-      let result0;
-      let error;
-      try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
-        result = await api.delete(`/profile-agents/${profileAgentId}` +
-          `/capability-set?account=${account}`);
-        result0 = await api.get(`/profile-agents/${profileAgentId}` +
-          `/capability-set?account=${account}`);
-      } catch(e) {
-        error = e;
-      }
-      assertNoError(error);
-      should.exist(result);
-      result.status.should.equal(204);
-      result.ok.should.equal(true);
-      result0.status.should.equal(404);
+      result0.data.profileAgent.zcaps.should.eql(zcaps);
     });
   }); // end update profile agent's zcaps (updates their capability set
 
