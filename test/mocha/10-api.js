@@ -76,6 +76,8 @@ describe('bedrock-profile-http', () => {
       result.ok.should.equal(true);
       result.data.profileAgent.id.should.be.a('string');
       result.data.profileAgent.sequence.should.equal(0);
+      console.log('JJJJJJJ', result.data);
+
       result.data.profileAgent.profile.should.equal(profile);
       result.data.profileAgent.account.should.equal(account);
     });
