@@ -21,7 +21,7 @@
     "bedrock-package-manager": "^1.0.1",
     "bedrock-passport": "^5.0.2",
     "bedrock-permission": "^2.5.4",
-    "bedrock-profile": "^2.0.0",
+    "bedrock-profile": "digitalbazaar/bedrock-profile#profile-agent-token",
     "bedrock-profile-http": "file:..",
     "bedrock-security-context": "^3.0.0",
     "bedrock-server": "^2.4.1",
