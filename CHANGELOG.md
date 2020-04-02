@@ -1,5 +1,13 @@
 # bedrock-profile-http ChangeLog
 
+## 3.0.0 - 2020-04-02
+
+### Changed
+- **BREAKING**: Use bedrock-profile@3.
+
+### Added
+- Add support for application tokens.
+
 ## 2.0.0 - 2020-03-12
 
 ### Changed
