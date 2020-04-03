@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+## 4.0.0 - 2020-04-03
+
+### Changed
+- **BREAKING**: Use bedrock-profile@4.
+
 ## 3.0.0 - 2020-04-02
 
 ### Changed
