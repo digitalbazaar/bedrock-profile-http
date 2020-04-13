@@ -19,7 +19,9 @@ jobs:
         cd test
         npm install
     - name: Run test with Node.js ${{ matrix.node-version }}
-      run: npm test
+      run: |
+        cd test
+        npm test
       env:
         CI: true
   lint:
