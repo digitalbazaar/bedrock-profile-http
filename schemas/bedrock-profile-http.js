@@ -5,8 +5,6 @@
 
 const {schemas} = require('bedrock-validation');
 
-
-// createProfile
 // createProfileAgent
 // createProfileAgents
 // byAccount
