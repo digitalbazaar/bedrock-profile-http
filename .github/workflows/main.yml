@@ -20,7 +20,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: |
-        npm install
         cd test
         npm install
     - name: Run test with Node.js ${{ matrix.node-version }}
@@ -43,3 +42,34 @@ jobs:
     - run: npm install
     - name: Run eslint
       run: npm run lint
+  coverage:
+    needs: [test-node]
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:3.6
+        ports:
+          - 27017:27017
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: |
+        cd test
+        npm install
+    - name: Generate coverage report
+      run: |
+        cd test
+        npm run coverage-ci
+      env:
+        CI: true
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./test/coverage.lcov
+        fail_ci_if_error: true
