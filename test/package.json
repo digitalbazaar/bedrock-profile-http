@@ -24,7 +24,7 @@
     "bedrock-profile": "^4.0.0",
     "bedrock-profile-http": "file:..",
     "bedrock-security-context": "^3.0.0",
-    "bedrock-server": "digitalbazaar/bedrock-server#localhost",
+    "bedrock-server": "^2.6.0",
     "bedrock-ssm-mongodb": "^2.0.1",
     "bedrock-test": "^5.1.0",
     "bedrock-validation": "^4.2.0",
