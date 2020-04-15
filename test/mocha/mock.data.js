@@ -10,7 +10,7 @@ const {util: {uuid}} = require('bedrock');
 const data = {};
 module.exports = data;
 
-const zcaps = data.zcaps = [];
+const zcaps = data.zcaps = {};
 const accounts = data.accounts = {};
 
 // regular permissions
@@ -123,4 +123,6 @@ const zcap2 = {
   }
 };
 
-zcaps.push(zcap0, zcap1, zcap2);
+zcaps.zero = zcap0;
+zcaps.one = zcap1;
+zcaps.two = zcap2;
