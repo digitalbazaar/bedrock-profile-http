@@ -40,6 +40,9 @@
     "excludeNodeModules": false,
     "include": [
       "node_modules/bedrock-profile-http/**"
+    ],
+    "exclude": [
+      "node_modules/bedrock-profile-http/node_modules/**"
     ]
   }
 }
