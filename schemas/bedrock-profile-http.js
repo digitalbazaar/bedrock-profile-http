@@ -3,8 +3,6 @@
  */
 'use strict';
 
-const {schemas} = require('bedrock-validation');
-
 const account = {
   title: 'Account',
   type: 'string'
@@ -29,7 +27,7 @@ const accountQuery = {
 const profileAgent = {
   title: 'Profile Agent',
   type: 'object',
-  required: ['account', 'profile', 'token'],
+  required: ['profile'],
   // FIXME set this to false once we have
   // decided on all the properties.
   additionalProperties: true,
@@ -46,7 +44,6 @@ const profileAgent = {
 const profileAgents = {
   title: 'Profile Agents',
   type: 'object',
-  required: ['account', 'profile'],
   // FIXME set this to false once we have
   // decided on all the properties.
   additionalProperties: true,
@@ -133,9 +130,15 @@ const zcap = {
 
 const zcaps = {
   title: 'zcaps',
-  type: 'array',
-  minItems: 1,
-  items: [zcap]
+  type: 'object',
+  properties: {
+    zcaps: {
+      title: 'zcaps',
+      type: 'array',
+      minItems: 1,
+      items: [zcap]
+    }
+  }
 };
 
 module.exports.profileAgent = () => profileAgent;
