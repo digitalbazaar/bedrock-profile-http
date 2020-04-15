@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+### TBD
+
+### Changed
+- Setup CI workflow.
+
 ## 4.0.0 - 2020-04-03
 
 ### Changed
