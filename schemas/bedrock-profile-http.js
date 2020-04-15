@@ -107,6 +107,15 @@ const zcap = {
         items: [{type: 'string'}]
       }]
     },
+    delegator: {
+      anyOf: [{
+        type: 'string'
+      }, {
+        type: 'array',
+        minItems: 1,
+        items: [{type: 'string'}]
+      }]
+    },
     invocationTarget: {
       title: 'Invocation Target',
       anyOf: [{
