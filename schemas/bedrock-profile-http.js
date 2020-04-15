@@ -134,9 +134,9 @@ const zcaps = {
   properties: {
     zcaps: {
       title: 'zcaps',
-      type: 'array',
-      minItems: 1,
-      items: [zcap]
+      type: 'object',
+      // each property must be a zcap
+      additionalProperties: zcap
     }
   }
 };
