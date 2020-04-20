@@ -1,6 +1,11 @@
 # bedrock-profile-http ChangeLog
 
-### 4.1.0 - 2020-04-17
+## 4.2.0 - 2020-04-20
+
+### Added
+- Schema validation on HTTP APIs.
+
+## 4.1.0 - 2020-04-17
 
 ### Added
 - Support Veres One type DIDs for profile creation.
