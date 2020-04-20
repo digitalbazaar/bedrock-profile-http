@@ -105,9 +105,7 @@ const zcap = {
       }, {
         type: 'array',
         minItems: 1,
-        items: {anyOf: [{type: 'string'}, {type: 'object'}]}
-      }, {
-        type: 'object'
+        items: {type: 'string'}
       }]
     },
     controller: {
@@ -152,7 +150,7 @@ const zcap = {
     },
     parentCapability: {
       title: 'Parent Capability',
-      anyOf: [{type: 'string'}, {type: 'object'}]
+      type: 'string'
     },
     proof: {
       title: 'Proof',
