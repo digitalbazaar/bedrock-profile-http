@@ -68,7 +68,7 @@ const delegateCapability = {
       }, {
         type: 'array',
         minItems: 1,
-        items: [{type: 'string'}]
+        items: {type: 'string'}
       }]
     }
   }
@@ -85,17 +85,42 @@ const zcap = {
       title: 'id',
       type: 'string'
     },
-    controller: {
-      title: 'controller',
-      type: 'string'
-    },
     allowedAction: {
       anyOf: [{
         type: 'string'
       }, {
         type: 'array',
         minItems: 1,
-        items: [{type: 'string'}]
+        items: {type: 'string'}
+      }]
+    },
+    caveat: {
+      title: 'Caveat',
+      type: 'object'
+    },
+    '@context': {
+      title: '@context',
+      anyOf: [{
+        type: 'string'
+      }, {
+        type: 'array',
+        minItems: 1,
+        items: {anyOf: [{type: 'string'}, {type: 'object'}]}
+      }, {
+        type: 'object'
+      }]
+    },
+    controller: {
+      title: 'controller',
+      type: 'string'
+    },
+    delegator: {
+      anyOf: [{
+        type: 'string'
+      }, {
+        type: 'array',
+        minItems: 1,
+        items: {type: 'string'}
       }]
     },
     invoker: {
@@ -104,16 +129,7 @@ const zcap = {
       }, {
         type: 'array',
         minItems: 1,
-        items: [{type: 'string'}]
-      }]
-    },
-    delegator: {
-      anyOf: [{
-        type: 'string'
-      }, {
-        type: 'array',
-        minItems: 1,
-        items: [{type: 'string'}]
+        items: {type: 'string'}
       }]
     },
     invocationTarget: {
@@ -133,6 +149,18 @@ const zcap = {
           }
         }
       }]
+    },
+    parentCapability: {
+      title: 'Parent Capability',
+      anyOf: [{type: 'string'}, {type: 'object'}]
+    },
+    proof: {
+      title: 'Proof',
+      type: 'object'
+    },
+    referenceId: {
+      title: 'Reference Id',
+      type: 'string'
     }
   }
 };
