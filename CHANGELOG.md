@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+## 4.3.0 - 2020-05-18
+
+### Changed
+- Add support for `did:v1` resolution.
+
 ## 4.2.0 - 2020-04-20
 
 ### Added
