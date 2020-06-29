@@ -27,12 +27,12 @@
     "cors": "^2.8.5"
   },
   "peerDependencies": {
-    "bedrock": "^3.1.0",
-    "bedrock-account": "2.x - 3.x",
-    "bedrock-profile": "4.x - 5.x",
-    "bedrock-express": "^3.1.0",
+    "bedrock": "^3.1.1",
+    "bedrock-account": "3.x - 4.x",
+    "bedrock-profile": "5.x - 6.x",
+    "bedrock-express": "^3.2.0",
     "bedrock-passport": "^5.0.2",
-    "bedrock-validation": "^4.3.0"
+    "bedrock-validation": "^4.4.0"
   },
   "directories": {
     "lib": "./lib"
