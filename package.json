@@ -28,10 +28,9 @@
   },
   "peerDependencies": {
     "bedrock": "^3.1.1",
-    "bedrock-account": "3.x - 4.x",
     "bedrock-profile": "5.x - 6.x",
     "bedrock-express": "^3.2.0",
-    "bedrock-passport": "^5.0.2",
+    "bedrock-passport": "^6.0.0",
     "bedrock-validation": "^4.4.0"
   },
   "directories": {
