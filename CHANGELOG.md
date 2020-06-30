@@ -1,6 +1,13 @@
 # bedrock-profile-http ChangeLog
 
-## 4.4.0 - 2020-06-24
+## 4.4.0 - 2020-06-30
+
+### Changed
+- Update test deps.
+- Update CI workflow.
+
+## Fixed
+- Remove unused bedrock-account peer dep.
 
 ### Changed
 - Update peer deps and upgrade deps test suite.
