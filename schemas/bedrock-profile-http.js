@@ -18,9 +18,7 @@ const accountQuery = {
   title: 'Accout Query',
   type: 'object',
   required: ['account'],
-  // FIXME set this to false once we have
-  // decided on all the properties.
-  additionalProperties: true,
+  additionalProperties: false,
   properties: {account}
 };
 
@@ -28,9 +26,7 @@ const profileAgent = {
   title: 'Profile Agent',
   type: 'object',
   required: ['profile'],
-  // FIXME set this to false once we have
-  // decided on all the properties.
-  additionalProperties: true,
+  additionalProperties: false,
   properties: {
     account,
     profile,
@@ -44,9 +40,7 @@ const profileAgent = {
 const profileAgents = {
   title: 'Profile Agents',
   type: 'object',
-  // FIXME set this to false once we have
-  // decided on all the properties.
-  additionalProperties: true,
+  additionalProperties: false,
   properties: {
     account,
     profile
@@ -57,9 +51,7 @@ const delegateCapability = {
   title: 'Delegate Capability',
   type: 'object',
   required: ['invoker', 'account'],
-  // FIXME set this to false if we
-  // have decided on all the properties
-  additionalProperties: true,
+  additionalProperties: false,
   properties: {
     account,
     invoker: {
@@ -77,9 +69,7 @@ const delegateCapability = {
 const zcap = {
   title: 'zcap',
   type: 'object',
-  // FIXME set this to false once we have
-  // decided on all the properties.
-  additionalProperties: true,
+  additionalProperties: false,
   properties: {
     id: {
       title: 'id',

@@ -54,6 +54,36 @@ describe('bedrock-profile-http', () => {
       result.ok.should.equal(true);
       result.data.id.should.be.a('string');
     });
+    it('throws error when there is no account', async () => {
+      let account;
+      let result;
+      let error;
+      try {
+        result = await api.post('/profiles', {account});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(400);
+      result.ok.should.equal(false);
+      result.data.message.should.equal(
+        'A validation error occured in the \'Accout Query\' validator.');
+    });
+    it('throws error when account is not authorized', async () => {
+      let result;
+      let error;
+      try {
+        result = await api.post('/profiles', {account: '123'});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(403);
+      result.ok.should.equal(false);
+      result.data.message.should.equal('The "account" is not authorized.');
+    });
   }); // end create a new profile
 
   describe('POST /profile-agents (create a new profile agent)', () => {
@@ -78,6 +108,37 @@ describe('bedrock-profile-http', () => {
       result.data.profileAgent.sequence.should.equal(0);
       result.data.profileAgent.profile.should.equal(profile);
       result.data.profileAgent.account.should.equal(account);
+    });
+    it('throws error when there is no account', async () => {
+      let account;
+      let result;
+      let error;
+      try {
+        result = await api.post('/profile-agents', {account});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(400);
+      result.ok.should.equal(false);
+      result.data.message.should.equal(
+        'A validation error occured in the \'Profile Agent\' validator.');
+    });
+    it('throws error when account is not authorized', async () => {
+      const profile = 'did:example:1234';
+      let result;
+      let error;
+      try {
+        result = await api.post('/profile-agents', {account: '123', profile});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(403);
+      result.ok.should.equal(false);
+      result.data.message.should.equal('The "account" is not authorized.');
     });
   }); // end create a new profile agent
 
@@ -155,6 +216,22 @@ describe('bedrock-profile-http', () => {
       profiles.should.not.include(result1.data.id);
       profiles.should.include(result2.data.id);
     });
+    it('throws error when account is not authorized', async () => {
+      const account = '123';
+      let error;
+      let result;
+      try {
+
+        result = await api.get(`/profile-agents/?account=${account}`);
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(403);
+      result.ok.should.equal(false);
+      result.data.message.should.equal('The "account" is not authorized.');
+    });
   }); // end gets all profile agents associated with an account
 
   describe('GET /profile-agents/:profileAgentId (gets a profile agent' +
@@ -182,6 +259,47 @@ describe('bedrock-profile-http', () => {
       result.ok.should.equal(true);
       result.data.profileAgent.id.should.be.a('string');
       result.data.profileAgent.account.should.equal(account);
+    });
+    it('throws error when there is no account', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      let result;
+      let error;
+      try {
+        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const {data} = await api.get(`/profile-agents/?account=${account}` +
+          `&profile=${profile}`);
+        const {id: profileAgentId} = data[0].profileAgent;
+        result = await api.get(`/profile-agents/${profileAgentId}`);
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(400);
+      result.ok.should.equal(false);
+      result.data.message.should.equal(
+        'A validation error occured in the \'Accout Query\' validator.');
+    });
+    it('throws error when account is not authorized', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      const wrongAccount = '123';
+      let result;
+      let error;
+      try {
+        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const {data} = await api.get(`/profile-agents/?account=${account}` +
+          `&profile=${profile}`);
+        const {id: profileAgentId} = data[0].profileAgent;
+        result = await api.get(`/profile-agents/${profileAgentId}` +
+          `?account=${wrongAccount}`);
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(403);
+      result.ok.should.equal(false);
+      result.data.message.should.equal('The "account" is not authorized.');
     });
   }); // end gets a profile agent associated with an account
 
@@ -220,6 +338,49 @@ describe('bedrock-profile-http', () => {
       result0.status.should.equal(404);
       result0.ok.should.equal(false);
     });
+    it('throws error when there is no account', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      let result;
+      let profileAgentId;
+      let error;
+      try {
+        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const {data} = await api.get(`/profile-agents/?account=${account}` +
+          `&profile=${profile}`);
+        ({id: profileAgentId} = data[0].profileAgent);
+        result = await api.delete(`/profile-agents/${profileAgentId}`);
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(400);
+      result.ok.should.equal(false);
+      result.data.message.should.equal(
+        'A validation error occured in the \'Accout Query\' validator.');
+    });
+    it('throws error when account is not authorized', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      const wrongAccount = '123';
+      let result;
+      let profileAgentId;
+      let error;
+      try {
+        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const {data} = await api.get(`/profile-agents/?account=${account}` +
+          `&profile=${profile}`);
+        ({id: profileAgentId} = data[0].profileAgent);
+        result = await api.delete(`/profile-agents/${profileAgentId}` +
+          `?account=${wrongAccount}`);
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(403);
+      result.ok.should.equal(false);
+      result.data.message.should.equal('The "account" is not authorized.');
+    });
   }); // end gets a profile agent associated with an account
 
   describe('POST /profile-agents/:profileAgentId/capabilities/delegate ' +
@@ -251,6 +412,71 @@ describe('bedrock-profile-http', () => {
       result.data.id.should.be.a('string');
       result.data.zcap.invoker.should.equal(did);
     });
+    it('throws error when there is no account', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      const did = 'did:example:123456789';
+      let result;
+      let error;
+      try {
+        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const {data} = await api.get(`/profile-agents/?account=${account}` +
+          `&profile=${profile}`);
+        const {id: profileAgentId} = data[0].profileAgent;
+        result = await api.post(`/profile-agents/${profileAgentId}` +
+          '/capabilities/delegate', {invoker: did});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(400);
+      result.ok.should.equal(false);
+      result.data.message.should.equal(
+        'A validation error occured in the \'Delegate Capability\' validator.');
+    });
+    it('throws error when there is no invoker', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      let result;
+      let error;
+      try {
+        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const {data} = await api.get(`/profile-agents/?account=${account}` +
+          `&profile=${profile}`);
+        const {id: profileAgentId} = data[0].profileAgent;
+        result = await api.post(`/profile-agents/${profileAgentId}` +
+          '/capabilities/delegate', {account});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(400);
+      result.ok.should.equal(false);
+      result.data.message.should.equal(
+        'A validation error occured in the \'Delegate Capability\' validator.');
+    });
+    it('throws error when account is not authorized', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      const did = 'did:example:123456789';
+      const wrongAccount = '123';
+      let result;
+      let error;
+      try {
+        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const {data} = await api.get(`/profile-agents/?account=${account}` +
+          `&profile=${profile}`);
+        const {id: profileAgentId} = data[0].profileAgent;
+        result = await api.post(`/profile-agents/${profileAgentId}` +
+          '/capabilities/delegate', {invoker: did, account: wrongAccount});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(403);
+      result.ok.should.equal(false);
+      result.data.message.should.equal('The "account" is not authorized.');
+    });
   }); // end delegates profile agent\'s zCaps to a specified "id"
 
   describe('POST /profile-agents/:profileAgentId/capability-set ' +
@@ -280,6 +506,49 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(204);
       result.ok.should.equal(true);
       result0.data.profileAgent.zcaps.should.eql(zcaps);
+    });
+    it('throws error when there is no zcaps', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      const noZcaps = '';
+      let result;
+      let error;
+      try {
+        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const {data} = await api.get(`/profile-agents/?account=${account}` +
+          `&profile=${profile}`);
+        const {id: profileAgentId} = data[0].profileAgent;
+        result = await api.post(`/profile-agents/${profileAgentId}` +
+          `/capability-set?account=${account}`, {zcaps: noZcaps});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(400);
+      result.ok.should.equal(false);
+      result.data.message.should.equal(
+        'A validation error occured in the \'zcaps\' validator.');
+    });
+    it('throws error when account is not authorized', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      const wrongAccount = '123';
+      let result;
+      let error;
+      try {
+        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const {data} = await api.get(`/profile-agents/?account=${account}` +
+          `&profile=${profile}`);
+        const {id: profileAgentId} = data[0].profileAgent;
+        result = await api.post(`/profile-agents/${profileAgentId}` +
+          `/capability-set?account=${wrongAccount}`, {zcaps});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(403);
+      result.ok.should.equal(false);
+      result.data.message.should.equal('The "account" is not authorized.');
     });
   }); // end update profile agent's zcaps (updates their capability set
 
