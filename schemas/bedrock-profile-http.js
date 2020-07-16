@@ -19,7 +19,17 @@ const accountQuery = {
   type: 'object',
   required: ['account'],
   additionalProperties: false,
-  properties: {account}
+  properties: {
+    account,
+    didMethod: {
+      title: 'didMethod',
+      type: 'string'
+    },
+    didOptions: {
+      title: 'didOptions',
+      type: 'string'
+    }
+  }
 };
 
 const profileAgent = {
