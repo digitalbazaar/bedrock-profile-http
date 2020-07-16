@@ -27,7 +27,7 @@ const accountQuery = {
     },
     didOptions: {
       title: 'didOptions',
-      type: 'string'
+      type: 'object'
     }
   }
 };
