@@ -54,6 +54,23 @@ describe('bedrock-profile-http', () => {
       result.ok.should.equal(true);
       result.data.id.should.be.a('string');
     });
+    it('create a new profile with didMethod and didOptions', async () => {
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      const didMethod = 'v1';
+      const didOptions = {mode: 'test'};
+      let result;
+      let error;
+      try {
+        result = await api.post('/profiles', {account, didMethod, didOptions});
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(200);
+      result.ok.should.equal(true);
+      result.data.id.should.be.a('string');
+    });
     it('throws error when there is no account', async () => {
       let account;
       let result;
