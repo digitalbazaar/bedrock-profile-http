@@ -238,7 +238,6 @@ describe('bedrock-profile-http', () => {
       let error;
       let result;
       try {
-
         result = await api.get(`/profile-agents/?account=${account}`);
       } catch(e) {
         error = e;
@@ -258,13 +257,13 @@ describe('bedrock-profile-http', () => {
     });
     it('successfully get a profile agent by its id', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
         result = await api.get(`/profile-agents/${profileAgentId}` +
           `?account=${account}`);
       } catch(e) {
@@ -279,13 +278,13 @@ describe('bedrock-profile-http', () => {
     });
     it('throws error when there is no account', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
         result = await api.get(`/profile-agents/${profileAgentId}`);
       } catch(e) {
         error = e;
@@ -300,13 +299,13 @@ describe('bedrock-profile-http', () => {
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const wrongAccount = '123';
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
         result = await api.get(`/profile-agents/${profileAgentId}` +
           `?account=${wrongAccount}`);
       } catch(e) {
@@ -327,15 +326,14 @@ describe('bedrock-profile-http', () => {
     });
     it('successfully deletes a profile agent by its id', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
       let result0;
-      let profileAgentId;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        ({id: profileAgentId} = data[0].profileAgent);
         result = await api.delete(`/profile-agents/${profileAgentId}` +
           `?account=${account}`);
       } catch(e) {
@@ -357,14 +355,13 @@ describe('bedrock-profile-http', () => {
     });
     it('throws error when there is no account', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
-      let profileAgentId;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        ({id: profileAgentId} = data[0].profileAgent);
         result = await api.delete(`/profile-agents/${profileAgentId}`);
       } catch(e) {
         error = e;
@@ -379,14 +376,13 @@ describe('bedrock-profile-http', () => {
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const wrongAccount = '123';
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
-      let profileAgentId;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        ({id: profileAgentId} = data[0].profileAgent);
         result = await api.delete(`/profile-agents/${profileAgentId}` +
           `?account=${wrongAccount}`);
       } catch(e) {
@@ -408,13 +404,13 @@ describe('bedrock-profile-http', () => {
     it('successfully delegate profile agent\'s zcaps to an id', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const did = 'did:example:123456789';
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
         result = await api.post(`/profile-agents/${profileAgentId}` +
           '/capabilities/delegate', {invoker: did, account});
       } catch(e) {
@@ -432,13 +428,13 @@ describe('bedrock-profile-http', () => {
     it('throws error when there is no account', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const did = 'did:example:123456789';
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
         result = await api.post(`/profile-agents/${profileAgentId}` +
           '/capabilities/delegate', {invoker: did});
       } catch(e) {
@@ -453,13 +449,13 @@ describe('bedrock-profile-http', () => {
     });
     it('throws error when there is no invoker', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
         result = await api.post(`/profile-agents/${profileAgentId}` +
           '/capabilities/delegate', {account});
       } catch(e) {
@@ -476,13 +472,13 @@ describe('bedrock-profile-http', () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const did = 'did:example:123456789';
       const wrongAccount = '123';
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
         result = await api.post(`/profile-agents/${profileAgentId}` +
           '/capabilities/delegate', {invoker: did, account: wrongAccount});
       } catch(e) {
@@ -503,14 +499,14 @@ describe('bedrock-profile-http', () => {
     });
     it('successfully update zcaps for a profile agent', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
       let result0;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
         result = await api.post(`/profile-agents/${profileAgentId}` +
           `/capability-set?account=${account}`, {zcaps});
         result0 = await api.get(`/profile-agents/${profileAgentId}` +
@@ -527,13 +523,13 @@ describe('bedrock-profile-http', () => {
     it('throws error when there is no zcaps', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const noZcaps = '';
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
         result = await api.post(`/profile-agents/${profileAgentId}` +
           `/capability-set?account=${account}`, {zcaps: noZcaps});
       } catch(e) {
@@ -549,13 +545,13 @@ describe('bedrock-profile-http', () => {
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const wrongAccount = '123';
+      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data} = await api.get(`/profile-agents/?account=${account}` +
+        `&profile=${profile}`);
+      const {id: profileAgentId} = data[0].profileAgent;
       let result;
       let error;
       try {
-        const {data: {id: profile}} = await api.post('/profiles', {account});
-        const {data} = await api.get(`/profile-agents/?account=${account}` +
-          `&profile=${profile}`);
-        const {id: profileAgentId} = data[0].profileAgent;
         result = await api.post(`/profile-agents/${profileAgentId}` +
           `/capability-set?account=${wrongAccount}`, {zcaps});
       } catch(e) {
