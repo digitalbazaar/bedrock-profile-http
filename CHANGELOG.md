@@ -1,5 +1,11 @@
 # bedrock-profile-http ChangeLog
 
+## 4.6.0 - 2020-07-21
+
+### Changed
+- Improve schema validation.
+- Improve test coverage.
+
 ## 4.5.0 - 2020-06-30
 
 ### Changed
