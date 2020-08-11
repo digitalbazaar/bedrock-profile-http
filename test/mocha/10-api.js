@@ -85,7 +85,7 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(400);
       result.ok.should.equal(false);
       result.data.message.should.equal(
-        'A validation error occured in the \'Accout Query\' validator.');
+        'A validation error occured in the \'Account Query\' validator.');
     });
     it('throws error when account is not authorized', async () => {
       let result;
@@ -294,7 +294,7 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(400);
       result.ok.should.equal(false);
       result.data.message.should.equal(
-        'A validation error occured in the \'Accout Query\' validator.');
+        'A validation error occured in the \'Account Query\' validator.');
     });
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -371,7 +371,7 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(400);
       result.ok.should.equal(false);
       result.data.message.should.equal(
-        'A validation error occured in the \'Accout Query\' validator.');
+        'A validation error occured in the \'Account Query\' validator.');
     });
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
