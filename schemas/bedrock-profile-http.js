@@ -15,7 +15,7 @@ const profile = {
 
 // this should match query objects with an account in them
 const accountQuery = {
-  title: 'Accout Query',
+  title: 'Account Query',
   type: 'object',
   required: ['account'],
   additionalProperties: false,
