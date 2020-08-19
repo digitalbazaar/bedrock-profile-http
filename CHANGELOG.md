@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+## 4.6.1 - 2020-08-19
+
+### Fixed
+- Correct typo in validation schema title and update tests.
+
 ## 4.6.0 - 2020-07-21
 
 ### Changed
