@@ -60,7 +60,8 @@ const zcap0 = {
     ],
     // eslint-disable-next-line max-len
     jws: 'eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..bWt6_Q65omg8rE44a_1dzWFGcFQbUrVqZ_hnAqIKlWSQ1HpTSV6OyhAQfBlVhPCsrVplqC8oVEJmp4UWqy6gCw'
-  }
+  },
+  expires: 'Thu Sep 08 2050 22:23:31 GMT-0400'
 };
 
 const zcap1 = {
@@ -90,7 +91,8 @@ const zcap1 = {
     ],
     // eslint-disable-next-line max-len
     jws: 'eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..jXUHaPhgTLFafpi5d7ya-vAnYfgZQrRYYNxCtkH5PRTIb31EWYt9oFKEbxo2Fxn8lB0HTPC67phQUkd-J0DhDA'
-  }
+  },
+  expires: 'Thu Sep 08 2050 22:23:31 GMT-0400'
 };
 
 const zcap2 = {
@@ -120,7 +122,8 @@ const zcap2 = {
     ],
     // eslint-disable-next-line max-len
     jws: 'eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..4wl0uIr1meF5c_gXlQysfK6xhAlB5mQ7ZclxxursKTwEYiWDUTXbk0H9lElPJDpbN5vC64yh_pR5zeycm8-4Bw'
-  }
+  },
+  expires: 'Thu Sep 08 2050 22:23:31 GMT-0400'
 };
 
 zcaps.zero = zcap0;

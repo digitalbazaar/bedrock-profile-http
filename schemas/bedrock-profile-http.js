@@ -159,6 +159,10 @@ const zcap = {
     referenceId: {
       title: 'Reference Id',
       type: 'string'
+    },
+    expires: {
+      title: 'Expiry Date',
+      type: 'string'
     }
   }
 };
