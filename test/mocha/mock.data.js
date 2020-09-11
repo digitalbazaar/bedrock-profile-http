@@ -11,7 +11,6 @@ const data = {};
 module.exports = data;
 
 const zcaps = data.zcaps = {};
-const zcaps2 = data.zcaps2 = {};
 const accounts = data.accounts = {};
 
 // regular permissions
@@ -127,39 +126,6 @@ const zcap2 = {
   expires: '2050-09-10T15:56:22.911Z'
 };
 
-const zcap3 = {
-  '@context': 'https://w3id.org/security/v2',
-  id: 'urn:zcap:z19u4rwByrmyKFr1XC9AYNYcs',
-  controller: 'did:key:z6Mkkt1BWYLPAAXwYBwyVHAZkL94tgT8QbQv2SUxeW1U3DaG',
-  referenceId: 'bedrock.localhost:settings',
-  allowedAction: [
-    'read',
-    'write'
-  ],
-  invocationTarget: {
-    id: 'https://bedrock.localhost:18443/edvs/z19jTB2drTyi4JHrARunxze8E',
-    type: 'urn:edv:documents'
-  },
-  // eslint-disable-next-line max-len
-  parentCapability: 'https://bedrock.localhost:18443/edvs/z19jTB2drTyi4JHrARunxze8E/zcaps/documents',
-  proof: {
-    type: 'Ed25519Signature2018',
-    created: '2020-02-27T21:22:48Z',
-    // eslint-disable-next-line max-len
-    verificationMethod: 'did:key:z6MkkrtV7wnBpXKBtiZjxaSghCo8ttb5kZUJTk8bEwTTTYvg#z6MkkrtV7wnBpXKBtiZjxaSghCo8ttb5kZUJTk8bEwTTTYvg',
-    proofPurpose: 'capabilityDelegation',
-    capabilityChain: [
-      // eslint-disable-next-line max-len
-      'https://bedrock.localhost:18443/edvs/z19jTB2drTyi4JHrARunxze8E/zcaps/documents'
-    ],
-    // eslint-disable-next-line max-len
-    jws: 'eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..4wl0uIr1meF5c_gXlQysfK6xhAlB5mQ7ZclxxursKTwEYiWDUTXbk0H9lElPJDpbN5vC64yh_pR5zeycm8-4Bw'
-  },
-  // expires field without milisecond
-  expires: '2050-09-10T15:56:22'
-};
-
 zcaps.zero = zcap0;
 zcaps.one = zcap1;
 zcaps.two = zcap2;
-zcaps2.zero = zcap3;

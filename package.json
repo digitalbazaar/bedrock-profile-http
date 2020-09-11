@@ -28,7 +28,7 @@
   },
   "peerDependencies": {
     "bedrock": "^3.1.1",
-    "bedrock-profile": "5.x - 6.x",
+    "bedrock-profile": "github:digitalbazaar/bedrock-profile#expires-zcap",
     "bedrock-express": "^3.2.0",
     "bedrock-passport": "^6.0.0",
     "bedrock-validation": "^4.4.0"
@@ -37,7 +37,7 @@
     "lib": "./lib"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-digitalbazaar": "^2.3.0"
+    "eslint": "^7.8.1",
+    "eslint-config-digitalbazaar": "^2.6.0"
   }
 }
