@@ -520,31 +520,6 @@ describe('bedrock-profile-http', () => {
       result.ok.should.equal(true);
       result0.data.profileAgent.zcaps.should.eql(zcaps);
     });
-    it('should add expires field to zcaps if they do not have it', async () => {
-      const {account: {id: account}} = accounts['alpha@example.com'];
-      const {data: {id: profile}} = await api.post('/profiles', {account});
-      const {data} = await api.get(`/profile-agents/?account=${account}` +
-        `&profile=${profile}`);
-      const {id: profileAgentId} = data[0].profileAgent;
-      let result;
-      let result0;
-      let error;
-      const zcapWithoutExpires = {zero: {...zcaps.zero}};
-      delete zcapWithoutExpires.zero.expires;
-      try {
-        result = await api.post(`/profile-agents/${profileAgentId}` +
-          `/capability-set?account=${account}`, {zcaps: zcapWithoutExpires});
-        result0 = await api.get(`/profile-agents/${profileAgentId}` +
-          `?account=${account}`);
-      } catch(e) {
-        error = e;
-      }
-      assertNoError(error);
-      should.exist(result);
-      result.status.should.equal(204);
-      result.ok.should.equal(true);
-      should.exist(result0.data.profileAgent.zcaps.zero.expires);
-    });
     it('should not throw error if zcap `expires` pattern does not ' +
       'include millisecond', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
