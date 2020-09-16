@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+### 4.7.0 - 2020-09-16
+
+### Added
+- Add schema validation for zcap `expires` field and related tests.
+
 ## 4.6.1 - 2020-08-19
 
 ### Fixed
