@@ -24,7 +24,7 @@
     "bedrock-package-manager": "^1.0.1",
     "bedrock-passport": "^6.0.0",
     "bedrock-permission": "^3.0.0",
-    "bedrock-profile": "^6.3.0",
+    "bedrock-profile": "github:digitalbazaar/bedrock-profile#fix-zcap-expiration",
     "bedrock-profile-http": "file:..",
     "bedrock-security-context": "^3.0.0",
     "bedrock-server": "^2.6.0",
