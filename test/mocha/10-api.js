@@ -424,7 +424,37 @@ describe('bedrock-profile-http', () => {
       result.data.zcap.should.be.an('object');
       result.data.id.should.be.a('string');
       result.data.zcap.invoker.should.equal(did);
+      should.exist(result.data.zcap.expires);
+      result.data.zcap.expires.should.be.a('string');
     });
+    it('profile agent\'s zcaps set `expires` param when it is given',
+      async () => {
+        const {account: {id: account}} = accounts['alpha@example.com'];
+        const did = 'did:example:123456789';
+        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const {data} = await api.get(`/profile-agents/?account=${account}` +
+          `&profile=${profile}`);
+        const {id: profileAgentId} = data[0].profileAgent;
+        let result;
+        let error;
+        const expires = '2030-10-10T15:56:22.911Z';
+        try {
+          result = await api.post(`/profile-agents/${profileAgentId}` +
+            '/capabilities/delegate', {invoker: did, account, expires});
+        } catch(e) {
+          error = e;
+        }
+        assertNoError(error);
+        should.exist(result);
+        result.status.should.equal(200);
+        result.ok.should.equal(true);
+        should.exist(result.data.zcap);
+        result.data.zcap.should.be.an('object');
+        result.data.id.should.be.a('string');
+        result.data.zcap.invoker.should.equal(did);
+        should.exist(result.data.zcap.expires);
+        result.data.zcap.expires.should.equal(expires);
+      });
     it('throws error when there is no account', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const did = 'did:example:123456789';
