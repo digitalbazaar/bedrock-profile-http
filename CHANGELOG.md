@@ -1,6 +1,19 @@
 # bedrock-profile-http ChangeLog
 
-### 4.7.0 - 2020-09-16
+## 5.0.0 - 2020-09-25
+
+### Changed
+- **BREAKING**: Requires peer of `bedrock-profile@7`.
+
+### Added
+- Add computed config variables for `privateKmsBaseUrl` and `publicKmsBaseUrl`.
+  The keystore for the profile agents zCap key is created in the private KMS
+  because it is accessed by a capabilityAgent that is generated from a secret
+  that is stored in the database. If the database is stolen, the attacker
+  cannot use the secret to hit the private KMS. The attacker must also break
+  into the network.
+
+## 4.7.0 - 2020-09-16
 
 ### Added
 - Add schema validation for zcap `expires` field and related tests.
