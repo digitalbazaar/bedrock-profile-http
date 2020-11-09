@@ -41,10 +41,11 @@ describe('bedrock-profile-http', () => {
     });
     it('successfully create a new profile', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
+      const didMethod = 'v1';
       let result;
       let error;
       try {
-        result = await api.post('/profiles', {account});
+        result = await api.post('/profiles', {account, didMethod});
       } catch(e) {
         error = e;
       }
@@ -166,6 +167,7 @@ describe('bedrock-profile-http', () => {
     });
     it('successfully get all profile agents', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
+      const didMethod = 'key';
       let error;
       let result0;
       let result1;
@@ -175,6 +177,7 @@ describe('bedrock-profile-http', () => {
         [result0, result1, result2] = await _createNProfiles({
           n: 3,
           account,
+          didMethod,
           api
         });
         results = await api.get(`/profile-agents/?account=${account}`);
@@ -200,6 +203,7 @@ describe('bedrock-profile-http', () => {
     it('successfully filters all profile agents for a ' +
       'specific profile', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
+      const didMethod = 'key';
       let error;
       let result0;
       let result1;
@@ -209,6 +213,7 @@ describe('bedrock-profile-http', () => {
         [result0, result1, result2] = await _createNProfiles({
           n: 3,
           account,
+          didMethod,
           api
         });
         const {id: profile} = result2.data;
@@ -257,7 +262,9 @@ describe('bedrock-profile-http', () => {
     });
     it('successfully get a profile agent by its id', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'key';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -278,7 +285,9 @@ describe('bedrock-profile-http', () => {
     });
     it('throws error when there is no account', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'key';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -298,8 +307,10 @@ describe('bedrock-profile-http', () => {
     });
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
+      const didMethod = 'key';
       const wrongAccount = '123';
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -326,7 +337,9 @@ describe('bedrock-profile-http', () => {
     });
     it('successfully deletes a profile agent by its id', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'key';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -355,7 +368,9 @@ describe('bedrock-profile-http', () => {
     });
     it('throws error when there is no account', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'key';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -376,7 +391,9 @@ describe('bedrock-profile-http', () => {
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const wrongAccount = '123';
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'key';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -404,7 +421,9 @@ describe('bedrock-profile-http', () => {
     it('successfully delegate profile agent\'s zcaps to an id', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const did = 'did:example:123456789';
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'key';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -430,7 +449,9 @@ describe('bedrock-profile-http', () => {
     it('throws error when there is no account', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const did = 'did:example:123456789';
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'key';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -451,7 +472,9 @@ describe('bedrock-profile-http', () => {
     });
     it('throws error when there is no invoker', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'key';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -474,7 +497,9 @@ describe('bedrock-profile-http', () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const did = 'did:example:123456789';
       const wrongAccount = '123';
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'v1';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -501,7 +526,9 @@ describe('bedrock-profile-http', () => {
     });
     it('successfully update zcaps for a profile agent', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'v1';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -525,7 +552,9 @@ describe('bedrock-profile-http', () => {
     it('should not throw error if zcap `expires` pattern does not ' +
       'include millisecond', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'v1';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const zcapsCopy = {...zcaps};
@@ -554,7 +583,9 @@ describe('bedrock-profile-http', () => {
     it('should not throw error if zcaps do not have expires field',
       async () => {
         const {account: {id: account}} = accounts['alpha@example.com'];
-        const {data: {id: profile}} = await api.post('/profiles', {account});
+        const didMethod = 'v1';
+        const {data: {id: profile}} = await api.post('/profiles',
+          {account, didMethod});
         const {data} = await api.get(`/profile-agents/?account=${account}` +
           `&profile=${profile}`);
         const {id: profileAgentId} = data[0].profileAgent;
@@ -580,7 +611,9 @@ describe('bedrock-profile-http', () => {
     it('throws error when there is no zcaps', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const noZcaps = '';
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'v1';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -602,7 +635,9 @@ describe('bedrock-profile-http', () => {
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const wrongAccount = '123';
-      const {data: {id: profile}} = await api.post('/profiles', {account});
+      const didMethod = 'v1';
+      const {data: {id: profile}} = await api.post('/profiles',
+        {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
       const {id: profileAgentId} = data[0].profileAgent;
@@ -738,10 +773,10 @@ describe('bedrock-profile-http', () => {
   });
 }); // end bedrock-profile-http
 
-async function _createNProfiles({n, api, account}) {
+async function _createNProfiles({n, api, account, didMethod}) {
   const promises = [];
   for(let i = 0; i < n; i++) {
-    const promise = api.post('/profiles', {account});
+    const promise = api.post('/profiles', {account, didMethod});
     promises.push(promise);
   }
   return Promise.all(promises);
