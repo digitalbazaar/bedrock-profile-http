@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+## 5.0.1 - 2020-TBD
+
+### Changed
+- Update `bedrock-profile` to latest and fix tests.
+
 ## 5.0.0 - 2020-09-25
 
 ### Changed
