@@ -17,8 +17,6 @@ config.mongodb.dropCollections.collections = [];
 // do not require an authentication session for tests
 config['kms-http'].requireAuthentication = false;
 
-config.mocha.tests.push(path.join(__dirname, 'mocha'));
-
 config.kms.allowedHost = config.server.host;
 
 // allow self-signed certs in test framework
