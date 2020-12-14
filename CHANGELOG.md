@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 5.0.1 - 2020-TBD
+## 5.0.1 - 2020-12-14
 
 ### Changed
 - Update `bedrock-profile@8` and fix tests.
