@@ -542,6 +542,7 @@ describe('bedrock-profile-http', () => {
       let result;
       let error;
       try {
+        await helpers.stubPassport({email: mockData.emails.failMail});
         result = await api.post(`/profile-agents/${profileAgentId}` +
           '/capabilities/delegate', {invoker: did, account: wrongAccount});
       } catch(e) {
@@ -680,6 +681,7 @@ describe('bedrock-profile-http', () => {
       let result;
       let error;
       try {
+        await helpers.stubPassport({email: mockData.emails.failMail});
         result = await api.post(`/profile-agents/${profileAgentId}` +
           `/capability-set?account=${wrongAccount}`, {zcaps});
       } catch(e) {
