@@ -12,7 +12,15 @@ const mockData = require('./mock.data');
 
 exports.stubPassport = async ({email = 'alpha@example.com'} = {}) => {
   const actors = await exports.getActors(mockData);
-  const passportStub = sinon.stub(brPassport, 'optionallyAuthenticated');
+  if(brPassport.optionallyAuthenticated.restore) {
+    brPassport.optionallyAuthenticated.restore();
+  }
+  let passportStub = brPassport.optionallyAuthenticated;
+  try {
+    passportStub = sinon.stub(brPassport, 'optionallyAuthenticated');
+  } catch(e) {
+    console.error('Stub failed', e);
+  }
   passportStub.callsFake((req, res, next) => {
     req.user = {
       account: mockData.accounts[email].account,

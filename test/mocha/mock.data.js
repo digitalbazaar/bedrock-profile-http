@@ -12,14 +12,25 @@ module.exports = data;
 
 const zcaps = data.zcaps = {};
 const accounts = data.accounts = {};
+const emails = data.emails = {};
 
 // regular permissions
-const email = 'alpha@example.com';
-accounts[email] = {};
-accounts[email].account = createAccount(email);
-accounts[email].meta = {};
-accounts[email].meta.sysResourceRole = [{
+emails.alpha = 'alpha@example.com';
+accounts[emails.alpha] = {};
+accounts[emails.alpha].account = createAccount(emails.alpha);
+accounts[emails.alpha].meta = {};
+accounts[emails.alpha].meta.sysResourceRole = [{
   sysRole: 'bedrock-test.regular',
+  // FIXME: had to enable admin rights to create keyStore
+  // generateResource: 'id'
+}];
+
+emails.failMail = 'auth-test@example.com';
+accounts[emails.failMail] = {};
+accounts[emails.failMail].account = createAccount(emails.failMail);
+accounts[emails.failMail].meta = {};
+accounts[emails.failMail].meta.sysResourceRole = [{
+  sysRole: 'bedrock-test.fail',
   // FIXME: had to enable admin rights to create keyStore
   // generateResource: 'id'
 }];
