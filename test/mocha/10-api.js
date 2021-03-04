@@ -22,7 +22,6 @@ describe('bedrock-profile-http', () => {
   let passportStub;
   before(async () => {
     await helpers.prepareDatabase(mockData);
-    passportStub = await helpers.stubPassport();
     accounts = mockData.accounts;
     zcaps = mockData.zcaps;
     api = create({
@@ -30,6 +29,9 @@ describe('bedrock-profile-http', () => {
       headers: {Accept: 'application/ld+json, application/json'},
       httpsAgent: new https.Agent({rejectUnauthorized: false})
     });
+  });
+  beforeEach(async () => {
+    passportStub = await helpers.stubPassport();
   });
   after(async () => {
     passportStub.restore();
@@ -349,6 +351,7 @@ describe('bedrock-profile-http', () => {
       let result;
       let error;
       try {
+        await helpers.stubPassport({email: mockData.emails.failMail});
         result = await api.get(`/profile-agents/${profileAgentId}` +
           `?account=${wrongAccount}`);
       } catch(e) {
@@ -432,6 +435,7 @@ describe('bedrock-profile-http', () => {
       let result;
       let error;
       try {
+        await helpers.stubPassport({email: mockData.emails.failMail});
         result = await api.delete(`/profile-agents/${profileAgentId}` +
           `?account=${wrongAccount}`);
       } catch(e) {
@@ -538,6 +542,7 @@ describe('bedrock-profile-http', () => {
       let result;
       let error;
       try {
+        await helpers.stubPassport({email: mockData.emails.failMail});
         result = await api.post(`/profile-agents/${profileAgentId}` +
           '/capabilities/delegate', {invoker: did, account: wrongAccount});
       } catch(e) {
@@ -676,6 +681,7 @@ describe('bedrock-profile-http', () => {
       let result;
       let error;
       try {
+        await helpers.stubPassport({email: mockData.emails.failMail});
         result = await api.post(`/profile-agents/${profileAgentId}` +
           `/capability-set?account=${wrongAccount}`, {zcaps});
       } catch(e) {

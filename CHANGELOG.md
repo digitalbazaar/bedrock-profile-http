@@ -1,5 +1,14 @@
 # bedrock-profile-http ChangeLog
 
+## 5.0.2 - TBD
+
+### Fixed
+- Account restrictions on GET routes.profileAgent.
+- Account restrictions on DELETE routes.profileAgent.
+- Restrictions on POST routes.profileAgentClaim.
+- Account restrictions on POST routes.profileAgentCapabilities.
+- Account restrictions on POST routes.profileAgentCapabilitySet.
+
 ## 5.0.1 - 2020-12-14
 
 ### Changed
