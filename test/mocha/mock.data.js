@@ -21,8 +21,7 @@ accounts[emails.alpha].account = createAccount(emails.alpha);
 accounts[emails.alpha].meta = {};
 accounts[emails.alpha].meta.sysResourceRole = [{
   sysRole: 'bedrock-test.regular',
-  // FIXME: had to enable admin rights to create keyStore
-  // generateResource: 'id'
+  generateResource: 'id'
 }];
 
 emails.failMail = 'auth-test@example.com';
@@ -31,8 +30,7 @@ accounts[emails.failMail].account = createAccount(emails.failMail);
 accounts[emails.failMail].meta = {};
 accounts[emails.failMail].meta.sysResourceRole = [{
   sysRole: 'bedrock-test.regular',
-  // FIXME: had to enable admin rights to create keyStore
-  // generateResource: 'id'
+  generateResource: 'id'
 }];
 
 function createAccount(email) {
