@@ -30,7 +30,7 @@ accounts[emails.failMail] = {};
 accounts[emails.failMail].account = createAccount(emails.failMail);
 accounts[emails.failMail].meta = {};
 accounts[emails.failMail].meta.sysResourceRole = [{
-  sysRole: 'bedrock-test.fail',
+  sysRole: 'bedrock-test.regular',
   // FIXME: had to enable admin rights to create keyStore
   // generateResource: 'id'
 }];
