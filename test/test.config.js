@@ -36,3 +36,6 @@ roles['bedrock-test.regular'] = {
     permissions.EDV_CONFIG_REMOVE.id
   ]
 };
+
+config.profile.kms.baseUrl = `${config.server.baseUri}/kms`;
+config.profile.kms.ipAllowList = ['127.0.0.1/32'];
