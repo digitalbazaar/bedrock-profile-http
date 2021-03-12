@@ -1,5 +1,14 @@
 # bedrock-profile-http ChangeLog
 
+## 6.0.0 - TBD
+
+### Changed
+- Drop support for Node.js 10.x.
+
+### Removed
+- **BREAKING**: Remove config variables for `privateKmsBaseUrl` and
+  `publicKmsBaseUrl`. The KMS is now configured via `bedrock-profile`.
+
 ## 5.0.1 - 2020-12-14
 
 ### Changed
