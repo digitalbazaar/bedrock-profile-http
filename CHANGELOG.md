@@ -3,7 +3,8 @@
 ## 5.1.0 - 2020-12-TBD
 
 ### Changed
-- Update [bedrock-profile@10](https://github.com/digitalbazaar/bedrock-profile/blob/main/CHANGELOG.md), update test deps and fix tests.
+- Use [bedrock-profile@10](https://github.com/digitalbazaar/bedrock-profile/blob/main/CHANGELOG.md).
+- Update test deps and fix tests.
   - Supports `ed25519-2020` signature suite and verification keys.
 
 ## 5.0.1 - 2020-12-14
