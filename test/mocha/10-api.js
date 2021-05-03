@@ -54,6 +54,7 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(200);
       result.ok.should.equal(true);
       result.data.id.should.be.a('string');
+      result.data.id.startsWith('did:v1').should.equal(true);
     });
     it('create a new profile with didMethod and didOptions', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -71,6 +72,7 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(200);
       result.ok.should.equal(true);
       result.data.id.should.be.a('string');
+      result.data.id.startsWith('did:v1').should.equal(true);
     });
     it('create a new profile with didMethods "v1" and "key"', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
