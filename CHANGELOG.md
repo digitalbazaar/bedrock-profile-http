@@ -4,6 +4,7 @@
 
 ### Changed
 - Use [bedrock-profile@10](https://github.com/digitalbazaar/bedrock-profile/blob/main/CHANGELOG.md).
+- Remove unused cors dependency.
 - Update test deps and fix tests.
   - Supports `ed25519-2020` signature suite and verification keys.
 
