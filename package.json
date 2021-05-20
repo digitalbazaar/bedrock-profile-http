@@ -23,9 +23,7 @@
     "url": "https://github.com/digitalbazaar/bedrock-profile-http/issues"
   },
   "homepage": "https://github.com/digitalbazaar/bedrock-profile-http",
-  "dependencies": {
-    "cors": "^2.8.5"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "bedrock": "^4.1.1",
     "bedrock-profile": "digitalbazaar/bedrock-profile#support-for-multiple-signature-suite",
