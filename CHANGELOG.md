@@ -1,10 +1,11 @@
 # bedrock-profile-http ChangeLog
 
-## 6.0.0 - 2020-5-TBD
+## 6.0.0 - 2021-05-21
 
 ### Changed
 - **BREAKING**: Use [bedrock-profile@10](https://github.com/digitalbazaar/bedrock-profile/blob/main/CHANGELOG.md).
-  - Updates related to `ed25519-2020` signature suite and verification keys support.
+  - Updates related to `ed25519-2020` signature suite and verification keys
+    support.
 - Remove unused cors dependency.
 - Update test deps and fix tests.
 
