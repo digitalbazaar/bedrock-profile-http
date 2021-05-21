@@ -9,7 +9,7 @@
     "coverage-report": "nyc report"
   },
   "dependencies": {
-    "apisauce": "^1.1.1",
+    "apisauce": "^2.1.1",
     "bedrock": "^4.1.1",
     "bedrock-account": "^5.0.0",
     "bedrock-did-context": "^2.0.0",
