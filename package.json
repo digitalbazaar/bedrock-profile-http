@@ -26,7 +26,7 @@
   "dependencies": {},
   "peerDependencies": {
     "bedrock": "^4.1.1",
-    "bedrock-profile": "digitalbazaar/bedrock-profile#support-for-multiple-signature-suite",
+    "bedrock-profile": "^10.0.0",
     "bedrock-express": "^4.0.0",
     "bedrock-passport": "^6.1.0",
     "bedrock-validation": "^5.0.0"
