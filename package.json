@@ -23,9 +23,13 @@
     "url": "https://github.com/digitalbazaar/bedrock-profile-http/issues"
   },
   "homepage": "https://github.com/digitalbazaar/bedrock-profile-http",
-  "dependencies": {},
+  "dependencies": {
+    "@digitalbazaar/ed25519-verification-key-2020": "^3.1.0",
+    "@digitalbazaar/http-client": "^1.2.0"
+  },
   "peerDependencies": {
     "bedrock": "^4.1.1",
+    "bedrock-https-agent": "^2.1.0",
     "bedrock-profile": "^10.0.0",
     "bedrock-express": "^4.0.0",
     "bedrock-passport": "^6.1.0",
