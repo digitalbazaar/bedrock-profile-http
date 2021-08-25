@@ -28,7 +28,7 @@
     "bedrock-package-manager": "^1.0.1",
     "bedrock-passport": "^6.1.0",
     "bedrock-permission": "^3.2.0",
-    "bedrock-profile": "digitalbazaar/bedrock-profile#refactor-kms-more",
+    "bedrock-profile": "^11.0.0",
     "bedrock-profile-http": "file:..",
     "bedrock-security-context": "^4.1.0",
     "bedrock-server": "^2.7.0",
