@@ -30,7 +30,7 @@
   "peerDependencies": {
     "bedrock": "^4.1.1",
     "bedrock-https-agent": "^2.1.0",
-    "bedrock-profile": "^10.0.0",
+    "bedrock-profile": "^11.0.0",
     "bedrock-express": "^4.0.0",
     "bedrock-passport": "^6.1.0",
     "bedrock-validation": "^5.0.0"
