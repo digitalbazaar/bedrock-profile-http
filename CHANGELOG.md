@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 7.0.0 - TBD
+## 7.0.0 - 2021-08-24
 
 ### Changed
 - Drop support for Node.js 10.x.
