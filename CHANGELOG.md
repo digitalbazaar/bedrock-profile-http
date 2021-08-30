@@ -1,5 +1,12 @@
 # bedrock-profile-http ChangeLog
 
+## 8.0.0 - 2021-08-xx
+
+### Changed
+- **BREAKING**: This version of the module must be used against a KMS
+  service that does not require a meter usage zcap to create a keystore
+  but requires instead only a `meterId`.
+
 ## 7.0.0 - 2021-08-24
 
 ### Changed
