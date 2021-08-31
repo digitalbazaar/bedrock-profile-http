@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 8.0.0 - 2021-08-xx
+## 8.0.0 - 2021-08-31
 
 ### Changed
 - **BREAKING**: This version of the module must be used against a KMS
