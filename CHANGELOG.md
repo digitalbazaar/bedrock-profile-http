@@ -1,5 +1,12 @@
 # bedrock-profile-http ChangeLog
 
+## 9.0.0 - 2021-09-xx
+
+### Changed
+- **BREAKING**: This version of the module now requires `bedrock-app-identity@1`
+  as a peer dependency.
+- A zCap invocation via http-sigs is now added to requests for meter creation.
+
 ## 8.0.0 - 2021-08-31
 
 ### Changed
