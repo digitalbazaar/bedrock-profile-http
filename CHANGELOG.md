@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 9.0.0 - 2021-09-xx
+## 9.0.0 - 2021-09-21
 
 ### Changed
 - **BREAKING**: This version of the module now requires `bedrock-app-identity@1`
