@@ -1,5 +1,11 @@
 # bedrock-profile-http ChangeLog
 
+## 10.0.0 - 2022-xx-xx
+
+### Changed
+- **BREAKING**: This version of the module now requires `bedrock-profile@13`
+  as a peer dependency.
+
 ## 9.0.0 - 2021-09-21
 
 ### Changed
