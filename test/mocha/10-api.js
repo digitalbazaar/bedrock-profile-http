@@ -56,7 +56,8 @@ describe('bedrock-profile-http', () => {
       result.data.id.should.be.a('string');
       result.data.id.startsWith('did:v1').should.equal(true);
 
-      _shouldHaveMeters({data: result.data, profileId: result.data.id});
+      const {meters, id: profileId} = result.data;
+      _shouldHaveMeters({meters, profileId});
     });
     it('create a new profile with didMethod and didOptions', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -76,7 +77,8 @@ describe('bedrock-profile-http', () => {
       result.data.id.should.be.a('string');
       result.data.id.startsWith('did:v1').should.equal(true);
 
-      _shouldHaveMeters({data: result.data, profileId: result.data.id});
+      const {meters, id: profileId} = result.data;
+      _shouldHaveMeters({meters, profileId});
     });
     it('create a new profile with didMethods "v1" and "key"', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -98,7 +100,8 @@ describe('bedrock-profile-http', () => {
         result.ok.should.equal(true);
         result.data.id.should.be.a('string');
 
-        _shouldHaveMeters({data: result.data, profileId: result.data.id});
+        const {meters, id: profileId} = result.data;
+        _shouldHaveMeters({meters, profileId});
       }
     });
     it('throws error when didMethod is not "v1" or "key"', async () => {
@@ -166,7 +169,7 @@ describe('bedrock-profile-http', () => {
       result.data.profileAgent.sequence.should.equal(0);
       result.data.profileAgent.profile.should.equal(profile);
       result.data.profileAgent.account.should.equal(account);
-      _shouldHaveNoMeters({data: result.data});
+      _shouldHaveNoMeters({meters: result.data.profileMeters});
     });
     it('throws error when there is no account', async () => {
       let account;
@@ -240,9 +243,18 @@ describe('bedrock-profile-http', () => {
       profileIds.should.include(result0.data.id);
       profileIds.should.include(result1.data.id);
       profileIds.should.include(result2.data.id);
-      _shouldHaveMeters({data: results.data[0], profileId: profileIds[0]});
-      _shouldHaveMeters({data: results.data[1], profileId: profileIds[1]});
-      _shouldHaveMeters({data: results.data[2], profileId: profileIds[2]});
+      _shouldHaveMeters({
+        meters: results.data[0].profileMeters,
+        profileId: profileIds[0]
+      });
+      _shouldHaveMeters({
+        meters: results.data[1].profileMeters,
+        profileId: profileIds[1]
+      });
+      _shouldHaveMeters({
+        meters: results.data[2].profileMeters,
+        profileId: profileIds[2]
+      });
     });
     it('successfully filters all profile agents for a ' +
       'specific profile', async () => {
@@ -282,7 +294,10 @@ describe('bedrock-profile-http', () => {
       profileIds.should.not.include(result1.data.id);
       profileIds.should.include(result2.data.id);
 
-      _shouldHaveMeters({data: results.data[0], profileId: profileIds[0]});
+      _shouldHaveMeters({
+        meters: results.data[0].profileMeters,
+        profileId: profileIds[0]
+      });
     });
     it('throws error when account is not authorized', async () => {
       const account = '123';
@@ -328,7 +343,10 @@ describe('bedrock-profile-http', () => {
       result.ok.should.equal(true);
       result.data.profileAgent.id.should.be.a('string');
       result.data.profileAgent.account.should.equal(account);
-      _shouldHaveMeters({data: result.data, profileId: profile});
+      _shouldHaveMeters({
+        meters: result.data.profileMeters,
+        profileId: profile
+      });
     });
     it('throws error when there is no account', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -829,11 +847,11 @@ async function _createNProfiles({n, api, account, didMethod}) {
   return Promise.all(promises);
 }
 
-function _shouldHaveMeters({data, profileId}) {
-  data.meters.should.be.an('array');
-  data.meters.should.have.length(2);
-  const {meters} = data;
-  const {meter: edvMeter} = meters.find(m => m.meter.serviceType === 'edv');
+function _shouldHaveMeters({meters, profileId}) {
+  meters.should.be.an('array');
+  meters.should.have.length(2);
+  const {meter: edvMeter} = meters.find(
+    m => m.meter.serviceType === 'edv');
   edvMeter.id.should.be.a('string');
   edvMeter.profile.should.equal(profileId);
   edvMeter.serviceType.should.equal('edv');
@@ -846,7 +864,7 @@ function _shouldHaveMeters({data, profileId}) {
   kmsMeter.referenceId.should.equal('profile:core:webkms');
 }
 
-function _shouldHaveNoMeters({data}) {
-  should.exist(data.meters);
-  data.meters.should.have.length(0);
+function _shouldHaveNoMeters({meters}) {
+  should.exist(meters);
+  meters.should.have.length(0);
 }
