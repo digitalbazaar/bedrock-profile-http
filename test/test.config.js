@@ -9,14 +9,16 @@ const path = require('path');
 config.mocha.tests.push(path.join(__dirname, 'mocha'));
 const {permissions, roles} = config.permission;
 
+// Express
+config.express.useSession = true;
+
 // MongoDB
 config.mongodb.name = 'bedrock_profile_http_test';
+config.mongodb.dropCollections = {};
 config.mongodb.dropCollections.onInit = true;
 config.mongodb.dropCollections.collections = [];
 
-// do not require an authentication session for tests
-config['kms-http'].requireAuthentication = false;
-
+// KMS
 config.kms.allowedHost = config.server.host;
 
 // allow self-signed certs in test framework
@@ -30,12 +32,10 @@ roles['bedrock-test.regular'] = {
   sysPermission: [
     permissions.ACCOUNT_ACCESS.id,
     permissions.ACCOUNT_UPDATE.id,
-    permissions.ACCOUNT_INSERT.id,
-    permissions.EDV_CONFIG_ACCESS.id,
-    permissions.EDV_CONFIG_UPDATE.id,
-    permissions.EDV_CONFIG_REMOVE.id
+    permissions.ACCOUNT_INSERT.id
   ]
 };
 
+// Profile
 config.profile.kms.baseUrl = `${config.server.baseUri}/kms`;
 config.profile.kms.ipAllowList = ['127.0.0.1/32'];
