@@ -32,7 +32,7 @@
     "bedrock": "^4.1.1",
     "bedrock-app-identity": "^1.0.0",
     "bedrock-https-agent": "^2.1.0",
-    "bedrock-profile": "digitalbazaar/bedrock-profile#update-edv",
+    "bedrock-profile": "^13.0.0",
     "bedrock-express": "^6.3.0",
     "bedrock-passport": "^7.0.0",
     "bedrock-validation": "^5.0.0"
