@@ -18,9 +18,6 @@ config.mongodb.dropCollections = {};
 config.mongodb.dropCollections.onInit = true;
 config.mongodb.dropCollections.collections = [];
 
-// KMS
-config.kms.allowedHost = config.server.host;
-
 // allow self-signed certs in test framework
 config['https-agent'].rejectUnauthorized = false;
 
