@@ -55,6 +55,8 @@ describe('bedrock-profile-http', () => {
       result.ok.should.equal(true);
       result.data.id.should.be.a('string');
       result.data.id.startsWith('did:v1').should.equal(true);
+
+      _shouldHaveMeters({data: result.data, profileId: result.data.id});
     });
     it('create a new profile with didMethod and didOptions', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -73,6 +75,8 @@ describe('bedrock-profile-http', () => {
       result.ok.should.equal(true);
       result.data.id.should.be.a('string');
       result.data.id.startsWith('did:v1').should.equal(true);
+
+      _shouldHaveMeters({data: result.data, profileId: result.data.id});
     });
     it('create a new profile with didMethods "v1" and "key"', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -93,6 +97,8 @@ describe('bedrock-profile-http', () => {
         result.status.should.equal(200);
         result.ok.should.equal(true);
         result.data.id.should.be.a('string');
+
+        _shouldHaveMeters({data: result.data, profileId: result.data.id});
       }
     });
     it('throws error when didMethod is not "v1" or "key"', async () => {
@@ -160,6 +166,7 @@ describe('bedrock-profile-http', () => {
       result.data.profileAgent.sequence.should.equal(0);
       result.data.profileAgent.profile.should.equal(profile);
       result.data.profileAgent.account.should.equal(account);
+      _shouldHaveNoMeters({data: result.data});
     });
     it('throws error when there is no account', async () => {
       let account;
@@ -227,12 +234,15 @@ describe('bedrock-profile-http', () => {
       results.ok.should.equal(true);
       results.data.should.be.an('array');
       results.data.length.should.equal(3);
-      const profiles = results.data.map(({profileAgent}) => {
+      const profileIds = results.data.map(({profileAgent}) => {
         return profileAgent.profile;
       });
-      profiles.should.include(result0.data.id);
-      profiles.should.include(result1.data.id);
-      profiles.should.include(result2.data.id);
+      profileIds.should.include(result0.data.id);
+      profileIds.should.include(result1.data.id);
+      profileIds.should.include(result2.data.id);
+      _shouldHaveMeters({data: results.data[0], profileId: profileIds[0]});
+      _shouldHaveMeters({data: results.data[1], profileId: profileIds[1]});
+      _shouldHaveMeters({data: results.data[2], profileId: profileIds[2]});
     });
     it('successfully filters all profile agents for a ' +
       'specific profile', async () => {
@@ -265,12 +275,14 @@ describe('bedrock-profile-http', () => {
       results.ok.should.equal(true);
       results.data.should.be.an('array');
       results.data.length.should.equal(1);
-      const profiles = results.data.map(({profileAgent}) => {
+      const profileIds = results.data.map(({profileAgent}) => {
         return profileAgent.profile;
       });
-      profiles.should.not.include(result0.data.id);
-      profiles.should.not.include(result1.data.id);
-      profiles.should.include(result2.data.id);
+      profileIds.should.not.include(result0.data.id);
+      profileIds.should.not.include(result1.data.id);
+      profileIds.should.include(result2.data.id);
+
+      _shouldHaveMeters({data: results.data[0], profileId: profileIds[0]});
     });
     it('throws error when account is not authorized', async () => {
       const account = '123';
@@ -316,6 +328,7 @@ describe('bedrock-profile-http', () => {
       result.ok.should.equal(true);
       result.data.profileAgent.id.should.be.a('string');
       result.data.profileAgent.account.should.equal(account);
+      _shouldHaveMeters({data: result.data, profileId: profile});
     });
     it('throws error when there is no account', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -476,7 +489,7 @@ describe('bedrock-profile-http', () => {
       should.exist(result.data.zcap);
       result.data.zcap.should.be.an('object');
       result.data.id.should.be.a('string');
-      result.data.zcap.invoker.should.equal(did);
+      result.data.zcap.controller.should.equal(did);
       should.exist(result.data.zcap.expires);
       result.data.zcap.expires.should.be.a('string');
     });
@@ -814,4 +827,26 @@ async function _createNProfiles({n, api, account, didMethod}) {
     promises.push(promise);
   }
   return Promise.all(promises);
+}
+
+function _shouldHaveMeters({data, profileId}) {
+  data.meters.should.be.an('array');
+  data.meters.should.have.length(2);
+  const {meters} = data;
+  const {meter: edvMeter} = meters.find(m => m.meter.serviceType === 'edv');
+  edvMeter.id.should.be.a('string');
+  edvMeter.profile.should.equal(profileId);
+  edvMeter.serviceType.should.equal('edv');
+  edvMeter.referenceId.should.equal('profile:core:edv');
+  const {meter: kmsMeter} = meters.find(
+    m => m.meter.serviceType === 'webkms');
+  kmsMeter.id.should.be.a('string');
+  kmsMeter.profile.should.equal(profileId);
+  kmsMeter.serviceType.should.equal('webkms');
+  kmsMeter.referenceId.should.equal('profile:core:webkms');
+}
+
+function _shouldHaveNoMeters({data}) {
+  should.exist(data.meters);
+  data.meters.should.have.length(0);
 }
