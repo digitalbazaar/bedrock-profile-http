@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 10.0.0 - 2022-xx-xx
+## 10.0.0 - 2022-02-xx
 
 ### Changed
 - **BREAKING**: This version of the module now requires `bedrock-profile@13`
@@ -8,6 +8,8 @@
 - **BREAKING**: The `capabilities/delegate` endpoint now requires a `zcap` that
   is to be delegated to be posted. The zcap invocation key for a profile agent
   will no longer be delegated.
+- **BREAKING**: `controller` must be posted instead of `invoker` or `delegator`
+  at service endpoints that previously accepted them.
 
 ## 9.0.0 - 2021-09-21
 
