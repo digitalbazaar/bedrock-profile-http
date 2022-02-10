@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 10.0.0 - 2022-02-xx
+## 10.0.0 - 2022-02-10
 
 ### Changed
 - **BREAKING**: This version of the module now requires `bedrock-profile@13`
