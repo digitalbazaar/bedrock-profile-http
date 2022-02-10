@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2020 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2020-2022 Digital Bazaar, Inc. All rights reserved.
  */
 'use strict';
 
@@ -57,14 +57,13 @@ const profileAgents = {
   }
 };
 
-const delegateCapability = {
-  title: 'Delegate Capability',
+const zcap = {
+  title: 'zcap',
   type: 'object',
-  required: ['invoker', 'account'],
+  required: ['@context', 'id', 'controller', 'invocationTarget'],
   additionalProperties: false,
   properties: {
-    account,
-    invoker: {
+    '@context': {
       anyOf: [{
         type: 'string'
       }, {
@@ -72,15 +71,7 @@ const delegateCapability = {
         minItems: 1,
         items: {type: 'string'}
       }]
-    }
-  }
-};
-
-const zcap = {
-  title: 'zcap',
-  type: 'object',
-  additionalProperties: false,
-  properties: {
+    },
     id: {
       title: 'id',
       type: 'string'
@@ -94,41 +85,9 @@ const zcap = {
         items: {type: 'string'}
       }]
     },
-    caveat: {
-      title: 'Caveat',
-      type: 'object'
-    },
-    '@context': {
-      title: '@context',
-      anyOf: [{
-        type: 'string'
-      }, {
-        type: 'array',
-        minItems: 1,
-        items: {type: 'string'}
-      }]
-    },
     controller: {
       title: 'controller',
       type: 'string'
-    },
-    delegator: {
-      anyOf: [{
-        type: 'string'
-      }, {
-        type: 'array',
-        minItems: 1,
-        items: {type: 'string'}
-      }]
-    },
-    invoker: {
-      anyOf: [{
-        type: 'string'
-      }, {
-        type: 'array',
-        minItems: 1,
-        items: {type: 'string'}
-      }]
     },
     invocationTarget: {
       title: 'Invocation Target',
@@ -156,10 +115,6 @@ const zcap = {
       title: 'Proof',
       type: 'object'
     },
-    referenceId: {
-      title: 'Reference Id',
-      type: 'string'
-    },
     expires: {
       title: 'W3C Date/Time',
       description: 'A W3C-formatted date and time combination.',
@@ -186,6 +141,26 @@ const zcaps = {
       // each property must be a zcap
       additionalProperties: zcap
     }
+  }
+};
+
+const delegateCapability = {
+  title: 'Delegate Capability',
+  type: 'object',
+  required: ['controller', 'account', 'zcap'],
+  additionalProperties: false,
+  properties: {
+    account,
+    controller: {
+      anyOf: [{
+        type: 'string'
+      }, {
+        type: 'array',
+        minItems: 1,
+        items: {type: 'string'}
+      }]
+    },
+    zcap
   }
 };
 

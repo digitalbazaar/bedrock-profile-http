@@ -479,11 +479,11 @@ describe('bedrock-profile-http', () => {
   }); // end gets a profile agent associated with an account
 
   describe('POST /profile-agents/:profileAgentId/capabilities/delegate ' +
-    '(delegates profile agent\'s zCaps to a specified "invoker")', () => {
+    '(delegates profile agent\'s zCaps to a specified "controller")', () => {
     afterEach(async () => {
       await helpers.removeCollections();
     });
-    it('successfully delegate profile agent\'s zcaps to an id', async () => {
+    it('successfully delegate profile agent\'s zcaps', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const did = 'did:example:123456789';
       const didMethod = 'key';
@@ -491,12 +491,15 @@ describe('bedrock-profile-http', () => {
         {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
-      const {id: profileAgentId} = data[0].profileAgent;
+      const [{profileAgent}] = data;
+      const {id: profileAgentId} = profileAgent;
+      const zcap = profileAgent.zcaps.profileCapabilityInvocationKey;
       let result;
       let error;
       try {
-        result = await api.post(`/profile-agents/${profileAgentId}` +
-          '/capabilities/delegate', {invoker: did, account});
+        result = await api.post(
+          `/profile-agents/${profileAgentId}/capabilities/delegate`,
+          {controller: did, account, zcap});
       } catch(e) {
         error = e;
       }
@@ -506,7 +509,7 @@ describe('bedrock-profile-http', () => {
       result.ok.should.equal(true);
       should.exist(result.data.zcap);
       result.data.zcap.should.be.an('object');
-      result.data.id.should.be.a('string');
+      result.data.zcap.id.should.be.a('string');
       result.data.zcap.controller.should.equal(did);
       should.exist(result.data.zcap.expires);
       result.data.zcap.expires.should.be.a('string');
@@ -519,12 +522,15 @@ describe('bedrock-profile-http', () => {
         {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
-      const {id: profileAgentId} = data[0].profileAgent;
+      const [{profileAgent}] = data;
+      const {id: profileAgentId} = profileAgent;
+      const zcap = profileAgent.zcaps.profileCapabilityInvocationKey;
       let result;
       let error;
       try {
-        result = await api.post(`/profile-agents/${profileAgentId}` +
-          '/capabilities/delegate', {invoker: did});
+        result = await api.post(
+          `/profile-agents/${profileAgentId}/capabilities/delegate`,
+          {controller: did, zcap});
       } catch(e) {
         error = e;
       }
@@ -535,19 +541,22 @@ describe('bedrock-profile-http', () => {
       result.data.message.should.equal(
         'A validation error occured in the \'Delegate Capability\' validator.');
     });
-    it('throws error when there is no invoker', async () => {
+    it('throws error when there is no controller', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
       const didMethod = 'key';
       const {data: {id: profile}} = await api.post('/profiles',
         {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
-      const {id: profileAgentId} = data[0].profileAgent;
+      const [{profileAgent}] = data;
+      const {id: profileAgentId} = profileAgent;
+      const zcap = profileAgent.zcaps.profileCapabilityInvocationKey;
       let result;
       let error;
       try {
-        result = await api.post(`/profile-agents/${profileAgentId}` +
-          '/capabilities/delegate', {account});
+        result = await api.post(
+          `/profile-agents/${profileAgentId}/capabilities/delegate`,
+          {account, zcap});
       } catch(e) {
         error = e;
       }
@@ -567,12 +576,15 @@ describe('bedrock-profile-http', () => {
         {account, didMethod});
       const {data} = await api.get(`/profile-agents/?account=${account}` +
         `&profile=${profile}`);
-      const {id: profileAgentId} = data[0].profileAgent;
+      const [{profileAgent}] = data;
+      const {id: profileAgentId} = profileAgent;
+      const zcap = profileAgent.zcaps.profileCapabilityInvocationKey;
       let result;
       let error;
       try {
-        result = await api.post(`/profile-agents/${profileAgentId}` +
-          '/capabilities/delegate', {invoker: did, account: wrongAccount});
+        result = await api.post(
+          `/profile-agents/${profileAgentId}/capabilities/delegate`,
+          {controller: did, account: wrongAccount, zcap});
       } catch(e) {
         error = e;
       }

@@ -5,6 +5,9 @@
 ### Changed
 - **BREAKING**: This version of the module now requires `bedrock-profile@13`
   as a peer dependency.
+- **BREAKING**: The `capabilities/delegate` endpoint now requires a `zcap` that
+  is to be delegated to be posted. The zcap invocation key for a profile agent
+  will no longer be delegated.
 
 ## 9.0.0 - 2021-09-21
 

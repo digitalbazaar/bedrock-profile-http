@@ -47,8 +47,6 @@ const zcap0 = {
   '@context': ZCAP_CONTEXT_URL,
   id: 'urn:zcap:z19vWhR8EsNbWqvazp5bg6BTu',
   controller: 'did:key:z6Mkkt1BWYLPAAXwYBwyVHAZkL94tgT8QbQv2SUxeW1U3DaG',
-  // eslint-disable-next-line max-len
-  referenceId: 'did:key:z6MkkrtV7wnBpXKBtiZjxaSghCo8ttb5kZUJTk8bEwTTTYvg#z6MkkrtV7wnBpXKBtiZjxaSghCo8ttb5kZUJTk8bEwTTTYvg-key-capabilityInvocation',
   allowedAction: 'sign',
   invocationTarget: {
     // eslint-disable-next-line max-len
@@ -79,7 +77,6 @@ const zcap1 = {
   '@context': ZCAP_CONTEXT_URL,
   id: 'urn:zcap:z1ACgNxti98PXBjtw7ogfsN45',
   controller: 'did:key:z6Mkkt1BWYLPAAXwYBwyVHAZkL94tgT8QbQv2SUxeW1U3DaG',
-  referenceId: 'bedrock.localhost:users',
   allowedAction: [
     'read',
     'write'
@@ -110,7 +107,6 @@ const zcap2 = {
   '@context': ZCAP_CONTEXT_URL,
   id: 'urn:zcap:z19u4rwByrmyKFr1XC9AYNYcs',
   controller: 'did:key:z6Mkkt1BWYLPAAXwYBwyVHAZkL94tgT8QbQv2SUxeW1U3DaG',
-  referenceId: 'bedrock.localhost:settings',
   allowedAction: [
     'read',
     'write'
