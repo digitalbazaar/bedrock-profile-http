@@ -1,5 +1,15 @@
 # bedrock-profile-http ChangeLog
 
+## 11.0.0 - 2022-02-xx
+
+### Changed
+- **BREAKING**: Use app identity to create keystore and EDV meters instead
+  of configured `meterService`.
+
+### Removed
+- **BREAKING**: Removed `meterService.client` configuration -- replaced with
+  app identity from `bedrock-app-identity`.
+
 ## 10.0.0 - 2022-02-10
 
 ### Changed

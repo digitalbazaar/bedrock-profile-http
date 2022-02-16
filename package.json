@@ -25,17 +25,16 @@
   "homepage": "https://github.com/digitalbazaar/bedrock-profile-http",
   "dependencies": {
     "@digitalbazaar/ed25519-signature-2020": "^3.0.0",
-    "@digitalbazaar/ed25519-verification-key-2020": "^3.1.0",
     "@digitalbazaar/ezcap": "^2.0.0"
   },
   "peerDependencies": {
-    "bedrock": "^4.1.1",
+    "bedrock": "^4.4.3",
     "bedrock-app-identity": "^1.0.0",
     "bedrock-https-agent": "^2.1.0",
     "bedrock-profile": "^13.0.0",
     "bedrock-express": "^6.3.0",
     "bedrock-passport": "^7.0.0",
-    "bedrock-validation": "^5.0.0"
+    "bedrock-validation": "^5.4.1"
   },
   "directories": {
     "lib": "./lib"

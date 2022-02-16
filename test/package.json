@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "apisauce": "^2.1.1",
-    "bedrock": "^4.1.1",
+    "bedrock": "^4.4.3",
     "bedrock-account": "^5.0.0",
     "bedrock-app-identity": "^1.0.0",
     "bedrock-did-context": "^2.0.0",
@@ -36,7 +36,7 @@
     "bedrock-server": "^3.1.0",
     "bedrock-ssm-mongodb": "^7.1.0",
     "bedrock-test": "^6.0.0",
-    "bedrock-validation": "^5.2.2",
+    "bedrock-validation": "^5.4.1",
     "bedrock-veres-one-context": "^12.0.0",
     "bedrock-zcap-storage": "^5.0.0",
     "cross-env": "^7.0.2",
