@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 11.0.0 - 2022-02-xx
+## 11.0.0 - 2022-02-16
 
 ### Added
 - Add ability to specify default products via bedrock config system. Currently,
