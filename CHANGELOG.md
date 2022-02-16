@@ -1,5 +1,11 @@
 # bedrock-profile-http ChangeLog
 
+## 11.0.1 - 2022-02-xx
+
+### Fixed
+- Disallow claiming a profile agent that has already been assigned to another
+  account or has a `token`.
+
 ## 11.0.0 - 2022-02-16
 
 ### Added
