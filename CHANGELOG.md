@@ -2,6 +2,12 @@
 
 ## 11.0.0 - 2022-02-xx
 
+### Added
+- Add ability to specify default products via bedrock config system. Currently,
+  products (such as EDV and WebKMS services) may not be specified in requests
+  to create profiles and profile agents. However, the product IDs used may
+  now be specified via the bedrock config system.
+
 ### Changed
 - **BREAKING**: Use app identity to create keystore and EDV meters instead
   of configured `meterService`.
