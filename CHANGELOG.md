@@ -6,6 +6,10 @@
 - **BREAKING**: Use app identity to create keystore and EDV meters instead
   of configured `meterService`.
 
+### Fixed
+- Ensure session account matches profile agent account before performing
+  actions via HTTP API.
+
 ### Removed
 - **BREAKING**: Removed `meterService.client` configuration -- replaced with
   app identity from `bedrock-app-identity`.

@@ -31,7 +31,7 @@
     "bedrock": "^4.4.3",
     "bedrock-app-identity": "^1.0.0",
     "bedrock-https-agent": "^2.1.0",
-    "bedrock-profile": "^13.0.0",
+    "bedrock-profile": "^13.2.0",
     "bedrock-express": "^6.3.0",
     "bedrock-passport": "^7.0.0",
     "bedrock-validation": "^5.4.1"
