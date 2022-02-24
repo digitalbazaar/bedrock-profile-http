@@ -30,7 +30,7 @@
     "bedrock-package-manager": "^1.1.0",
     "bedrock-passport": "^7.0.0",
     "bedrock-permission": "^3.2.0",
-    "bedrock-profile": "^13.2.0",
+    "bedrock-profile": "^14.0.0",
     "bedrock-profile-http": "file:..",
     "bedrock-security-context": "^5.0.0",
     "bedrock-server": "^3.1.0",
