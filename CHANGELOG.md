@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 12.0.0 - 2022-02-xx
+## 12.0.0 - 2022-02-23
 
 ### Changed
 - **BREAKING**: This version uses `bedrock-profile@14` which uses
