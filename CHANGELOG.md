@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 13.0.0 - 2022-03-xx
+## 13.0.0 - 2022-03-01
 
 ### Changed
 - **BREAKING**: Require `bedrock-profile@15` as a peer dependency.
