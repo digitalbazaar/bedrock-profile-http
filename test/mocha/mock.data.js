@@ -1,12 +1,12 @@
 /*!
- * Copyright (c) 2020-2021 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2020-2022 Digital Bazaar, Inc. All rights reserved.
  */
 /* jshint node: true */
-
 'use strict';
 
 const {util: {uuid}} = require('bedrock');
-const {CONTEXT_URL: ZCAP_CONTEXT_URL} = require('zcap-context');
+const {CONTEXT_URL: ZCAP_CONTEXT_URL} =
+  require('@digitalbazaar/zcap-context');
 
 const data = {};
 module.exports = data;
@@ -24,15 +24,10 @@ data.productIdMap = new Map([
 const zcaps = data.zcaps = {};
 const accounts = data.accounts = {};
 
-// regular permissions
 const email = 'alpha@example.com';
 accounts[email] = {};
 accounts[email].account = createAccount(email);
 accounts[email].meta = {};
-accounts[email].meta.sysResourceRole = [{
-  sysRole: 'bedrock-test.regular',
-  generateResource: 'id'
-}];
 
 function createAccount(email) {
   const newAccount = {

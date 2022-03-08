@@ -1,5 +1,11 @@
 # bedrock-profile-http ChangeLog
 
+## 14.0.0 - 2022-03-xx
+
+### Changed
+- **BREAKING**: Require `bedrock-passport@8` as a peer dependency which
+  requires `bedrock-account@6`.
+
 ## 13.0.0 - 2022-03-01
 
 ### Changed
