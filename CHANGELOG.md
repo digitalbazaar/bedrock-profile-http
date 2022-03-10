@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+## 14.0.1 - 2022-03-xx
+
+### Fixed
+- Fix fetching `account` from session `user`.
+
 ## 14.0.0 - 2022-03-08
 
 ### Changed
