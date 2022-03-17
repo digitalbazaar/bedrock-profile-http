@@ -1,5 +1,13 @@
 # bedrock-profile-http ChangeLog
 
+## 14.1.0 - 2022-03-xx
+
+### Added
+- Allow meter creation via zcaps using two new config variables:
+  `edvMeterCreationZcap` and `webKmsMeterCreationZcap`. When not set, the
+  software will default to previous behavior by using the app-identity to invoke
+  the root zcap at the meter creation endpoint.
+
 ## 14.0.1 - 2022-03-09
 
 ### Fixed
