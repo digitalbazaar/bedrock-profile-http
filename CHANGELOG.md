@@ -1,5 +1,11 @@
 # bedrock-profile-http ChangeLog
 
+## 14.1.1 - 2022-03-xx
+
+### Fixed
+- Ensure zcap invocation target is used to create meter.
+- Ensure fully qualified meter ID is properly generated.
+
 ## 14.1.0 - 2022-03-17
 
 ### Added
