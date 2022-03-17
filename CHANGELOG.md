@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 14.1.0 - 2022-03-xx
+## 14.1.0 - 2022-03-17
 
 ### Added
 - Allow meter creation via zcaps using two new config variables:
