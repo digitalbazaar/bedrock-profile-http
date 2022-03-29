@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2020 Digital Bazaar, Inc. All rights reserved.
+/*!
+ * Copyright (c) 2020-2022 Digital Bazaar, Inc. All rights reserved.
  */
 'use strict';
 
@@ -37,7 +37,7 @@ describe('bedrock-profile-http', () => {
 
   describe('POST /profiles (create a new profile)', () => {
     afterEach(async () => {
-      await helpers.removeCollections();
+      await helpers.removeCollections(['profile-profileAgent']);
     });
     it('successfully create a new profile', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -149,7 +149,7 @@ describe('bedrock-profile-http', () => {
 
   describe('POST /profile-agents (create a new profile agent)', () => {
     afterEach(async () => {
-      await helpers.removeCollections();
+      await helpers.removeCollections(['profile-profileAgent']);
     });
     it('successfully create a new profile agent', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -205,9 +205,9 @@ describe('bedrock-profile-http', () => {
   }); // end create a new profile agent
 
   describe('GET /profile-agents (gets all profile agents associated with' +
-  ' an account)', () => {
+    ' an account)', () => {
     afterEach(async () => {
-      await helpers.removeCollections();
+      await helpers.removeCollections(['profile-profileAgent']);
     });
     it('successfully get all profile agents', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -319,7 +319,7 @@ describe('bedrock-profile-http', () => {
   describe('GET /profile-agents/:profileAgentId (gets a profile agent' +
     ' associated with an account)', () => {
     afterEach(async () => {
-      await helpers.removeCollections();
+      await helpers.removeCollections(['profile-profileAgent']);
     });
     it('successfully get a profile agent by its id', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -398,7 +398,7 @@ describe('bedrock-profile-http', () => {
   describe('DELETE /profile-agents/:profileAgentId (gets a profile agent' +
     ' associated with an account)', () => {
     afterEach(async () => {
-      await helpers.removeCollections();
+      await helpers.removeCollections(['profile-profileAgent']);
     });
     it('successfully deletes a profile agent by its id', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -481,7 +481,7 @@ describe('bedrock-profile-http', () => {
   describe('POST /profile-agents/:profileAgentId/capabilities/delegate ' +
     '(delegates profile agent\'s zCaps to a specified "controller")', () => {
     afterEach(async () => {
-      await helpers.removeCollections();
+      await helpers.removeCollections(['profile-profileAgent']);
     });
     it('successfully delegate profile agent\'s zcaps', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -599,7 +599,7 @@ describe('bedrock-profile-http', () => {
   describe('POST /profile-agents/:profileAgentId/capability-set ' +
     '(update profile agent\'s zcaps (updates their capability set)', () => {
     afterEach(async () => {
-      await helpers.removeCollections();
+      await helpers.removeCollections(['profile-profileAgent']);
     });
     it('successfully update zcaps for a profile agent', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -736,7 +736,7 @@ describe('bedrock-profile-http', () => {
 
   describe('account claims a profile agent', () => {
     beforeEach(async () => {
-      await helpers.removeCollections();
+      await helpers.removeCollections(['profile-profileAgent']);
     });
     it('should succeed', async () => {
       const {account: {id: alphaAccountId}} = accounts['alpha@example.com'];

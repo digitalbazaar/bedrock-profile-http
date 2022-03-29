@@ -165,7 +165,6 @@ const delegateCapability = {
 export {
   profileAgent,
   profileAgents,
-  account,
   accountQuery,
   delegateCapability,
   zcaps
