@@ -1,5 +1,18 @@
 # bedrock-profile-http ChangeLog
 
+## 14.2.0 - 2022-03-xx
+
+### Changed
+- Update peer deps:
+  - `bedrock@4.5`
+  - `bedrock-express@6.4.1`
+  - `bedrock-https-agent@2.3`
+  - `bedrock-passport@8.1.0`
+  - `bedrock-profile@15.1.0`
+  - `bedrock-validation@5.6.3`.
+- Update internals to use esm style and use `esm.js` to
+  transpile to CommonJS.
+
 ## 14.1.1 - 2022-03-17
 
 ### Fixed

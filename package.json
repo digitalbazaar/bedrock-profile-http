@@ -25,23 +25,26 @@
   "homepage": "https://github.com/digitalbazaar/bedrock-profile-http",
   "dependencies": {
     "@digitalbazaar/ed25519-signature-2020": "^3.0.0",
-    "@digitalbazaar/ezcap": "^2.0.0"
+    "@digitalbazaar/ezcap": "^2.0.0",
+    "esm": "^3.2.25"
   },
   "peerDependencies": {
-    "bedrock": "^4.4.3",
+    "bedrock": "^4.5.0",
     "bedrock-app-identity": "^1.0.0",
-    "bedrock-https-agent": "^2.1.0",
-    "bedrock-profile": "^15.0.0",
-    "bedrock-express": "^6.2.2",
-    "bedrock-passport": "^8.0.0",
-    "bedrock-validation": "^5.5.0"
+    "bedrock-https-agent": "^2.3.0",
+    "bedrock-profile": "^15.1.0",
+    "bedrock-express": "^6.4.1",
+    "bedrock-passport": "^8.1.0",
+    "bedrock-validation": "^5.6.3"
   },
   "directories": {
     "lib": "./lib"
   },
   "devDependencies": {
-    "eslint": "^7.25.0",
-    "eslint-config-digitalbazaar": "^2.8.0"
+    "eslint": "^7.32.0",
+    "eslint-config-digitalbazaar": "^2.8.0",
+    "eslint-plugin-jsdoc": "^37.9.7",
+    "jsdoc-to-markdown": "^6.0.1"
   },
   "engines": {
     "node": ">=12.0.0"

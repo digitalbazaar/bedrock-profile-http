@@ -1,8 +1,6 @@
 /*!
  * Copyright (c) 2020-2022 Digital Bazaar, Inc. All rights reserved.
  */
-'use strict';
-
 const account = {
   title: 'Account',
   type: 'string'
@@ -164,8 +162,11 @@ const delegateCapability = {
   }
 };
 
-module.exports.profileAgent = () => profileAgent;
-module.exports.profileAgents = () => profileAgents;
-module.exports.account = () => accountQuery;
-module.exports.delegateCapability = () => delegateCapability;
-module.exports.zcaps = () => zcaps;
+export {
+  profileAgent,
+  profileAgents,
+  account,
+  accountQuery,
+  delegateCapability,
+  zcaps
+};
