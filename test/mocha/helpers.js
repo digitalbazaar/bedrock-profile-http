@@ -4,19 +4,50 @@
 'use strict';
 
 const brAccount = require('bedrock-account');
-const brPassport = require('bedrock-passport');
+const {passport, _deserializeUser} = require('bedrock-passport');
 const database = require('bedrock-mongodb');
 const sinon = require('sinon');
 const mockData = require('./mock.data');
 
 exports.stubPassport = async ({email = 'alpha@example.com'} = {}) => {
-  const passportStub = sinon.stub(brPassport, 'optionallyAuthenticated');
-  passportStub.callsFake((req, res, next) => {
-    req.user = {
-      account: mockData.accounts[email].account
+  const original = passport.authenticate;
+  const passportStub = sinon.stub(passport, 'authenticate');
+  passportStub._original = original;
+
+  passportStub.callsFake((strategyName, options, callback) => {
+    // if no email given, call original `passport.authenticate`
+    if(!email) {
+      return passportStub._original.call(
+        passport, strategyName, options, callback);
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    return async function(req, res, next) {
+      req._sessionManager = passport._sm;
+      req.isAuthenticated = req.isAuthenticated || (() => !!req.user);
+      req.login = (user, callback) => {
+        req._sessionManager.logIn(req, user, function(err) {
+          if(err) {
+            req.user = null;
+            return callback(err);
+          }
+          callback();
+        });
+      };
+      let user = false;
+      try {
+        const {accounts} = mockData;
+        const {account} = accounts[email] || {account: {id: 'does-not-exist'}};
+        user = await _deserializeUser({
+          accountId: account.id
+        });
+      } catch(e) {
+        return callback(e);
+      }
+      callback(null, user);
     };
-    next();
   });
+
   return passportStub;
 };
 
@@ -28,11 +59,7 @@ exports.prepareDatabase = async mockData => {
 exports.removeCollections = async (
   collectionNames = [
     'account',
-    'edvConfig',
-    'edvDoc',
-    'edvDocChunk',
-    'profile-profileAgent',
-    'profile-profileAgentCapabilitySet'
+    'profile-profileAgent'
   ]) => {
   await database.openCollections(collectionNames);
   for(const collectionName of collectionNames) {
