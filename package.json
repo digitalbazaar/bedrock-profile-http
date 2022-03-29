@@ -1,6 +1,6 @@
 {
   "name": "bedrock-profile-http",
-  "version": "14.2.0",
+  "version": "14.2.1-0",
   "description": "Bedrock Profile HTTP API",
   "main": "./lib",
   "scripts": {
