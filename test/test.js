@@ -3,9 +3,10 @@
  */
 import * as bedrock from '@bedrock/core';
 import '@bedrock/ssm-mongodb';
+import '@bedrock/kms';
+import '@bedrock/edv-storage';
 import '@bedrock/account';
 import '@bedrock/profile';
-import '@bedrock/profile-http';
 import '@bedrock/app-identity';
 import '@bedrock/https-agent';
 import '@bedrock/jsonld-document-loader';
@@ -14,9 +15,8 @@ import '@bedrock/meter-usage-reporter';
 import {handlers} from '@bedrock/meter-http';
 import '@bedrock/passport';
 import '@bedrock/server';
-import '@bedrock/kms';
 import '@bedrock/kms-http';
-import '@bedrock/edv-storage';
+import '@bedrock/profile-http';
 import {mockData} from './mocha/mock.data.js';
 
 bedrock.events.on('bedrock.init', async () => {
