@@ -5,17 +5,15 @@ import * as brAccount from '@bedrock/account';
 import * as database from '@bedrock/mongodb';
 import {mockData} from './mock.data.js';
 import {passport, _deserializeUser} from '@bedrock/passport';
-import sinon from 'sinon';
 
 export function stubPassport({email = 'alpha@example.com'} = {}) {
   const original = passport.authenticate;
-  const passportStub = sinon.stub(passport, 'authenticate');
-  passportStub._original = original;
+  passport._original = original;
 
-  passportStub.callsFake((strategyName, options, callback) => {
+  passport.authenticate = (strategyName, options, callback) => {
     // if no email given, call original `passport.authenticate`
     if(!email) {
-      return passportStub._original.call(
+      return passport._original.call(
         passport, strategyName, options, callback);
     }
 
@@ -44,9 +42,13 @@ export function stubPassport({email = 'alpha@example.com'} = {}) {
       }
       callback(null, user);
     };
-  });
+  };
 
-  return passportStub;
+  return {
+    restore() {
+      passport.authenticate = passport._original;
+    }
+  };
 }
 
 export async function prepareDatabase(mockData) {

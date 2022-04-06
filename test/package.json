@@ -41,8 +41,7 @@
     "@digitalbazaar/zcap-context": "^2.0.0",
     "apisauce": "^2.1.1",
     "c8": "^7.11.0",
-    "cross-env": "^7.0.2",
-    "sinon": "^9.0.2"
+    "cross-env": "^7.0.2"
   },
   "c8": {
     "excludeNodeModules": false,
