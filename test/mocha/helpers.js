@@ -1,15 +1,13 @@
 /*!
  * Copyright (c) 2020-2022 Digital Bazaar, Inc. All rights reserved.
  */
-'use strict';
+import * as brAccount from '@bedrock/account';
+import * as database from '@bedrock/mongodb';
+import {mockData} from './mock.data.js';
+import {passport, _deserializeUser} from '@bedrock/passport';
+import sinon from 'sinon';
 
-const brAccount = require('bedrock-account');
-const {passport, _deserializeUser} = require('bedrock-passport');
-const database = require('bedrock-mongodb');
-const sinon = require('sinon');
-const mockData = require('./mock.data');
-
-exports.stubPassport = async ({email = 'alpha@example.com'} = {}) => {
+export function stubPassport({email = 'alpha@example.com'} = {}) {
   const original = passport.authenticate;
   const passportStub = sinon.stub(passport, 'authenticate');
   passportStub._original = original;
@@ -49,26 +47,27 @@ exports.stubPassport = async ({email = 'alpha@example.com'} = {}) => {
   });
 
   return passportStub;
-};
+}
 
-exports.prepareDatabase = async mockData => {
-  await exports.removeCollections();
+export async function prepareDatabase(mockData) {
+  await removeCollections();
   await insertTestData(mockData);
-};
+}
 
-exports.removeCollections = async (
+export async function removeCollections(
   collectionNames = [
     'account',
     'profile-profileAgent'
-  ]) => {
+  ]) {
   await database.openCollections(collectionNames);
   for(const collectionName of collectionNames) {
     await database.collections[collectionName].deleteMany({});
   }
-};
+}
 
-exports.removeCollection =
-  async collectionName => exports.removeCollections([collectionName]);
+export async function removeCollection(collectionName) {
+  return removeCollections([collectionName]);
+}
 
 async function insertTestData(mockData) {
   const records = Object.values(mockData.accounts);

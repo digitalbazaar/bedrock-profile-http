@@ -1,18 +1,17 @@
 /*!
  * Copyright (c) 2020-2022 Digital Bazaar, Inc. All rights reserved.
  */
-/* jshint node: true */
-'use strict';
+import * as bedrock from '@bedrock/core';
+import {createRequire} from 'module';
+const require = createRequire(import.meta.url);
+const {constants: {ZCAP_CONTEXT_URL}} = require('@digitalbazaar/zcap');
 
-const {util: {uuid}} = require('bedrock');
-const {CONTEXT_URL: ZCAP_CONTEXT_URL} =
-  require('@digitalbazaar/zcap-context');
+const {util: {uuid}} = bedrock;
 
-const data = {};
-module.exports = data;
+export const mockData = {};
 
 // mock product IDs and reverse lookup for webkms/edv/etc service products
-data.productIdMap = new Map([
+mockData.productIdMap = new Map([
   // webkms service
   ['webkms', 'urn:uuid:80a82316-e8c2-11eb-9570-10bf48838a41'],
   ['urn:uuid:80a82316-e8c2-11eb-9570-10bf48838a41', 'webkms'],
@@ -21,8 +20,8 @@ data.productIdMap = new Map([
   ['urn:uuid:dbd15f08-ff67-11eb-893b-10bf48838a41', 'edv']
 ]);
 
-const zcaps = data.zcaps = {};
-const accounts = data.accounts = {};
+const zcaps = mockData.zcaps = {};
+const accounts = mockData.accounts = {};
 
 const email = 'alpha@example.com';
 accounts[email] = {};

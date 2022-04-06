@@ -1,15 +1,12 @@
 /*!
  * Copyright (c) 2020-2022 Digital Bazaar, Inc. All rights reserved.
  */
-'use strict';
-
-const bedrock = require('bedrock');
-const {config} = bedrock;
+import * as helpers from './helpers.js';
+import {config} from '@bedrock/core';
 // apisauce is a wrapper around axios that provides improved error handling
-const {create} = require('apisauce');
-const https = require('https');
-const helpers = require('./helpers');
-const mockData = require('./mock.data');
+import {create} from 'apisauce';
+import https from 'https';
+import {mockData} from './mock.data.js';
 
 let accounts;
 let zcaps;
@@ -22,7 +19,7 @@ describe('bedrock-profile-http', () => {
   let passportStub;
   before(async () => {
     await helpers.prepareDatabase(mockData);
-    passportStub = await helpers.stubPassport();
+    passportStub = helpers.stubPassport();
     accounts = mockData.accounts;
     zcaps = mockData.zcaps;
     api = create({
