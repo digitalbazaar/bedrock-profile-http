@@ -1,5 +1,27 @@
 # bedrock-profile-http ChangeLog
 
+## 16.0.0 - 2022-04-xx
+
+### Changed
+- **BREAKING**: Update peer dependencies:
+  - `@bedrock/profile@17`.
+- **BREAKING**: Require new `edvBaseUrl` configuration variable. This
+  variable must point to the root of the EDV server to be used for
+  creating EDVs for profiles.
+- **BREAKING**: Use a new version of `@bedrock/profile` that has a new
+  continuable profile provisioning process. This process means that "access
+  management" will be automatically initialized when a profile is created. A
+  new profile's root profile agent will not be written to the database until
+  access management is initialized and the profile provisioning process is
+  rendered continuable should it fail thereafter. If the process fails prior to
+  writing the profile agent to the database, a profile will not be created
+  leaving no local state behind (external state may be created and later
+  garbage collected). This version of the library must not be used with other
+  modules that attempt to initialize access management on the client; those
+  client modules must be updated. If an old client module is used, it will
+  experience errors and may create superfluous state, but it is not expected
+  to corrupt existing profiles.
+
 ## 15.0.0 - 2022-04-06
 
 ### Changed
