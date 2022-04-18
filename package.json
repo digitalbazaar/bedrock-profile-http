@@ -34,7 +34,7 @@
     "@bedrock/express": "^7.0.0",
     "@bedrock/https-agent": "^3.0.0",
     "@bedrock/passport": "^9.0.0",
-    "@bedrock/profile": "^16.0.0",
+    "@bedrock/profile": "^17.0.0",
     "@bedrock/validation": "^6.0.0"
   },
   "directories": {
