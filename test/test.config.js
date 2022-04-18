@@ -31,3 +31,8 @@ config.profile.kms.baseUrl = `${config.server.baseUri}/kms`;
 config.profile.kms.ipAllowList = ['127.0.0.1/32'];
 
 config['did-io'].methodOverrides.v1.disableFetch = true;
+
+// example additional EDV
+config['profile-http'].additionalEdvs = {
+  credentials: {referenceId: 'credentials'},
+};
