@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 16.0.0 - 2022-04-xx
+## 16.0.0 - 2022-04-18
 
 ### Added
 - Add `additionalEdvs` config option. This option is an object that
