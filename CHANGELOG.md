@@ -2,6 +2,12 @@
 
 ## 16.0.0 - 2022-04-xx
 
+### Added
+- Add `additionalEdvs` config option. This option is an object that
+  can be populated with named EDV options. Each named option must
+  includes a `referenceId`. Whenever a new profile is created, the
+  specified EDVs will be created at provisioning time.
+
 ### Changed
 - **BREAKING**: Update peer dependencies:
   - `@bedrock/profile@17`.
