@@ -5,7 +5,7 @@ import * as helpers from './helpers.js';
 import {config} from '@bedrock/core';
 // apisauce is a wrapper around axios that provides improved error handling
 import {create} from 'apisauce';
-import https from 'https';
+import https from 'node:https';
 import {mockData} from './mock.data.js';
 
 let accounts;
