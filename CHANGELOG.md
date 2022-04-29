@@ -1,5 +1,17 @@
 # bedrock-profile-http ChangeLog
 
+## 17.0.0 - 2022-04-xx
+
+### Changed
+- **BREAKING**: Update peer deps:
+  - `@bedrock/core@6`
+  - `@bedrock/app-identity@3`
+  - `@bedrock/express@8`
+  - `@bedrock/https-agent@4`
+  - `@bedrock/passport@10`
+  - `@bedrock/profile@18`
+  - `@bedrock/validation@7`.
+
 ## 16.0.0 - 2022-04-18
 
 ### Added
