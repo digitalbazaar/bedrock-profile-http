@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 18.0.0 - 2022-05-xx
+## 18.0.0 - 2022-05-05
 
 ### Changed
 - **BREAKING**: Update peer deps:
