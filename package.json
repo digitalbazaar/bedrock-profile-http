@@ -25,16 +25,16 @@
   },
   "homepage": "https://github.com/digitalbazaar/bedrock-profile-http",
   "dependencies": {
-    "@digitalbazaar/ed25519-signature-2020": "^3.0.0",
-    "@digitalbazaar/ezcap": "^2.0.0"
+    "@digitalbazaar/ed25519-signature-2020": "^4.0.1",
+    "@digitalbazaar/ezcap": "^3.0.1"
   },
   "peerDependencies": {
-    "@bedrock/app-identity": "^3.0.0",
-    "@bedrock/core": "^6.0.0",
+    "@bedrock/app-identity": "^4.0.0",
+    "@bedrock/core": "^6.0.1",
     "@bedrock/express": "^8.0.0",
     "@bedrock/https-agent": "^4.0.0",
     "@bedrock/passport": "^10.0.0",
-    "@bedrock/profile": "^19.0.0",
+    "@bedrock/profile": "github:digitalbazaar/bedrock-profile#update-dependencies",
     "@bedrock/validation": "^7.0.0"
   },
   "directories": {
