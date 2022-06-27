@@ -3,8 +3,9 @@
  */
 import * as brAccount from '@bedrock/account';
 import * as database from '@bedrock/mongodb';
+import {_deserializeUser, passport} from '@bedrock/passport';
+
 import {mockData} from './mock.data.js';
-import {passport, _deserializeUser} from '@bedrock/passport';
 
 export function stubPassport({email = 'alpha@example.com'} = {}) {
   const original = passport.authenticate;
