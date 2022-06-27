@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+## 19.0.0 - 2022-xx-xx
+
+### Changed
+- Test on Node.js 18.x.
+
 ## 18.0.0 - 2022-05-05
 
 ### Changed
