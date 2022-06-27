@@ -10,6 +10,7 @@
   - `@bedrock/profile@20`
 - Test on Node.js 18.x.
 - Lint module.
+- Use `package.json` `files` field.
 
 ## 18.0.0 - 2022-05-05
 
