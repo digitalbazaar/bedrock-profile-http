@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+## 19.0.1 - 2022-08-xx
+
+### Fixed
+- Require `@bedrock/profile@20.0.1` peer dependency to get bug fixes.
+
 ## 19.0.0 - 2022-08-13
 
 ### Changed
