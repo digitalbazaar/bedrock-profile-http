@@ -1,5 +1,11 @@
 # bedrock-profile-http ChangeLog
 
+## 20.0.0 - 2022-11-dd
+
+### Changed
+- **BREAKING**: Update `ezcap`, signature libraries, and require
+  `@bedrock/profile@21` to get better safe mode protections.
+
 ## 19.0.1 - 2022-08-15
 
 ### Fixed
