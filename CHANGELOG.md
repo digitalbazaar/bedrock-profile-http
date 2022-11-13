@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 20.0.0 - 2022-11-dd
+## 20.0.0 - 2022-11-13
 
 ### Changed
 - **BREAKING**: Update `ezcap`, signature libraries, and require
