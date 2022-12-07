@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 21.0.1 - 2022-12-dd
+## 21.0.1 - 2022-12-06
 
 ### Fixed
 - Get bug fixes to indexes via `@bedrock/profile@22.0.1`.
