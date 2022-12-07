@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 21.0.0 - 2022-12-dd
+## 21.0.0 - 2022-12-06
 
 ### Changed
 - **BREAKING** Require `@bedrock/profile@22`.
