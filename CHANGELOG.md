@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+## 22.0.0 -
+
+### Changed
+- Use releases of dependent libraries that require node mongodb driver ^4.13.0.
+
 ## 21.0.1 - 2022-12-06
 
 ### Fixed
