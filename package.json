@@ -48,8 +48,8 @@
     "eslint": "^8.18.0",
     "eslint-config-digitalbazaar": "^4.0.1",
     "eslint-plugin-jsdoc": "^39.3.3",
-    "eslint-plugin-unicorn": "^44.0.2",
-    "jsdoc-to-markdown": "^7.1.1"
+    "eslint-plugin-unicorn": "^45.0.2",
+    "jsdoc-to-markdown": "^8.0.0"
   },
   "engines": {
     "node": ">=16"
