@@ -1,5 +1,14 @@
 # bedrock-profile-http ChangeLog
 
+## 22.0.0 - 2023-01-dd
+
+### Changed
+- **BREAKING**: Update peer deps:
+  - `@bedrock/passport@11`.
+  - This change requires `@bedrock/account@9` as an indirect peer dependency,
+    which includes database layout and record format changes that are
+    incompatible with previous releases.
+
 ## 21.0.1 - 2022-12-06
 
 ### Fixed

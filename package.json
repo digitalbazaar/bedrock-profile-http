@@ -37,7 +37,7 @@
     "@bedrock/core": "^6.0.1",
     "@bedrock/express": "^8.0.0",
     "@bedrock/https-agent": "^4.0.0",
-    "@bedrock/passport": "^10.1.0",
+    "@bedrock/passport": "^11.0.0",
     "@bedrock/profile": "^22.0.1",
     "@bedrock/validation": "^7.0.0"
   },
