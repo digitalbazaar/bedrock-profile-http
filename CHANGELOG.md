@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 23.0.0 - 2023-10-TBD
+## 23.0.0 - 2023-10-12
 
 ### Changed
 - **BREAKING**: Drop support for Nodejs < 18.
