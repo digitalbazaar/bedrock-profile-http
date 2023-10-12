@@ -1,5 +1,15 @@
 # bedrock-profile-http ChangeLog
 
+## 23.0.0 - 2023-10-TBD
+
+### Changed
+- **BREAKING**: Update peer deps:
+  - Use `@bedrock/profile@23.0`. Drops support for Nodejs < 18.
+  - Use `@bedrock/express@8.2`.
+  - Use `@bedrock/validation@7.1`.
+- Update deps:
+  - Use `@digitalbazaar/ed25519-signature-2020@5.2`.
+
 ## 22.0.0 - 2023-01-24
 
 ### Changed
