@@ -3,6 +3,7 @@
 ## 23.0.0 - 2023-10-TBD
 
 ### Changed
+- **BREAKING**: Drop support for Nodejs < 18.
 - **BREAKING**: Update peer deps:
   - Use `@bedrock/profile@23.0`. Drops support for Nodejs < 18.
   - Use `@bedrock/express@8.2`.
