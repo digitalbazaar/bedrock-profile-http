@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2020-2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2020-2024 Digital Bazaar, Inc. All rights reserved.
  */
 const account = {
   title: 'Account',
@@ -162,10 +162,47 @@ const delegateCapability = {
   }
 };
 
+const createInteraction = {
+  title: 'Create Interaction',
+  type: 'object',
+  required: ['workflowId', 'exchange'],
+  additionalProperties: false,
+  properties: {
+    workflowName: {
+      type: 'string'
+    },
+    exchange: {
+      type: 'object',
+      required: ['variables'],
+      variables: {
+        type: 'object',
+        additionalProperties: false,
+        oneOf: [{
+          required: ['verifiablePresentation']
+        }, {
+          required: ['verifiablePresentationRequest']
+        }],
+        properties: {
+          allowUnprotectedPresentation: {
+            type: 'boolean'
+          },
+          verifiablePresentation: {
+            type: 'object'
+          },
+          verifiablePresentationRequest: {
+            type: 'object'
+          }
+        }
+      }
+    }
+  }
+};
+
 export {
   profileAgent,
   profileAgents,
   accountQuery,
   delegateCapability,
+  createInteraction,
   zcaps
 };

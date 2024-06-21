@@ -1,5 +1,14 @@
 # bedrock-profile-http ChangeLog
 
+## 23.1.0 - 2024-mm-dd
+
+### Added
+- Add optional `interactions` feature, allowing an account to create
+  VC exchanges based on predefined workflows. Currently, these
+  exchanges do not store any VCs that might be received in any
+  particular profile's storage, however, this might change in the
+  future.
+
 ## 23.0.0 - 2023-10-12
 
 ### Changed
