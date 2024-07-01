@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2020-2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2020-2024 Digital Bazaar, Inc. All rights reserved.
  */
 import {config} from '@bedrock/core';
 import {fileURLToPath} from 'node:url';
@@ -35,4 +35,14 @@ config['did-io'].methodOverrides.v1.disableFetch = true;
 // example additional EDV
 config['profile-http'].additionalEdvs = {
   credentials: {referenceId: 'credentials'},
+};
+
+// enable optional `interactions`
+config['profile-http'].interactions.enabled = true;
+config['profile-http'].interactions.workflows.test = {
+  localInteractionId: '1d35d09b-94c8-44d5-9d10-8dd3460a5fc4',
+  zcaps: {
+    // FIXME:
+    readWriteExchanges: '{}'
+  }
 };
