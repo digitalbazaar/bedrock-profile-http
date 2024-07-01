@@ -165,7 +165,7 @@ const delegateCapability = {
 const createInteraction = {
   title: 'Create Interaction',
   type: 'object',
-  required: ['workflowId', 'exchange'],
+  required: ['workflowName', 'exchange'],
   additionalProperties: false,
   properties: {
     workflowName: {
