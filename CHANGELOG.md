@@ -1,5 +1,14 @@
 # bedrock-profile-http ChangeLog
 
+## 23.0.0 - 2024-08-xx
+
+- **BREAKING**: Update peer dependencies.
+  - `@bedrock/core@6.1.3`
+  - `@bedrock/express@8.3.1`
+  - `@bedrock/https-agent@4.1.0`
+  - `@bedrock/profile@24.0.0` (major version)
+- Update minor, test, and dev dependencies.
+
 ## 23.0.0 - 2023-10-12
 
 ### Changed
