@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 24.0.0 - 2024-08-xx
+## 24.0.0 - 2024-08-05
 
 - **BREAKING**: Update peer dependencies.
   - `@bedrock/core@6.1.3`
