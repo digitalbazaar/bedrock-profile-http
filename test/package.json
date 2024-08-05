@@ -39,7 +39,6 @@
     "@bedrock/veres-one-context": "^16.0.0",
     "@bedrock/zcap-storage": "^8.0.1",
     "@digitalbazaar/zcap": "^9.0.1",
-    "@digitalbazaar/zcap-context": "^2.0.0",
     "apisauce": "^3.0.1",
     "c8": "^10.1.2",
     "cross-env": "^7.0.3",
