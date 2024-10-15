@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 25.0.0 - 2024-10-dd
+## 25.0.0 - 2024-10-15
 
 - **BREAKING**: Update peer dependencies.
   - `@bedrock/profile@25` (major version).
