@@ -1,5 +1,18 @@
 # bedrock-profile-http ChangeLog
 
+## 26.0.0 - 2025-03-xx
+
+### Changed
+- Update peer dependencies.
+  - `@bedrock/core@6.3.0`.
+  - **BREAKING**: `@bedrock/passport@12`.
+    - Updated for `@bedrock/mongodb@11`.
+  - **BREAKING**: `@bedrock/profile@26`.
+    - Updated for `@bedrock/mongodb@11`.
+  - `@bedrock/validation@7.1.1`.
+- Update dev dependencies.
+- Update test dependencies.
+
 ## 25.0.0 - 2024-10-15
 
 - **BREAKING**: Update peer dependencies.
