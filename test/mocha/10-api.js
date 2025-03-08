@@ -126,7 +126,7 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(400);
       result.ok.should.equal(false);
       result.data.message.should.equal(
-        'A validation error occured in the \'Account Query\' validator.');
+        'A validation error occurred in the \'Account Query\' validator.');
     });
     it('throws error when account is not authorized', async () => {
       let result;
@@ -182,7 +182,7 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(400);
       result.ok.should.equal(false);
       result.data.message.should.equal(
-        'A validation error occured in the \'Profile Agent\' validator.');
+        'A validation error occurred in the \'Profile Agent\' validator.');
     });
     it('throws error when account is not authorized', async () => {
       const profile = 'did:example:1234';
@@ -365,7 +365,7 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(400);
       result.ok.should.equal(false);
       result.data.message.should.equal(
-        'A validation error occured in the \'Account Query\' validator.');
+        'A validation error occurred in the \'Account Query\' validator.');
     });
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -448,7 +448,7 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(400);
       result.ok.should.equal(false);
       result.data.message.should.equal(
-        'A validation error occured in the \'Account Query\' validator.');
+        'A validation error occurred in the \'Account Query\' validator.');
     });
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -536,7 +536,8 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(400);
       result.ok.should.equal(false);
       result.data.message.should.equal(
-        'A validation error occured in the \'Delegate Capability\' validator.');
+        'A validation error occurred in the \'Delegate Capability\' ' +
+        'validator.');
     });
     it('throws error when there is no controller', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -562,7 +563,8 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(400);
       result.ok.should.equal(false);
       result.data.message.should.equal(
-        'A validation error occured in the \'Delegate Capability\' validator.');
+        'A validation error occurred in the \'Delegate Capability\' ' +
+        'validator.');
     });
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
@@ -704,7 +706,7 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(400);
       result.ok.should.equal(false);
       result.data.message.should.equal(
-        'A validation error occured in the \'zcaps\' validator.');
+        'A validation error occurred in the \'zcaps\' validator.');
     });
     it('throws error when account is not authorized', async () => {
       const {account: {id: account}} = accounts['alpha@example.com'];
