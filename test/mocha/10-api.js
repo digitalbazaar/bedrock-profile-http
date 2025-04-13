@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2020-2024 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2020-2025 Digital Bazaar, Inc. All rights reserved.
  */
 import * as helpers from './helpers.js';
 import {config} from '@bedrock/core';
@@ -863,7 +863,7 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(400);
       result.ok.should.equal(false);
       result.data.message.should.equal(
-        `A validation error occured in the 'Create Interaction' validator.`);
+        `A validation error occurred in the 'Create Interaction' validator.`);
     });
     it('fails to create a new interaction with unknown workflow', async () => {
       let result;
