@@ -39,7 +39,7 @@ config['profile-http'].additionalEdvs = {
 
 // enable optional `interactions`
 config['profile-http'].interactions.enabled = true;
-config['profile-http'].interactions.workflows.test = {
+config['profile-http'].interactions.types.test = {
   localInteractionId: '1d35d09b-94c8-44d5-9d10-8dd3460a5fc4',
   zcaps: {
     // FIXME:

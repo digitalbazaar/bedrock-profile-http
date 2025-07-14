@@ -848,7 +848,7 @@ describe('bedrock-profile-http', () => {
     });
   });
   describe('interactions', () => {
-    // FIXME: create workflow instance
+    // FIXME: create associated workflow instance
     // before()
     it('fails to create a new interaction with bad post data', async () => {
       let result;
@@ -865,12 +865,12 @@ describe('bedrock-profile-http', () => {
       result.data.message.should.equal(
         `A validation error occurred in the 'Create Interaction' validator.`);
     });
-    it('fails to create a new interaction with unknown workflow', async () => {
+    it('fails to create a new interaction with unknown type', async () => {
       let result;
       let error;
       try {
         result = await api.post('/interactions', {
-          workflowName: 'does-not-exist',
+          type: 'does-not-exist',
           exchange: {
             variables: {}
           }
@@ -883,7 +883,8 @@ describe('bedrock-profile-http', () => {
       result.status.should.equal(404);
       result.ok.should.equal(false);
       result.data.name.should.equal('NotFoundError');
-      result.data.message.should.equal('Workflow "does-not-exist" not found.');
+      result.data.message.should.equal(
+        'Interaction type "does-not-exist" not found.');
     });
     it.skip('creates a new interaction', async () => {
       let interactionId;
@@ -892,7 +893,7 @@ describe('bedrock-profile-http', () => {
         let error;
         try {
           result = await api.post('/interactions', {
-            workflowName: 'test',
+            type: 'test',
             exchange: {
               variables: {}
             }
