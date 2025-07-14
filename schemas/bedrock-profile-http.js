@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2020-2024 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2020-2025 Digital Bazaar, Inc. All rights reserved.
  */
 const account = {
   title: 'Account',
@@ -165,10 +165,10 @@ const delegateCapability = {
 const createInteraction = {
   title: 'Create Interaction',
   type: 'object',
-  required: ['workflowName', 'exchange'],
+  required: ['type', 'exchange'],
   additionalProperties: false,
   properties: {
-    workflowName: {
+    type: {
       type: 'string'
     },
     exchange: {
