@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2020-2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2020-2025 Digital Bazaar, Inc. All rights reserved.
  */
 import * as bedrock from '@bedrock/core';
 import {handlers} from '@bedrock/meter-http';
@@ -13,6 +13,7 @@ import '@bedrock/https-agent';
 import '@bedrock/jsonld-document-loader';
 import '@bedrock/meter';
 import '@bedrock/meter-usage-reporter';
+import '@bedrock/notify';
 import '@bedrock/passport';
 import '@bedrock/server';
 import '@bedrock/kms-http';
