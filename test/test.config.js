@@ -46,3 +46,8 @@ config['profile-http'].interactions.types.test = {
     readWriteExchanges: '{}'
   }
 };
+// test hmac key for push token feature; required for `interactions`
+config.notify.push.hmacKey = {
+  id: 'urn:test:hmacKey',
+  secretKeyMultibase: 'uogHy02QDNPX4GID7dGUSGuYQ_Gv0WOIcpmTuKgt1ZNz7_4'
+};
