@@ -14,7 +14,7 @@ let api;
 
 const baseURL = `https://${config.server.host}`;
 
-describe('bedrock-profile-http', () => {
+describe('profile agents', () => {
   // mock session authentication for delegations endpoint
   let passportStub;
   before(async () => {
@@ -31,118 +31,6 @@ describe('bedrock-profile-http', () => {
   after(async () => {
     passportStub.restore();
   });
-
-  describe('POST /profiles (create a new profile)', () => {
-    afterEach(async () => {
-      await helpers.removeCollections(['profile-profileAgent']);
-    });
-    it('successfully create a new profile', async () => {
-      const {account: {id: account}} = accounts['alpha@example.com'];
-      const didMethod = 'v1';
-      let result;
-      let error;
-      try {
-        result = await api.post('/profiles', {account, didMethod});
-      } catch(e) {
-        error = e;
-      }
-      assertNoError(error);
-      should.exist(result);
-      result.status.should.equal(200);
-      result.ok.should.equal(true);
-      result.data.id.should.be.a('string');
-      result.data.id.startsWith('did:v1').should.equal(true);
-
-      const {meters, id: profileId} = result.data;
-      _shouldHaveMeters({meters, profileId});
-    });
-    it('create a new profile with didMethod and didOptions', async () => {
-      const {account: {id: account}} = accounts['alpha@example.com'];
-      const didMethod = 'v1';
-      const didOptions = {mode: 'test'};
-      let result;
-      let error;
-      try {
-        result = await api.post('/profiles', {account, didMethod, didOptions});
-      } catch(e) {
-        error = e;
-      }
-      assertNoError(error);
-      should.exist(result);
-      result.status.should.equal(200);
-      result.ok.should.equal(true);
-      result.data.id.should.be.a('string');
-      result.data.id.startsWith('did:v1').should.equal(true);
-
-      const {meters, id: profileId} = result.data;
-      _shouldHaveMeters({meters, profileId});
-    });
-    it('create a new profile with didMethods "v1" and "key"', async () => {
-      const {account: {id: account}} = accounts['alpha@example.com'];
-      const didMethods = ['v1', 'key'];
-      const didOptions = {mode: 'test'};
-
-      for(const didMethod of didMethods) {
-        let result;
-        let error;
-        try {
-          result = await api.post('/profiles',
-            {account, didMethod, didOptions});
-        } catch(e) {
-          error = e;
-        }
-        assertNoError(error);
-        should.exist(result);
-        result.status.should.equal(200);
-        result.ok.should.equal(true);
-        result.data.id.should.be.a('string');
-
-        const {meters, id: profileId} = result.data;
-        _shouldHaveMeters({meters, profileId});
-      }
-    });
-    it('throws error when didMethod is not "v1" or "key"', async () => {
-      const {account: {id: account}} = accounts['alpha@example.com'];
-      const didMethod = 'not-v1-or-key';
-      const didOptions = {mode: 'test'};
-
-      const result = await api.post('/profiles',
-        {account, didMethod, didOptions});
-
-      should.exist(result);
-      result.status.should.equal(500);
-    });
-    it('throws error when there is no account', async () => {
-      let account;
-      let result;
-      let error;
-      try {
-        result = await api.post('/profiles', {account});
-      } catch(e) {
-        error = e;
-      }
-      assertNoError(error);
-      should.exist(result);
-      result.status.should.equal(400);
-      result.ok.should.equal(false);
-      result.data.message.should.equal(
-        'A validation error occurred in the \'Account Query\' validator.');
-    });
-    it('throws error when account is not authorized', async () => {
-      let result;
-      let error;
-      try {
-        result = await api.post('/profiles', {account: '123'});
-      } catch(e) {
-        error = e;
-      }
-      assertNoError(error);
-      should.exist(result);
-      result.status.should.equal(403);
-      result.ok.should.equal(false);
-      result.data.message.should.equal('The "account" is not authorized.');
-    });
-  }); // end create a new profile
 
   describe('POST /profile-agents (create a new profile agent)', () => {
     afterEach(async () => {
@@ -847,88 +735,7 @@ describe('bedrock-profile-http', () => {
       result.data.type.should.equal('NotAllowedError');
     });
   });
-  describe('interactions', () => {
-    // FIXME: create associated workflow instance
-    // before()
-    it('fails to create a new interaction with bad post data', async () => {
-      let result;
-      let error;
-      try {
-        result = await api.post('/interactions', {});
-      } catch(e) {
-        error = e;
-      }
-      assertNoError(error);
-      should.exist(result);
-      result.status.should.equal(400);
-      result.ok.should.equal(false);
-      result.data.message.should.equal(
-        `A validation error occurred in the 'Create Interaction' validator.`);
-    });
-    it('fails to create a new interaction with unknown type', async () => {
-      let result;
-      let error;
-      try {
-        result = await api.post('/interactions', {
-          type: 'does-not-exist',
-          exchange: {
-            variables: {}
-          }
-        });
-      } catch(e) {
-        error = e;
-      }
-      assertNoError(error);
-      should.exist(result);
-      result.status.should.equal(404);
-      result.ok.should.equal(false);
-      result.data.name.should.equal('NotFoundError');
-      result.data.message.should.equal(
-        'Interaction type "does-not-exist" not found.');
-    });
-    it.skip('creates a new interaction', async () => {
-      let interactionId;
-      {
-        let result;
-        let error;
-        try {
-          result = await api.post('/interactions', {
-            type: 'test',
-            exchange: {
-              variables: {}
-            }
-          });
-        } catch(e) {
-          error = e;
-        }
-        assertNoError(error);
-        should.exist(result);
-        result.status.should.equal(200);
-        result.ok.should.equal(true);
-        should.exist(result.data.interactionId);
-        should.exist(result.data.exchangeId);
-        interactionId = result.data.interactionId;
-      }
-
-      // get status of interaction
-      {
-        let result;
-        let error;
-        try {
-          result = await api.get(interactionId);
-        } catch(e) {
-          error = e;
-        }
-        assertNoError(error);
-        should.exist(result);
-        result.status.should.equal(200);
-        result.ok.should.equal(true);
-        console.log('result.data', result.data);
-        // FIXME: assert on result.data
-      }
-    });
-  });
-}); // end bedrock-profile-http
+});
 
 async function _createNProfiles({n, api, account, didMethod}) {
   const promises = [];
