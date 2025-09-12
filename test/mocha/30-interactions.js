@@ -12,7 +12,7 @@ let api;
 
 const baseURL = `https://${config.server.host}`;
 
-describe.skip('interactions', () => {
+describe('interactions', () => {
   // mock session authentication for delegations endpoint
   let passportStub;
   before(async () => {
@@ -28,8 +28,6 @@ describe.skip('interactions', () => {
     passportStub.restore();
   });
 
-  // FIXME: create associated workflow instance w/`inviteRequest` feature
-  // before()
   it('fails to create a new interaction with bad post data', async () => {
     let result;
     let error;
