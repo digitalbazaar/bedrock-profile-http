@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2020-2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2020-2025 Digital Bazaar, Inc. All rights reserved.
  */
 import {v4 as uuid} from 'uuid';
 import {constants as zcapConstants} from '@digitalbazaar/zcap';
@@ -15,7 +15,10 @@ mockData.productIdMap = new Map([
   ['urn:uuid:80a82316-e8c2-11eb-9570-10bf48838a41', 'webkms'],
   // edv service
   ['edv', 'urn:uuid:dbd15f08-ff67-11eb-893b-10bf48838a41'],
-  ['urn:uuid:dbd15f08-ff67-11eb-893b-10bf48838a41', 'edv']
+  ['urn:uuid:dbd15f08-ff67-11eb-893b-10bf48838a41', 'edv'],
+  // workflow service
+  ['vc-workflow', 'urn:uuid:146b6a5b-eade-4612-a215-1f3b5f03d648'],
+  ['urn:uuid:146b6a5b-eade-4612-a215-1f3b5f03d648', 'vc-workflow']
 ]);
 
 const zcaps = mockData.zcaps = {};

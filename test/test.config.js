@@ -37,12 +37,12 @@ config['profile-http'].additionalEdvs = {
   credentials: {referenceId: 'credentials'},
 };
 
-// enable optional `interactions`
-config['profile-http'].interactions.enabled = true;
+// `interactions` to be programmatically enabled in `test.js`
+config['profile-http'].interactions.enabled = false;
 config['profile-http'].interactions.types.test = {
   localInteractionId: '1d35d09b-94c8-44d5-9d10-8dd3460a5fc4',
   zcaps: {
-    // FIXME:
+    // to be populated by `test.js`
     readWriteExchanges: '{}'
   }
 };
@@ -51,3 +51,6 @@ config.notify.push.hmacKey = {
   id: 'urn:test:hmacKey',
   secretKeyMultibase: 'uogHy02QDNPX4GID7dGUSGuYQ_Gv0WOIcpmTuKgt1ZNz7_4'
 };
+
+// service agent
+config['service-agent'].kms.baseUrl = `${config.server.baseUri}/kms`;
