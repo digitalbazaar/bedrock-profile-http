@@ -58,69 +58,71 @@ bedrock.events.on('bedrock.init', async () => {
 });
 
 bedrock.events.on('bedrock.ready', async () => {
-  // programmatically create workflow for interactions
-  {
-    // create some controller for the workflow
-    const secret = '53ad64ce-8e1d-11ec-bb12-10bf48838a41';
-    const handle = 'test';
-    const capabilityAgent = await CapabilityAgent.fromSecret({secret, handle});
-    const {baseUri} = bedrock.config.server;
+  // programmatically create workflow for interactions...
 
-    const meter = {
-      id: idEncoder.encode(await idGenerator.generate()),
-      controller: capabilityAgent.id,
-      product: {
-        id: mockData.productIdMap.get('vc-workflow')
-      },
-      serviceId: bedrock.config['app-identity'].seeds.services['vc-workflow'].id
-    };
-    await meters.insert({meter});
-    const meterId = `${baseUri}/meters/${meter.id}`;
-    await meterReporting.upsert({id: meterId, serviceType: 'vc-workflow'});
+  // create some controller for the workflow
+  const secret = '53ad64ce-8e1d-11ec-bb12-10bf48838a41';
+  const handle = 'test';
+  const capabilityAgent = await CapabilityAgent.fromSecret({secret, handle});
+  const {baseUri} = bedrock.config.server;
 
-    const localWorkflowId = idEncoder.encode(await idGenerator.generate());
-    const config = {
-      id: `${baseUri}/workflows/${localWorkflowId}`,
-      sequence: 0,
-      controller: capabilityAgent.id,
-      meterId,
-      steps: {
-        myStep: {
-          stepTemplate: {
-            type: 'jsonata',
-            template: `
-            {
-              "inviteRequest": inviteRequest
-            }`
-          }
+  const meter = {
+    id: idEncoder.encode(await idGenerator.generate()),
+    controller: capabilityAgent.id,
+    product: {
+      id: mockData.productIdMap.get('vc-workflow')
+    },
+    serviceId: bedrock.config['app-identity'].seeds.services['vc-workflow'].id
+  };
+  await meters.insert({meter});
+  const meterId = `${baseUri}/meters/${meter.id}`;
+  await meterReporting.upsert({id: meterId, serviceType: 'vc-workflow'});
+
+  const localWorkflowId = idEncoder.encode(await idGenerator.generate());
+  const config = {
+    id: `${baseUri}/workflows/${localWorkflowId}`,
+    sequence: 0,
+    controller: capabilityAgent.id,
+    meterId,
+    steps: {
+      finish: {
+        stepTemplate: {
+          type: 'jsonata',
+          template: `
+          {
+            "inviteRequest": true,
+            "callback": {
+              "url": pushCallbackUrl
+            }
+          }`
         }
-      },
-      initialStep: 'myStep'
-    };
-    await workflowService.configStorage.insert({config});
+      }
+    },
+    initialStep: 'finish'
+  };
+  await workflowService.configStorage.insert({config});
 
-    // delegate ability to read/write exchanges for workflow to app identity
-    const signer = capabilityAgent.getSigner();
-    const zcapClient = new ZcapClient({
-      invocationSigner: signer,
-      delegationSigner: signer,
-      SuiteClass: Ed25519Signature2020
-    });
-    const readWriteExchanges = await zcapClient.delegate({
-      capability: `urn:zcap:root:${encodeURIComponent(config.id)}`,
-      invocationTarget: `${config.id}/exchanges`,
-      controller: ZCAP_CLIENT.invocationSigner.id,
-      expires: new Date(Date.now() + 1000 * 60 * 60),
-      allowedActions: ['read', 'write']
-    });
-    // update interactions config
-    const interactionsConfig = bedrock.config['profile-http'].interactions;
-    interactionsConfig.enabled = true;
-    interactionsConfig.types.test.zcaps
-      .readWriteExchanges = JSON.stringify(readWriteExchanges);
-    // re-process interactions config
-    processInteractionConfig();
-  }
+  // delegate ability to read/write exchanges for workflow to app identity
+  const signer = capabilityAgent.getSigner();
+  const zcapClient = new ZcapClient({
+    invocationSigner: signer,
+    delegationSigner: signer,
+    SuiteClass: Ed25519Signature2020
+  });
+  const readWriteExchanges = await zcapClient.delegate({
+    capability: `urn:zcap:root:${encodeURIComponent(config.id)}`,
+    invocationTarget: `${config.id}/exchanges`,
+    controller: ZCAP_CLIENT.invocationSigner.id,
+    expires: new Date(Date.now() + 1000 * 60 * 60),
+    allowedActions: ['read', 'write']
+  });
+  // update interactions config
+  const interactionsConfig = bedrock.config['profile-http'].interactions;
+  interactionsConfig.enabled = true;
+  interactionsConfig.types.test.zcaps
+    .readWriteExchanges = JSON.stringify(readWriteExchanges);
+  // re-process interactions config
+  processInteractionConfig();
 });
 
 import '@bedrock/test';

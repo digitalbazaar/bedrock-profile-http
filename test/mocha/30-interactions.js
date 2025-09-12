@@ -43,6 +43,7 @@ describe('interactions', () => {
     result.data.message.should.equal(
       `A validation error occurred in the 'Create Interaction' validator.`);
   });
+
   it('fails to create a new interaction with unknown type', async () => {
     let result;
     let error;
@@ -64,8 +65,10 @@ describe('interactions', () => {
     result.data.message.should.equal(
       'Interaction type "does-not-exist" not found.');
   });
-  it.skip('creates a new interaction', async () => {
+
+  it('creates a new interaction', async () => {
     let interactionId;
+    let exchangeId;
     {
       let result;
       let error;
@@ -86,6 +89,7 @@ describe('interactions', () => {
       should.exist(result.data.interactionId);
       should.exist(result.data.exchangeId);
       interactionId = result.data.interactionId;
+      exchangeId = result.data.exchangeId;
     }
 
     // get status of interaction
@@ -101,8 +105,100 @@ describe('interactions', () => {
       should.exist(result);
       result.status.should.equal(200);
       result.ok.should.equal(true);
-      console.log('result.data', result.data);
-      // FIXME: assert on result.data
+      should.exist(result.data.exchange);
+      result.data.exchange.should.include.keys(['state']);
+      result.data.exchange.state.should.equal('pending');
+    }
+
+    // get protocols for interaction
+    {
+      let result;
+      let error;
+      try {
+        result = await api.get(`${interactionId}?iuv=1`);
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(200);
+      result.ok.should.equal(true);
+      should.exist(result.data.protocols);
+      result.data.protocols.should.include.keys(['inviteRequest']);
+      result.data.protocols.inviteRequest.should.equal(
+        `${exchangeId}/invite-request/response`);
+    }
+  });
+
+  it('completes an interaction', async () => {
+    let interactionId;
+    {
+      let result;
+      let error;
+      try {
+        result = await api.post('/interactions', {
+          type: 'test',
+          exchange: {
+            variables: {}
+          }
+        });
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      interactionId = result.data.interactionId;
+    }
+
+    // get protocols for interaction
+    let inviteRequestUrl;
+    {
+      let result;
+      let error;
+      try {
+        result = await api.get(`${interactionId}?iuv=1`);
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      inviteRequestUrl = result.data.protocols.inviteRequest;
+    }
+
+    // create invite response for exchange
+    const referenceId = crypto.randomUUID();
+    const inviteResponse = {
+      url: 'https://retailer.example/checkout/baskets/1',
+      purpose: 'checkout',
+      referenceId
+    };
+
+    // complete interaction by posting invite response to exchange
+    {
+      const response = await api.post(inviteRequestUrl, inviteResponse);
+      should.exist(response?.data?.referenceId);
+      // ensure `referenceId` matches
+      response.data.referenceId.should.equal(referenceId);
+    }
+
+    // get status of interaction (exchange should have a `complete` state
+    // and result)
+    {
+      let result;
+      let error;
+      try {
+        result = await api.get(interactionId);
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      should.exist(result);
+      result.status.should.equal(200);
+      result.ok.should.equal(true);
+      should.exist(result.data.exchange);
+      result.data.exchange.should.include.keys(['state', 'result']);
+      result.data.exchange.state.should.equal('complete');
+      should.exist(result.data.exchange.result.inviteRequest?.inviteResponse);
+      result.data.exchange.result.inviteRequest.inviteResponse
+        .should.deep.equal(inviteResponse);
     }
   });
 });
