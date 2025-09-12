@@ -198,11 +198,24 @@ const createInteraction = {
   }
 };
 
+const getInteractionQuery = {
+  title: 'Interaction Query',
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    iuv: {
+      title: 'Interaction URL version',
+      const: '1'
+    }
+  }
+};
+
 export {
   profileAgent,
   profileAgents,
   accountQuery,
   delegateCapability,
   createInteraction,
+  getInteractionQuery,
   zcaps
 };
