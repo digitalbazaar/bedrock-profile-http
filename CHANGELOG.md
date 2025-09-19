@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 26.1.0 - 2025-mm-dd
+## 26.1.0 - 2025-09-19
 
 ### Added
 - Add optional `interactions` feature, allowing an account to create
