@@ -11,6 +11,18 @@ const profile = {
   type: 'string'
 };
 
+const controller = {
+  title: 'controller',
+  type: 'string',
+  maxLength: 4096
+};
+
+const id = {
+  title: 'id',
+  type: 'string',
+  maxLength: 4096
+};
+
 // this should match query objects with an account in them
 const accountQuery = {
   title: 'Account Query',
@@ -70,10 +82,7 @@ const zcap = {
         items: {type: 'string'}
       }]
     },
-    id: {
-      title: 'id',
-      type: 'string'
-    },
+    id,
     allowedAction: {
       anyOf: [{
         type: 'string'
@@ -83,10 +92,7 @@ const zcap = {
         items: {type: 'string'}
       }]
     },
-    controller: {
-      title: 'controller',
-      type: 'string'
-    },
+    controller,
     invocationTarget: {
       title: 'Invocation Target',
       anyOf: [{
@@ -128,6 +134,98 @@ const zcap = {
     }
   }
 };
+
+const delegatedZcap = {
+  title: 'Delegated ZCAP',
+  type: 'object',
+  additionalProperties: false,
+  required: [
+    '@context', 'controller', 'expires', 'id', 'invocationTarget',
+    'parentCapability', 'proof'
+  ],
+  properties: {
+    controller,
+    id,
+    allowedAction: {
+      anyOf: [{
+        type: 'string'
+      }, {
+        type: 'array',
+        minItems: 1,
+        items: {type: 'string'}
+      }]
+    },
+    expires: {
+      title: 'W3C Date/Time',
+      description: 'A W3C-formatted date and time combination.',
+      type: 'string',
+      pattern: '^[1-9][0-9]{3}-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])' +
+        'T([0-1][0-9]|2[0-3]):([0-5][0-9]):(([0-5][0-9])|60)(\\.[0-9]+)?' +
+        '(Z|((\\+|-)([0-1][0-9]|2[0-3]):([0-5][0-9])))?$'
+    },
+    '@context': {
+      title: '@context',
+      anyOf: [{
+        type: 'string'
+      }, {
+        type: 'array',
+        minItems: 1,
+        items: {type: 'string'}
+      }]
+    },
+    invocationTarget: {
+      title: 'Invocation Target',
+      type: 'string'
+    },
+    parentCapability: {
+      title: 'Parent Capability',
+      type: 'string'
+    },
+    proof: {
+      title: 'Proof',
+      type: 'object',
+      additionalProperties: false,
+      required: [
+        'verificationMethod', 'type', 'created', 'proofPurpose',
+        'capabilityChain', 'proofValue'
+      ],
+      properties: {
+        verificationMethod: {
+          title: 'verificationMethod',
+          type: 'string'
+        },
+        type: {
+          title: 'type',
+          type: 'string'
+        },
+        created: {
+          title: 'created',
+          type: 'string'
+        },
+        proofPurpose: {
+          title: 'proofPurpose',
+          type: 'string'
+        },
+        capabilityChain: {
+          title: 'capabilityChain',
+          type: 'array',
+          minItems: 1,
+          items: {
+            type: ['string', 'object']
+          }
+        },
+        proofValue: {
+          title: 'proofValue',
+          type: 'string'
+        },
+      }
+    }
+  }
+};
+
+// refreshable zcaps have a capability chain length of 1
+const refreshableZcap = structuredClone(delegatedZcap);
+refreshableZcap.properties.proof.properties.capabilityChain.maxItems = 1;
 
 const zcaps = {
   title: 'zcaps',
@@ -217,5 +315,6 @@ export {
   delegateCapability,
   createInteraction,
   getInteractionQuery,
-  zcaps
+  zcaps,
+  refreshableZcap
 };
