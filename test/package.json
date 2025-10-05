@@ -43,7 +43,7 @@
     "@bedrock/vc-delivery": "^7.7.1",
     "@bedrock/vc-verifier": "^22.1.0",
     "@bedrock/veres-one-context": "^16.0.0",
-    "@bedrock/zcap-storage": "^9.0.0",
+    "@bedrock/zcap-storage": "^9.3.0",
     "@digitalbazaar/ed25519-signature-2020": "^5.4.0",
     "@digitalbazaar/webkms-client": "^14.2.0",
     "@digitalbazaar/zcap": "^9.0.1",
