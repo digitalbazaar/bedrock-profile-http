@@ -1,5 +1,21 @@
 # bedrock-profile-http ChangeLog
 
+## 26.2.0 - 2025-10-dd
+
+### Added
+- Add zcap refresh capability. Policies for zcaps can be created per profile
+  and delegate, enabling delegates to auto-refresh previously issued that
+  are compliant with their associated policy. New HTTP routes:
+  - `/profiles/<profileId>/zcaps/policies`: For creating new policies on
+    behalf of a controlling profile.
+  - `/profiles/<profileId>/zcaps/policies/<delegateId>`: For updating
+    and fetching existing policies on behalf of a controlling profile.
+  - `/profiles/<profileId>/zcaps/refresh`: For delegates to refresh their
+    zcaps according to the matching policy, if any.
+  - `/profiles/<profileId>/zcaps/refresh/policy`: For delegates to view any
+    elements exposed by the controller (profile) of the policy that applies
+    to the controller of the zcap invoked at this endpoint.
+
 ## 26.1.0 - 2025-09-19
 
 ### Added
