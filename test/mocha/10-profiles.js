@@ -11,8 +11,6 @@ import {mockData} from './mock.data.js';
 let accounts;
 let api;
 
-const baseURL = `https://${config.server.host}`;
-
 describe('profiles', () => {
   // mock session authentication for delegations endpoint
   let passportStub;
@@ -20,6 +18,7 @@ describe('profiles', () => {
     await helpers.prepareDatabase(mockData);
     passportStub = helpers.stubPassport();
     accounts = mockData.accounts;
+    const baseURL = `https://${config.server.host}`;
     api = create({
       baseURL,
       headers: {Accept: 'application/ld+json, application/json'},
