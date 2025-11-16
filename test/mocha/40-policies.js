@@ -76,7 +76,6 @@ describe('policies', () => {
     const profilePath = `${baseURL}/profiles/${encodeURIComponent(profileId)}`;
     const zcapsPath = `${profilePath}/zcaps`;
     urls.policies = `${zcapsPath}/policies`;
-    urls.refresh = `${zcapsPath}/refresh`;
 
     ({id: rootZcap} = createRootCapability({
       invocationTarget: profilePath
