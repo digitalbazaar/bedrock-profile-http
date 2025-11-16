@@ -309,6 +309,8 @@ const zcapPolicy = {
   additionalProperties: false,
   properties: {
     sequence,
+    controller,
+    delegate: controller,
     refresh: {
       anyOf: [{
         const: false
