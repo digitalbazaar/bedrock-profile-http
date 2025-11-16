@@ -12,8 +12,6 @@ let accounts;
 let zcaps;
 let api;
 
-const baseURL = `https://${config.server.host}`;
-
 describe('profile agents', () => {
   // mock session authentication for delegations endpoint
   let passportStub;
@@ -22,6 +20,7 @@ describe('profile agents', () => {
     passportStub = helpers.stubPassport();
     accounts = mockData.accounts;
     zcaps = mockData.zcaps;
+    const baseURL = `https://${config.server.host}`;
     api = create({
       baseURL,
       headers: {Accept: 'application/ld+json, application/json'},
