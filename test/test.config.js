@@ -9,6 +9,8 @@ import '@bedrock/express';
 import '@bedrock/https-agent';
 import '@bedrock/mongodb';
 import '@bedrock/profile';
+import '@bedrock/service-core';
+import '@bedrock/service-agent';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -51,6 +53,16 @@ config.notify.push.hmacKey = {
   id: 'urn:test:hmacKey',
   secretKeyMultibase: 'uogHy02QDNPX4GID7dGUSGuYQ_Gv0WOIcpmTuKgt1ZNz7_4'
 };
+
+// create application identity for service with refresh
+config['app-identity'].seeds.services.refreshing = {
+  id: 'did:key:z6MkqhgbwggDuoHeru2GSDmZN6V2oPs1vHZoXhEVJnKpDzEz',
+  seedMultibase: 'z1AnLvp9wWsUe9YkGoQpvLikA1GjtuduvQGwgptu5va2mKS',
+  serviceType: 'refreshing'
+};
+
+// set config storage refresh interval short for testing purposes
+config['service-core'].configStorage.refresh.interval = 100;
 
 // service agent
 config['service-agent'].kms.baseUrl = `${config.server.baseUri}/kms`;
