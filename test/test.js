@@ -2,8 +2,11 @@
  * Copyright (c) 2020-2025 Digital Bazaar, Inc. All rights reserved.
  */
 import * as bedrock from '@bedrock/core';
+import {createService, schemas} from '@bedrock/service-core';
 import {CapabilityAgent} from '@digitalbazaar/webkms-client';
+import {getServiceIdentities} from '@bedrock/app-identity';
 import {handlers} from '@bedrock/meter-http';
+import {initializeServiceAgent} from '@bedrock/service-agent';
 import {meters as meterReporting} from '@bedrock/meter-usage-reporter';
 import {meters} from '@bedrock/meter';
 import {workflowService} from '@bedrock/vc-delivery';
@@ -47,17 +50,62 @@ bedrock.events.on('bedrock.init', async () => {
     handler({meter} = {}) {
       // use configured meter usage reporter as service ID for tests
       const serviceType = mockData.productIdMap.get(meter.product.id);
-      meter.serviceId = bedrock.config['app-identity'].seeds
-        .services[serviceType].id;
+      const serviceIdentites = getServiceIdentities();
+      const serviceIdentity = serviceIdentites.get(serviceType);
+      if(!serviceIdentity) {
+        throw new Error(`Could not find identity "${serviceType}".`);
+      }
+      meter.serviceId = serviceIdentity.id;
       return {meter};
     }
   });
   handlers.setUpdateHandler({handler: ({meter} = {}) => ({meter})});
   handlers.setRemoveHandler({handler: ({meter} = {}) => ({meter})});
   handlers.setUseHandler({handler: ({meter} = {}) => ({meter})});
+
+  // create `refreshing` service with a refresh handler
+  const allowClientIdCreateConfigBody = structuredClone(
+    schemas.createConfigBody);
+  allowClientIdCreateConfigBody.properties.id =
+    schemas.updateConfigBody.properties.id;
+  mockData.refreshingService = await createService({
+    serviceType: 'refreshing',
+    routePrefix: '/refreshables',
+    storageCost: {
+      config: 1,
+      revocation: 1
+    },
+    validation: {
+      createConfigBody: allowClientIdCreateConfigBody,
+      zcapReferenceIds: [{
+        referenceId: 'edv',
+        required: false
+      }, {
+        referenceId: 'hmac',
+        required: false
+      }, {
+        referenceId: 'keyAgreementKey',
+        required: false
+      }, {
+        referenceId: 'refresh',
+        required: false
+      }]
+    },
+    async refreshHandler({record, signal}) {
+      const fn = mockData.refreshHandlerListeners.get(record.config.id);
+      await fn?.({record, signal});
+    }
+  });
 });
 
 bedrock.events.on('bedrock.ready', async () => {
+  // initialize service agents;
+  // normally a service agent should be created on `bedrock-mongodb.ready`,
+  // however, since the KMS system used is local, we have to wait for it to
+  // be ready; so only do this on `bedrock.ready`
+  await initializeServiceAgent({serviceType: 'example'});
+  await initializeServiceAgent({serviceType: 'refreshing'});
+
   // programmatically create workflow for interactions...
 
   // create some controller for the workflow

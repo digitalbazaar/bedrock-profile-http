@@ -1,11 +1,70 @@
 /*!
  * Copyright (c) 2020-2025 Digital Bazaar, Inc. All rights reserved.
  */
+import * as bedrock from '@bedrock/core';
 import * as brAccount from '@bedrock/account';
 import * as database from '@bedrock/mongodb';
 import {_deserializeUser, passport} from '@bedrock/passport';
 
 import {mockData} from './mock.data.js';
+
+export async function createMeter({profileId, zcapClient, serviceType} = {}) {
+  // create a meter
+  const meterService = `${bedrock.config.server.baseUri}/meters`;
+  let meter = {
+    controller: profileId,
+    product: {
+      // mock ID for service type
+      id: mockData.productIdMap.get(serviceType)
+    }
+  };
+  ({data: {meter}} = await zcapClient.write({url: meterService, json: meter}));
+
+  // return full meter ID
+  const {id} = meter;
+  return {id: `${meterService}/${id}`};
+}
+
+export async function createConfig({
+  profileId, zcapClient, ipAllowList, meterId, zcaps, options = {},
+  servicePath = '/refreshing'
+} = {}) {
+  if(!meterId) {
+    // create a meter for the keystore
+    ({id: meterId} = await createMeter({
+      profileId, zcapClient, serviceType: 'refreshing'
+    }));
+  }
+
+  // create service object
+  const config = {
+    sequence: 0,
+    controller: profileId,
+    meterId,
+    ...options
+  };
+  if(ipAllowList) {
+    config.ipAllowList = ipAllowList;
+  }
+  if(zcaps) {
+    config.zcaps = zcaps;
+  }
+
+  const url = `${mockData.baseUrl}${servicePath}`;
+  const response = await zcapClient.write({url, json: config});
+  return response.data;
+}
+
+export async function delegate({
+  capability, controller, invocationTarget, expires, allowedActions,
+  zcapClient
+}) {
+  expires = expires || (capability && capability.expires) ||
+    new Date(Date.now() + 5000).toISOString().slice(0, -5) + 'Z';
+  return zcapClient.delegate({
+    capability, controller, expires, invocationTarget, allowedActions
+  });
+}
 
 export function stubPassport({email = 'alpha@example.com'} = {}) {
   const original = passport.authenticate;

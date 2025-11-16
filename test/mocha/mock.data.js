@@ -7,6 +7,9 @@ const {ZCAP_CONTEXT_URL} = zcapConstants;
 
 export const mockData = {};
 
+// functions used in tests
+mockData.refreshHandlerListeners = new Map();
+
 // mock product IDs and reverse lookup for webkms/edv/etc service products
 mockData.productIdMap = new Map([
   // webkms service
@@ -17,7 +20,10 @@ mockData.productIdMap = new Map([
   ['urn:uuid:dbd15f08-ff67-11eb-893b-10bf48838a41', 'edv'],
   // workflow service
   ['vc-workflow', 'urn:uuid:146b6a5b-eade-4612-a215-1f3b5f03d648'],
-  ['urn:uuid:146b6a5b-eade-4612-a215-1f3b5f03d648', 'vc-workflow']
+  ['urn:uuid:146b6a5b-eade-4612-a215-1f3b5f03d648', 'vc-workflow'],
+  // refreshing service for testing refresh feature
+  ['refreshing', 'urn:uuid:c48900f6-cb4f-4c7e-bbd6-afdc2cc4b070'],
+  ['urn:uuid:c48900f6-cb4f-4c7e-bbd6-afdc2cc4b070', 'refreshing']
 ]);
 
 const zcaps = mockData.zcaps = {};
