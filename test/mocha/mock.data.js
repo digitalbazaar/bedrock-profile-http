@@ -1,11 +1,14 @@
 /*!
  * Copyright (c) 2020-2025 Digital Bazaar, Inc. All rights reserved.
  */
+import {config} from '@bedrock/core';
 import {constants as zcapConstants} from '@digitalbazaar/zcap';
 
 const {ZCAP_CONTEXT_URL} = zcapConstants;
 
 export const mockData = {};
+
+mockData.baseUrl = config.server.baseUri;
 
 // functions used in tests
 mockData.refreshHandlerListeners = new Map();
