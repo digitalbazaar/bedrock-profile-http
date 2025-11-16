@@ -10,11 +10,11 @@
     behalf of a controlling profile.
   - `/profiles/<profileId>/zcaps/policies/<delegateId>`: For updating
     and fetching existing policies on behalf of a controlling profile.
-  - `/profiles/<profileId>/zcaps/refresh`: For delegates to refresh their
-    zcaps according to the matching policy, if any.
-  - `/profiles/<profileId>/zcaps/refresh/policy`: For delegates to view any
-    elements exposed by the controller (profile) of the policy that applies
-    to the controller of the zcap invoked at this endpoint.
+  - `/profiles/<profileId>/zcaps/policies/<delegateId>/refresh`: For delegates
+    to refresh their zcaps according to the matching policy, if any.
+  - `/profiles/<profileId>/zcaps/policies/<delegateId>/refresh/policy`: For
+    delegates to view any elements exposed by the controller (profile) of
+    the policy associated with this endpoint.
 
 ## 26.1.0 - 2025-09-19
 
