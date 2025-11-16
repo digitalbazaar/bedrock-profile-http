@@ -23,6 +23,13 @@ const id = {
   maxLength: 4096
 };
 
+const sequence = {
+  title: 'sequence',
+  type: 'integer',
+  minimum: 0,
+  maximum: Number.MAX_SAFE_INTEGER - 1
+};
+
 // this should match query objects with an account in them
 const accountQuery = {
   title: 'Account Query',
@@ -272,24 +279,11 @@ const createInteraction = {
     exchange: {
       type: 'object',
       required: ['variables'],
-      variables: {
-        type: 'object',
-        additionalProperties: false,
-        oneOf: [{
-          required: ['verifiablePresentation']
-        }, {
-          required: ['verifiablePresentationRequest']
-        }],
-        properties: {
-          allowUnprotectedPresentation: {
-            type: 'boolean'
-          },
-          verifiablePresentation: {
-            type: 'object'
-          },
-          verifiablePresentationRequest: {
-            type: 'object'
-          }
+      additionalProperties: false,
+      properties: {
+        variables: {
+          type: 'object',
+          additionalProperties: true
         }
       }
     }
@@ -308,6 +302,52 @@ const getInteractionQuery = {
   }
 };
 
+const zcapPolicy = {
+  title: 'Zcap Policy',
+  type: 'object',
+  required: ['sequence', 'refresh'],
+  additionalProperties: false,
+  properties: {
+    sequence,
+    refresh: {
+      anyOf: [{
+        const: false
+      }, {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          constraints: {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+              maxTtlBeforeRefresh: {
+                type: 'number'
+              }
+            }
+          }
+        }
+      }]
+    }
+  }
+};
+
+const createZcapPolicyBody = {
+  title: 'Create Zcap Policy',
+  type: 'object',
+  required: ['policy'],
+  additionalProperties: false,
+  properties: {
+    policy: zcapPolicy
+  }
+};
+const getZcapPoliciesQuery = {
+  title: 'Zcap Policy Query',
+  type: 'object',
+  additionalProperties: false,
+  properties: {}
+};
+const updateZcapPolicyBody = createZcapPolicyBody;
+
 export {
   profileAgent,
   profileAgents,
@@ -315,6 +355,9 @@ export {
   delegateCapability,
   createInteraction,
   getInteractionQuery,
+  createZcapPolicyBody,
+  getZcapPoliciesQuery,
+  updateZcapPolicyBody,
   zcaps,
   refreshableZcap
 };
