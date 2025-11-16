@@ -1,7 +1,6 @@
 /*!
  * Copyright (c) 2020-2025 Digital Bazaar, Inc. All rights reserved.
  */
-import {v4 as uuid} from 'uuid';
 import {constants as zcapConstants} from '@digitalbazaar/zcap';
 
 const {ZCAP_CONTEXT_URL} = zcapConstants;
@@ -31,7 +30,7 @@ accounts[email].meta = {};
 
 function createAccount(email) {
   const newAccount = {
-    id: 'urn:uuid:' + uuid(),
+    id: `urn:uuid:${crypto.randomUUID()}`,
     email
   };
   return newAccount;
