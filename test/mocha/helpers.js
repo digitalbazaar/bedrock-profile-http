@@ -5,14 +5,27 @@ import * as bedrock from '@bedrock/core';
 import * as brAccount from '@bedrock/account';
 import * as database from '@bedrock/mongodb';
 import {_deserializeUser, passport} from '@bedrock/passport';
+import {Ed25519Signature2020} from '@digitalbazaar/ed25519-signature-2020';
+import {getAppIdentity} from '@bedrock/app-identity';
+import {httpsAgent} from '@bedrock/https-agent';
+import {ZcapClient} from '@digitalbazaar/ezcap';
 
 import {mockData} from './mock.data.js';
 
-export async function createMeter({profileId, zcapClient, serviceType} = {}) {
+export async function createMeter({controller, serviceType} = {}) {
+  // create signer using the application's capability invocation key
+  const {keys: {capabilityInvocationKey}} = getAppIdentity();
+
+  const zcapClient = new ZcapClient({
+    agent: httpsAgent,
+    invocationSigner: capabilityInvocationKey.signer(),
+    SuiteClass: Ed25519Signature2020
+  });
+
   // create a meter
   const meterService = `${bedrock.config.server.baseUri}/meters`;
   let meter = {
-    controller: profileId,
+    controller,
     product: {
       // mock ID for service type
       id: mockData.productIdMap.get(serviceType)
