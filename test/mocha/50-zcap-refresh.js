@@ -21,7 +21,7 @@ import {ZcapClient} from '@digitalbazaar/ezcap';
 let accounts;
 let api;
 
-describe.skip('zcap refresh', () => {
+describe('zcap refresh', () => {
   // mock session authentication for delegations endpoint
   let passportStub;
   let capabilityAgent;
@@ -85,8 +85,6 @@ describe.skip('zcap refresh', () => {
     const profilePath = `${baseURL}/profiles/${encodeURIComponent(profileId)}`;
     const zcapsPath = `${profilePath}/zcaps`;
     urls.policies = `${zcapsPath}/policies`;
-    urls.refresh = `${zcapsPath}/refresh`;
-    urls.viewablePolicy = `${urls.refresh}/policy`;
     urls.policy = `${urls.policies}/${encodeURIComponent(serviceAgent.id)}`;
 
     ({id: rootZcap} = createRootCapability({
@@ -102,7 +100,7 @@ describe.skip('zcap refresh', () => {
     await zcapClient.request({
       url: urls.policy,
       capability: rootZcap,
-      method: 'post',
+      method: 'delete',
       action: 'write'
     });
 
@@ -141,7 +139,7 @@ describe.skip('zcap refresh', () => {
     let result;
     try {
       const {id: meterId} = await helpers.createMeter({
-        profileId, zcapClient, serviceType: 'refreshing'
+        controller: profileId, serviceType: 'refreshing'
       });
       const zcaps = await _createZcaps({
         profileId, zcapClient, serviceAgent
@@ -162,14 +160,13 @@ describe.skip('zcap refresh', () => {
       'controller', 'id', 'sequence', 'meterId', 'zcaps'
     ]);
     result.sequence.should.equal(0);
-    const {id: capabilityAgentId} = capabilityAgent;
-    result.controller.should.equal(capabilityAgentId);
+    result.controller.should.equal(profileId);
 
     // wait for refresh promise to resolve
     const record = await configRefreshPromise;
     record.config.id.should.equal(configId);
     record.config.sequence.should.equal(1);
-    record.meta.refresh.enabled.should.equal(true);
+    record.meta.refresh.enabled.should.equal(false);
     record.meta.refresh.after.should.equal(expectedAfter);
   });
   it('should handle 403 for refresh policy', async () => {
@@ -177,9 +174,42 @@ describe.skip('zcap refresh', () => {
     await zcapClient.request({
       url: urls.policy,
       capability: rootZcap,
-      method: 'post',
+      method: 'delete',
       action: 'write'
     });
+
+    // create policy and refrehs zcap for another delegate
+    // (to erroneously reference to trigger `NotAllowedError`)
+    let wrongRefreshZcap;
+    {
+      const secret = crypto.randomUUID();
+      const handle = 'test';
+      const otherDelegate = await CapabilityAgent.fromSecret({secret, handle});
+      await zcapClient.write({
+        url: urls.policies,
+        capability: rootZcap,
+        json: {
+          policy: {
+            sequence: 0,
+            controller: profileId,
+            delegate: otherDelegate.id,
+            refresh: {}
+          }
+        }
+      });
+      const {baseUrl} = mockData;
+      const profilePath =
+        `${baseUrl}/profiles/${encodeURIComponent(profileId)}`;
+      const refreshUrl =
+        `${profilePath}/zcaps` +
+        `/policies/${encodeURIComponent(serviceAgent.id)}/refresh`;
+      wrongRefreshZcap = await helpers.delegate({
+        controller: otherDelegate.id,
+        capability: `urn:zcap:root:${encodeURIComponent(profilePath)}`,
+        invocationTarget: refreshUrl,
+        zcapClient
+      });
+    }
 
     // function to be called when refreshing the created config
     let expectedAfter;
@@ -202,8 +232,8 @@ describe.skip('zcap refresh', () => {
           await mockData.refreshingService.configStorage.update({
             config: {...record.config, sequence: record.config.sequence + 1},
             refresh: {
-              enabled: true,
-              after: expectedAfter
+              enabled: result.refresh.enabled,
+              after: result.refresh.after
             }
           });
           resolve(mockData.refreshingService.configStorage.get({id: configId}));
@@ -216,14 +246,13 @@ describe.skip('zcap refresh', () => {
     let result;
     try {
       const {id: meterId} = await helpers.createMeter({
-        profileId, zcapClient, serviceType: 'refreshing'
+        controller: profileId, serviceType: 'refreshing'
       });
       const zcaps = await _createZcaps({
         profileId, zcapClient, serviceAgent
       });
-      // make refresh zcap go to the wrong URL (wrong delegate ID) to trigger
-      // a 403
-      zcaps.refresh.invocationTarget += 'foo';
+      // use wrong refresh zcap to trigger 403
+      zcaps.refresh = wrongRefreshZcap;
       result = await helpers.createConfig({
         profileId, zcapClient, meterId, servicePath: '/refreshables',
         options: {
@@ -240,14 +269,13 @@ describe.skip('zcap refresh', () => {
       'controller', 'id', 'sequence', 'meterId', 'zcaps'
     ]);
     result.sequence.should.equal(0);
-    const {id: capabilityAgentId} = capabilityAgent;
-    result.controller.should.equal(capabilityAgentId);
+    result.controller.should.equal(profileId);
 
     // wait for refresh promise to resolve
     const record = await configRefreshPromise;
     record.config.id.should.equal(configId);
     record.config.sequence.should.equal(1);
-    record.meta.refresh.enabled.should.equal(true);
+    record.meta.refresh.enabled.should.equal(false);
     record.meta.refresh.after.should.equal(expectedAfter);
   });
   it('should not refresh zcaps with "refresh=false" policy', async () => {
@@ -255,7 +283,7 @@ describe.skip('zcap refresh', () => {
     await zcapClient.request({
       url: urls.policy,
       capability: rootZcap,
-      method: 'post',
+      method: 'delete',
       action: 'write'
     });
 
@@ -305,7 +333,7 @@ describe.skip('zcap refresh', () => {
     let result;
     try {
       const {id: meterId} = await helpers.createMeter({
-        profileId, zcapClient, serviceType: 'refreshing'
+        controller: profileId, serviceType: 'refreshing'
       });
       const zcaps = await _createZcaps({
         profileId, zcapClient, serviceAgent
@@ -326,8 +354,7 @@ describe.skip('zcap refresh', () => {
       'controller', 'id', 'sequence', 'meterId', 'zcaps'
     ]);
     result.sequence.should.equal(0);
-    const {id: capabilityAgentId} = capabilityAgent;
-    result.controller.should.equal(capabilityAgentId);
+    result.controller.should.equal(profileId);
 
     // wait for refresh promise to resolve
     const record = await configRefreshPromise;
@@ -341,7 +368,7 @@ describe.skip('zcap refresh', () => {
     await zcapClient.request({
       url: urls.policy,
       capability: rootZcap,
-      method: 'post',
+      method: 'delete',
       action: 'write'
     });
 
@@ -412,7 +439,7 @@ describe.skip('zcap refresh', () => {
     let zcaps;
     try {
       const {id: meterId} = await helpers.createMeter({
-        profileId, zcapClient, serviceType: 'refreshing'
+        controller: profileId, serviceType: 'refreshing'
       });
       zcaps = await _createZcaps({
         profileId, zcapClient, serviceAgent
@@ -433,8 +460,7 @@ describe.skip('zcap refresh', () => {
       'controller', 'id', 'sequence', 'meterId', 'zcaps'
     ]);
     result.sequence.should.equal(0);
-    const {id: capabilityAgentId} = capabilityAgent;
-    result.controller.should.equal(capabilityAgentId);
+    result.controller.should.equal(profileId);
 
     // wait for refresh promise to resolve
     const record = await configRefreshPromise;
@@ -453,7 +479,7 @@ describe.skip('zcap refresh', () => {
     await zcapClient.request({
       url: urls.policy,
       capability: rootZcap,
-      method: 'post',
+      method: 'delete',
       action: 'write'
     });
 
@@ -523,7 +549,7 @@ describe.skip('zcap refresh', () => {
     let zcaps;
     try {
       const {id: meterId} = await helpers.createMeter({
-        profileId, zcapClient, serviceType: 'refreshing'
+        controller: profileId, serviceType: 'refreshing'
       });
       zcaps = await _createZcaps({
         profileId, zcapClient, serviceAgent
@@ -544,8 +570,7 @@ describe.skip('zcap refresh', () => {
       'controller', 'id', 'sequence', 'meterId', 'zcaps'
     ]);
     result.sequence.should.equal(0);
-    const {id: capabilityAgentId} = capabilityAgent;
-    result.controller.should.equal(capabilityAgentId);
+    result.controller.should.equal(profileId);
 
     // wait for refresh promise to resolve
     const record = await configRefreshPromise;
@@ -583,11 +608,14 @@ async function _createZcaps({profileId, zcapClient, serviceAgent}) {
   });
 
   // delegate refresh zcap to service agent
+  const profilePath =
+    `${baseUrl}/profiles/${encodeURIComponent(profileId)}`;
   const refreshUrl =
-    `${baseUrl}/profiles/${encodeURIComponent(profileId)}` +
-    '/zcaps/refresh';
+    `${profilePath}/zcaps` +
+    `/policies/${encodeURIComponent(serviceAgent.id)}/refresh`;
   zcaps.refresh = await helpers.delegate({
     controller: serviceAgent.id,
+    capability: `urn:zcap:root:${encodeURIComponent(profilePath)}`,
     invocationTarget: refreshUrl,
     zcapClient
   });
