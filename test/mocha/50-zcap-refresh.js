@@ -584,30 +584,156 @@ describe('zcap refresh', () => {
       record.config.zcaps[key].should.not.deep.equal(value);
     }
   });
+  it('should refresh already-expired zcaps in a config', async () => {
+    // remove any existing policy
+    await zcapClient.request({
+      url: urls.policy,
+      capability: rootZcap,
+      method: 'delete',
+      action: 'write'
+    });
+
+    // add unconstrained policy
+    await zcapClient.write({
+      url: urls.policies,
+      capability: rootZcap,
+      json: {
+        policy: {
+          sequence: 0,
+          controller: profileId,
+          delegate: serviceAgent.id,
+          refresh: {
+            // no constraints
+            constraints: {}
+          }
+        }
+      }
+    });
+
+    // function to be called when refreshing the created config
+    let expectedAfter;
+    const configId = `${mockData.baseUrl}/refreshables/${crypto.randomUUID()}`;
+    const configRefreshPromise = new Promise((resolve, reject) =>
+      mockData.refreshHandlerListeners.set(configId, async ({
+        record, signal
+      }) => {
+        try {
+          const now = Date.now();
+          const later = now + 1000 * 60 * 5;
+          const result = await refreshZcaps({
+            serviceType: 'refreshing', config: record.config, signal
+          });
+          result.refresh.enabled.should.equal(true);
+          should.exist(result.config);
+          result.refresh.after.should.be.gte(later);
+          should.exist(result.results);
+          result.results.length.should.equal(4);
+          result.results[0].refreshed.should.equal(true);
+          result.results[1].refreshed.should.equal(true);
+          result.results[2].refreshed.should.equal(true);
+          result.results[3].refreshed.should.equal(true);
+          should.not.exist(result.results[0].error);
+          should.not.exist(result.results[0].error);
+          should.not.exist(result.results[0].error);
+          should.not.exist(result.results[0].error);
+
+          // set expected after
+          expectedAfter = result.refresh.after;
+
+          // update record
+          await mockData.refreshingService.configStorage.update({
+            config: {...result.config, sequence: result.config.sequence + 1},
+            refresh: {
+              enabled: result.refresh.enabled,
+              after: result.refresh.after
+            }
+          });
+          resolve(mockData.refreshingService.configStorage.get({id: configId}));
+        } catch(e) {
+          reject(e);
+        }
+      }));
+
+    let err;
+    let result;
+    let zcaps;
+    try {
+      const {id: meterId} = await helpers.createMeter({
+        controller: profileId, serviceType: 'refreshing'
+      });
+      zcaps = await _createZcaps({
+        profileId, zcapClient, serviceAgent, alreadyExpired: true
+      });
+      result = await helpers.createConfig({
+        profileId, zcapClient, meterId, servicePath: '/refreshables',
+        options: {
+          id: configId,
+          zcaps
+        }
+      });
+    } catch(e) {
+      err = e;
+    }
+    assertNoError(err);
+    should.exist(result);
+    result.should.have.keys([
+      'controller', 'id', 'sequence', 'meterId', 'zcaps'
+    ]);
+    result.sequence.should.equal(0);
+    result.controller.should.equal(profileId);
+
+    // wait for refresh promise to resolve
+    const record = await configRefreshPromise;
+    record.config.id.should.equal(configId);
+    record.config.sequence.should.equal(1);
+    record.meta.refresh.enabled.should.equal(true);
+    record.meta.refresh.after.should.equal(expectedAfter);
+
+    // ensure zcaps changed
+    for(const [key, value] of Object.entries(zcaps)) {
+      record.config.zcaps[key].should.not.deep.equal(value);
+    }
+  });
 });
 
-async function _createZcaps({profileId, zcapClient, serviceAgent}) {
+async function _createZcaps({
+  profileId, zcapClient, serviceAgent, alreadyExpired = false
+}) {
   const zcaps = {};
   const {baseUrl} = mockData;
+
+  let expires;
+  let now;
+  if(alreadyExpired) {
+    // set now in the past, expires an hour later
+    now = Date.now() - 1000 * 60 * 60 * 24 * 365;
+    expires = new Date(now + 1000 * 60 * 60);
+  }
 
   // delegate *mock* edv, hmac, and key agreement key zcaps to service agent
   zcaps.edv = await helpers.delegate({
     controller: serviceAgent.id,
     invocationTarget: `${baseUrl}/edv`,
-    zcapClient
+    expires,
+    zcapClient,
+    now
   });
   zcaps.hmac = await helpers.delegate({
     controller: serviceAgent.id,
     invocationTarget: `${baseUrl}/hmac`,
-    zcapClient
+    expires,
+    zcapClient,
+    now
   });
   zcaps.keyAgreementKey = await helpers.delegate({
     controller: serviceAgent.id,
     invocationTarget: `${baseUrl}/keyAgreementKey`,
-    zcapClient
+    expires,
+    zcapClient,
+    now
   });
 
-  // delegate refresh zcap to service agent
+  // delegate refresh zcap to service agent; this zcap must not be expired
   const profilePath =
     `${baseUrl}/profiles/${encodeURIComponent(profileId)}`;
   const refreshUrl =

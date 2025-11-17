@@ -70,12 +70,12 @@ export async function createConfig({
 
 export async function delegate({
   capability, controller, invocationTarget, expires, allowedActions,
-  zcapClient
+  zcapClient, now
 }) {
   expires = expires || (capability && capability.expires) ||
     new Date(Date.now() + 5000).toISOString().slice(0, -5) + 'Z';
   return zcapClient.delegate({
-    capability, controller, expires, invocationTarget, allowedActions
+    capability, controller, expires, invocationTarget, allowedActions, now
   });
 }
 
