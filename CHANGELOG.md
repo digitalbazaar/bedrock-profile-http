@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 26.2.0 - 2025-10-dd
+## 26.2.0 - 2025-11-18
 
 ### Added
 - Add zcap refresh capability. Policies for zcaps can be created per profile
