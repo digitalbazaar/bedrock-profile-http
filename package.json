@@ -1,6 +1,6 @@
 {
   "name": "@bedrock/profile-http",
-  "version": "26.2.1",
+  "version": "26.2.2-0",
   "type": "module",
   "description": "Bedrock Profile HTTP API",
   "main": "./lib/index.js",
