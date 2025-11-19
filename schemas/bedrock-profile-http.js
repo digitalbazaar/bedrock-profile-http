@@ -322,6 +322,9 @@ const zcapPolicy = {
             type: 'object',
             additionalProperties: false,
             properties: {
+              maxDelegationTtl: {
+                type: 'number'
+              },
               maxTtlBeforeRefresh: {
                 type: 'number'
               }

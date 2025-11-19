@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+## 26.2.1 - 2025-11-dd
+
+### Fixed
+- Fix zcap policy schema to allow `maxDelegationTtl`.
+
 ## 26.2.0 - 2025-11-18
 
 ### Added
