@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 26.2.2 - 2025-11-xx
+## 26.2.2 - 2025-11-25
 
 ### Changed
 - Cleanup dependencies:
