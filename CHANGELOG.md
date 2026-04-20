@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+## 26.2.3 - 2026-mm-dd
+
+### Fixed
+- Fix refresh zcap date parsing bug.
+
 ## 26.2.2 - 2025-11-25
 
 ### Changed
