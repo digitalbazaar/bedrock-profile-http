@@ -730,7 +730,8 @@ describe('policies', () => {
       // create local ephemeral capability agent
       const secret = crypto.randomUUID();
       const handle = 'test';
-      const capabilityAgent2 = await CapabilityAgent.fromSecret({secret, handle});
+      const capabilityAgent2 = await CapabilityAgent.fromSecret(
+        {secret, handle});
 
       // delegate profile root zcap to capability agent
       const {account: {id: account}} = accounts['alpha@example.com'];
