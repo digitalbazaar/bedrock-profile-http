@@ -650,6 +650,26 @@ describe('policies', () => {
     result.data.results.length.should.be.gte(1);
   });
 
+  it('fails to get policies with profileId in query string', async () => {
+    let err;
+    let result;
+    try {
+      result = await zcapClient.read({
+        url: `${urls.policies}?profileId=${encodeURIComponent(profileId)}`,
+        capability: rootZcap
+      });
+    } catch(e) {
+      err = e;
+    }
+    should.exist(err);
+    should.not.exist(result);
+    err.status.should.equal(400);
+    err.data.details.errors.should.have.length(1);
+    const [error] = err.data.details.errors;
+    error.name.should.equal('ValidationError');
+    error.message.should.contain('NOT have additional properties');
+  });
+
   it('gets a delegate-viewable policy', async () => {
     const secret = crypto.randomUUID();
     const handle = 'test';
@@ -697,6 +717,134 @@ describe('policies', () => {
           }
         }
       }
+    });
+  });
+
+  describe('cross-profile isolation', () => {
+    let profile2Id;
+    let zcapClient2;
+    let rootZcap2;
+    const urls2 = {};
+
+    before(async () => {
+      // create local ephemeral capability agent
+      const secret = crypto.randomUUID();
+      const handle = 'test';
+      const capabilityAgent2 = await CapabilityAgent.fromSecret({secret, handle});
+
+      // delegate profile root zcap to capability agent
+      const {account: {id: account}} = accounts['alpha@example.com'];
+      ({
+        data: {id: profile2Id}
+      } = await api.post('/profiles', {account, didMethod: 'key'}));
+      const {data} = await api.get(
+        `/profile-agents/?account=${account}&profile=${profile2Id}`);
+      const [{profileAgent}] = data;
+      const {id: profileAgentId} = profileAgent;
+      const zcap = profileAgent.zcaps.profileCapabilityInvocationKey;
+      const result = await api.post(
+        `/profile-agents/${profileAgentId}/capabilities/delegate`, {
+          controller: capabilityAgent2.id, account, zcap
+        });
+
+      // create `invocationSigner` interface for acting as profile2
+      const profileSigner = await AsymmetricKey.fromCapability({
+        capability: result.data.zcap,
+        invocationSigner: capabilityAgent2.getSigner(),
+        kmsClient: new KmsClient({httpsAgent})
+      });
+      zcapClient2 = new ZcapClient({
+        agent: httpsAgent,
+        invocationSigner: profileSigner,
+        delegationSigner: profileSigner,
+        SuiteClass: Ed25519Signature2020
+      });
+
+      // setup policy urls for profile2
+      const baseURL = `https://${config.server.host}`;
+      const profilePath =
+        `${baseURL}/profiles/${encodeURIComponent(profile2Id)}`;
+      const zcapsPath = `${profilePath}/zcaps`;
+      urls2.policies = `${zcapsPath}/policies`;
+      ({id: rootZcap2} = createRootCapability({
+        invocationTarget: profilePath
+      }));
+    });
+
+    it('does not return another profile\'s policies', async () => {
+      const secret = crypto.randomUUID();
+      const handle = 'test';
+      const delegate = await CapabilityAgent.fromSecret({secret, handle});
+
+      // add a policy to profile2
+      await zcapClient2.write({
+        url: urls2.policies,
+        capability: rootZcap2,
+        json: {
+          policy: {
+            sequence: 0,
+            controller: profile2Id,
+            delegate: delegate.id,
+            refresh: false
+          }
+        }
+      });
+
+      // get profile1's policies
+      let err;
+      let result;
+      try {
+        result = await zcapClient.read({
+          url: urls.policies,
+          capability: rootZcap
+        });
+      } catch(e) {
+        err = e;
+      }
+      assertNoError(err);
+      should.exist(result);
+      result.status.should.equal(200);
+      result.data.results.should.be.an('array');
+      const delegates = result.data.results.map(r => r.policy.delegate);
+      delegates.should.not.include(delegate.id);
+    });
+
+    it('returns only policies for the requested profile', async () => {
+      const secret = crypto.randomUUID();
+      const handle = 'test';
+      const delegate = await CapabilityAgent.fromSecret({secret, handle});
+
+      // add a policy to profile2
+      await zcapClient2.write({
+        url: urls2.policies,
+        capability: rootZcap2,
+        json: {
+          policy: {
+            sequence: 0,
+            controller: profile2Id,
+            delegate: delegate.id,
+            refresh: false
+          }
+        }
+      });
+
+      // get profile2's policies
+      let err;
+      let result;
+      try {
+        result = await zcapClient2.read({
+          url: urls2.policies,
+          capability: rootZcap2
+        });
+      } catch(e) {
+        err = e;
+      }
+      assertNoError(err);
+      should.exist(result);
+      result.status.should.equal(200);
+      result.data.results.should.be.an('array');
+      const delegates = result.data.results.map(r => r.policy.delegate);
+      delegates.should.include(delegate.id);
     });
   });
 });
