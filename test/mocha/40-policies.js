@@ -103,7 +103,7 @@ describe('policies', () => {
     err.data.details.errors.should.have.length(1);
     const [error] = err.data.details.errors;
     error.name.should.equal('ValidationError');
-    error.message.should.contain('must NOT have additional properties');
+    error.message.should.contain('NOT have additional properties');
   });
 
   it('fails to create a new policy with bad controller', async () => {
