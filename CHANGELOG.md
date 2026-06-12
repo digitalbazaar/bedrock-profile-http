@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 26.2.4 - 2026-06-xx
+## 26.2.4 - 2026-06-12
 
 ### Fixed
 - Fix get zcap policies by query.
