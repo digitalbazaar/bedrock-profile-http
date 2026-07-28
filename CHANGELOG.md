@@ -1,5 +1,10 @@
 # bedrock-profile-http ChangeLog
 
+## 26.2.5 - 2026-07-dd
+
+### Fixed
+- Fix interaction URL handler redirect loop.
+
 ## 26.2.4 - 2026-06-12
 
 ### Fixed
