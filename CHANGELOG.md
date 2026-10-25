@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 26.2.6 - 2026-10-dd
+## 26.2.6 - 2026-10-25
 
 ### Fixed
 - Allow interaction protocols requests (`?iuv=1`) without authentication.
