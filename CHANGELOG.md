@@ -1,5 +1,12 @@
 # bedrock-profile-http ChangeLog
 
+## 26.2.6 - 2026-10-dd
+
+### Fixed
+- Allow interaction protocols requests (`?iuv=1`) without authentication.
+- Return `404` for an interaction protocols request when the exchange is not
+  found.
+
 ## 26.2.5 - 2026-07-28
 
 ### Fixed
