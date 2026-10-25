@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2020-2025 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2020-2026 Digital Bazaar, Inc. All rights reserved.
  */
 import * as helpers from './helpers.js';
 import {config} from '@bedrock/core';
@@ -199,5 +199,105 @@ describe('interactions', () => {
       result.data.exchange.result.inviteRequest.inviteResponse
         .should.deep.equal(inviteResponse);
     }
+  });
+
+  it('gets protocols without authentication', async () => {
+    let interactionId;
+    let exchangeId;
+    {
+      let result;
+      let error;
+      try {
+        result = await api.post('/interactions', {
+          type: 'test',
+          exchange: {
+            variables: {}
+          }
+        });
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      interactionId = result.data.interactionId;
+      exchangeId = result.data.exchangeId;
+    }
+
+    // remove the session stub so the next requests are unauthenticated
+    passportStub.restore();
+    try {
+      // protocols discovery is public
+      {
+        let result;
+        let error;
+        try {
+          result = await api.get(`${interactionId}?iuv=1`);
+        } catch(e) {
+          error = e;
+        }
+        assertNoError(error);
+        should.exist(result);
+        result.status.should.equal(200);
+        result.ok.should.equal(true);
+        should.exist(result.data.protocols);
+        result.data.protocols.inviteRequest.should.equal(
+          `${exchangeId}/invite-request/response`);
+      }
+
+      // interaction status still requires authentication
+      {
+        let result;
+        let error;
+        try {
+          result = await api.get(interactionId);
+        } catch(e) {
+          error = e;
+        }
+        assertNoError(error);
+        should.exist(result);
+        result.status.should.equal(400);
+        result.ok.should.equal(false);
+        result.data.message.should.equal('Not authenticated.');
+      }
+    } finally {
+      passportStub = helpers.stubPassport();
+    }
+  });
+
+  it('returns 404 for protocols of a missing exchange', async () => {
+    let interactionId;
+    {
+      let result;
+      let error;
+      try {
+        result = await api.post('/interactions', {
+          type: 'test',
+          exchange: {
+            variables: {}
+          }
+        });
+      } catch(e) {
+        error = e;
+      }
+      assertNoError(error);
+      interactionId = result.data.interactionId;
+    }
+
+    // a well-formed id for an exchange that does not exist
+    const last = interactionId.at(-1);
+    const missingInteractionId =
+      interactionId.slice(0, -1) + (last === 'A' ? 'B' : 'A');
+
+    let result;
+    let error;
+    try {
+      result = await api.get(`${missingInteractionId}?iuv=1`);
+    } catch(e) {
+      error = e;
+    }
+    assertNoError(error);
+    should.exist(result);
+    result.status.should.equal(404);
+    result.ok.should.equal(false);
+    result.data.name.should.equal('NotFoundError');
   });
 });
