@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2020-2025 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2020-2026 Digital Bazaar, Inc.
  */
 import * as bedrock from '@bedrock/core';
 import * as brAccount from '@bedrock/account';
@@ -133,6 +133,7 @@ export async function removeCollections(
   collectionNames = [
     'account',
     'account-email',
+    'account-telephone',
     'profile-profileAgent'
   ]) {
   await database.openCollections(collectionNames);
