@@ -1,6 +1,6 @@
 # bedrock-profile-http ChangeLog
 
-## 26.2.7 - 2026-11-dd
+## 26.2.7 - 2026-11-20
 
 ### Changed
 - Update dependencies.
